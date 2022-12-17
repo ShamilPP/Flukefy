@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "150694088229",
+    "project_id": "flukefy-76608",
+    "storage_bucket": "flukefy-76608.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150694088229:android:f4cdeff052945ec7bcb9cc",
+        "android_client_info": {
+          "package_name": "com.shamil.flukefy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150694088229-bj9nfelkn69im77nvnotrhn8o54hbtll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnv678MGTnXa4CHzGJy-Hcu9jmPcqyTss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150694088229-bj9nfelkn69im77nvnotrhn8o54hbtll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150694088229:android:f6afc8665d2090efbcb9cc",
+        "android_client_info": {
+          "package_name": "com.shamil.flukefy_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150694088229-bj9nfelkn69im77nvnotrhn8o54hbtll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnv678MGTnXa4CHzGJy-Hcu9jmPcqyTss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150694088229-bj9nfelkn69im77nvnotrhn8o54hbtll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
