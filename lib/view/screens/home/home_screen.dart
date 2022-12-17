@@ -13,12 +13,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: const HomeAppBar(),
       drawer: const HomeDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const HomeAppBar(),
             const Padding(
               padding: EdgeInsets.only(left: 30),
               child: Text('Find your product', style: TextStyle(fontSize: 25)),
