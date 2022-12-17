@@ -8,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/user.dart';
-import '../home/home_screen.dart';
 
 class PhoneNumberScreen extends StatelessWidget {
   final User user;

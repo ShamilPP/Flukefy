@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../model/brand.dart';
 import '../../../../view_model/brands_provider.dart';
-import '../../../../view_model/products_provider.dart';
 
 class Categories extends StatelessWidget {
   const Categories({Key? key}) : super(key: key);

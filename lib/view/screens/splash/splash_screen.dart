@@ -1,4 +1,3 @@
-import 'package:flukefy/services/local_service.dart';
 import 'package:flukefy/view/animations/size_animation.dart';
 import 'package:flukefy/view/screens/home/home_screen.dart';
 import 'package:flukefy/view/screens/introduction/introduction_screen.dart';

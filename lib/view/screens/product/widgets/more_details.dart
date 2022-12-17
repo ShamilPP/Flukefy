@@ -27,8 +27,7 @@ class MoreDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Text(getBrand(context,product.brand).name,
-                  style: const TextStyle(fontSize: 15)),
+              child: Text(getBrand(context, product.brand).name, style: const TextStyle(fontSize: 15)),
             ),
           ],
         ),
@@ -48,8 +47,8 @@ class MoreDetails extends StatelessWidget {
     );
   }
 
-  Brand getBrand(BuildContext context,String docId) {
-    var brands = Provider.of<BrandsProvider>(context,listen: false).brands;
-    return brands[brands.indexWhere((element) => element.docId==docId)];
+  Brand getBrand(BuildContext context, String docId) {
+    var brands = Provider.of<BrandsProvider>(context, listen: false).brands;
+    return brands[brands.indexWhere((element) => element.docId == docId)];
   }
 }
