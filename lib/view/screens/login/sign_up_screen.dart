@@ -128,10 +128,6 @@ class LoginSection extends StatelessWidget {
             height: 45,
             color: primaryColor,
             successColor: Colors.green,
-            child: const Text(
-              'Sign up',
-              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
-            ),
             controller: buttonController,
             onPressed: () async {
               AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
@@ -152,6 +148,10 @@ class LoginSection extends StatelessWidget {
                 buttonController.reset();
               }
             },
+            child: const Text(
+              'Sign up',
+              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

@@ -3,7 +3,7 @@ class Product {
   final List<String> images;
   final String name;
   final String description;
-  final String brand;
+  final String brandId;
   final double rating;
   final int price;
   final int discount;
@@ -13,7 +13,7 @@ class Product {
     required this.images,
     required this.name,
     required this.description,
-    required this.brand,
+    required this.brandId,
     required this.rating,
     required this.price,
     required this.discount,

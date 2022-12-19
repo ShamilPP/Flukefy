@@ -17,7 +17,7 @@ class FirebaseService {
         name: product.get('name'),
         images: List<String>.from(product.get('images')),
         description: product.get('description'),
-        brand: product.get('category'),
+        brandId: product.get('category'),
         rating: product.get('rating'),
         price: product.get('price'),
         discount: product.get('discount'),

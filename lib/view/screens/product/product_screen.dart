@@ -1,6 +1,7 @@
 import 'package:flukefy/model/product.dart';
 import 'package:flukefy/view/screens/product/widgets/image_slider.dart';
 import 'package:flukefy/view/screens/product/widgets/more_details.dart';
+import 'package:flukefy/view/widgets/buttons/black_button.dart';
 import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -14,75 +15,100 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CurvedAppBar(title: product.name),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ImageSlider(product: product, imageHeroTag: imageHeroTag),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+      body: Column(
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
-                  Text(
-                    product.name,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 10),
-
-                  // Price
-                  Row(
-                    children: [
-                      Text(
-                        '₹${product.price}',
-                        style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 18),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        '₹${product.price - (product.price * product.discount ~/ 100)}',
-                        style: const TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        '${product.discount}% off',
-                        style: const TextStyle(color: Colors.green, fontSize: 18),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // Rating
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
-                        child: Text(
-                          '${product.rating} ★',
-                          style: const TextStyle(color: Colors.white),
+                  ImageSlider(product: product, imageHeroTag: imageHeroTag),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10),
+                        Text(
+                          product.name,
+                          style: const TextStyle(fontSize: 18),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        '1 Rating',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+
+                        // Price
+                        Row(
+                          children: [
+                            Text(
+                              '₹${product.price}',
+                              style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 18),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '₹${product.price - (product.price * product.discount ~/ 100)}',
+                              style: const TextStyle(color: Colors.black, fontSize: 25),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '${product.discount}% off',
+                              style: const TextStyle(color: Colors.green, fontSize: 18),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // Rating
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
+                              child: Text(
+                                '${product.rating} ★',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Text(
+                              '1 Rating',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 40),
+
+                        // More details
+                        MoreDetails(product: product),
+
+                        const SizedBox(height: 10),
+                      ],
+                    ),
                   ),
-
-                  const SizedBox(height: 40),
-
-                  // More details
-                  MoreDetails(product: product),
-
-                  const SizedBox(height: 10),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '₹${product.price - (product.price * product.discount ~/ 100)}',
+                    style: TextStyle(color: Colors.red.shade900, fontSize: 22),
+                  ),
+                  BlackButton(title: 'Add to cart', onPressed: () {})
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

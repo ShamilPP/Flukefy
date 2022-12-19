@@ -43,7 +43,7 @@ class BrandsProvider extends ChangeNotifier {
       _selectedBrandProducts = allProducts.toList()..shuffle();
     } else {
       for (var product in allProducts) {
-        if (product.brand == _selectedBrand.docId) {
+        if (product.brandId == _selectedBrand.docId) {
           _selectedBrandProducts.add(product);
         }
       }

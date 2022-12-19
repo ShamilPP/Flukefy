@@ -27,7 +27,7 @@ class MoreDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Text(getBrand(context, product.brand).name, style: const TextStyle(fontSize: 15)),
+              child: Text(getBrand(context, product.brandId).name, style: const TextStyle(fontSize: 15)),
             ),
           ],
         ),

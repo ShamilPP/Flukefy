@@ -1,6 +1,5 @@
 import 'package:flukefy/services/firebase_service.dart';
 import 'package:flukefy/services/local_service.dart';
-import 'package:flukefy/view/screens/home/home_screen.dart';
 import 'package:flukefy/view/screens/login/phone_number_screen.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';

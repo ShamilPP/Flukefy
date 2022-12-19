@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flukefy/model/product.dart';
+import 'package:flukefy/view/screens/image_viewer/image_viewer_screen.dart';
 import 'package:flutter/material.dart';
 
 class ImageSlider extends StatefulWidget {
@@ -32,24 +33,36 @@ class _ImageSliderState extends State<ImageSlider> {
           ),
           itemCount: widget.product.images.length,
           itemBuilder: (ctx, index, value) {
+            var heroTag = index == 0 ? widget.imageHeroTag : '$value';
             return Padding(
               padding: const EdgeInsets.all(15),
-              child: Hero(
-                tag: index == 0 ? widget.imageHeroTag : '$value',
-                child: Image.network(
-                  widget.product.images[index],
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return SizedBox(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                              : null,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ImageViewer(
+                                image: widget.product.images[index],
+                                tag: heroTag,
+                              )));
+                },
+                child: Hero(
+                  tag: heroTag,
+                  child: Image.network(
+                    widget.product.images[index],
+                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return SizedBox(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             );

@@ -75,34 +75,28 @@ class ProductsList extends StatelessWidget {
                 Flexible(
                     child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: InkWell(
-                    child: Hero(
-                      tag: heroTag,
-                      child: Image.network(
-                        productDetails.images[0],
-                        height: double.infinity,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return SizedBox(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
+                  child: Hero(
+                    tag: heroTag,
+                    child: Image.network(
+                      productDetails.images[0],
+                      height: double.infinity,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return SizedBox(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => ImageViewer(image: productDetails.images[0], tag: heroTag)));
-                    },
                   ),
                 )),
                 space,
