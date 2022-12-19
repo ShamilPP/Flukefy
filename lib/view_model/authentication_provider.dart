@@ -70,6 +70,10 @@ class AuthenticationProvider extends ChangeNotifier {
     return result.isSuccess;
   }
 
+  Future<bool> logout() {
+    return LocalService.removeUser();
+  }
+
   void showToast(String text, bool isSuccess) {
     Fluttertoast.showToast(
       msg: isSuccess ? 'Logged in' : text,

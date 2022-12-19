@@ -62,7 +62,7 @@ class PhoneNumberScreen extends StatelessWidget {
                         await Provider.of<AuthenticationProvider>(context, listen: false).addPhoneNumberToGoogle(context, user);
                     //Dismiss loading dialog
                     Navigator.pop(context);
-                    if (isSuccess) Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SplashScreen()));
+                    if (isSuccess) Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
                   } else {
                     Fluttertoast.showToast(msg: 'Error', backgroundColor: Colors.red);
                   }

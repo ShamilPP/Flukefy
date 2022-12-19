@@ -6,7 +6,6 @@ import '../../../../model/enums/status.dart';
 import '../../../../model/product.dart';
 import '../../../../utils/colors.dart';
 import '../../../../view_model/products_provider.dart';
-import '../../image_viewer/image_viewer_screen.dart';
 
 class ProductsList extends StatelessWidget {
   const ProductsList({Key? key}) : super(key: key);
