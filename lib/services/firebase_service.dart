@@ -3,6 +3,7 @@ import 'package:flukefy/model/response.dart';
 import 'package:flukefy/model/user.dart';
 
 import '../model/brand.dart';
+import '../model/cart.dart';
 import '../model/product.dart';
 
 class FirebaseService {
@@ -119,14 +120,40 @@ class FirebaseService {
   static Future<Response> checkUserWithUsernameAndPhoneNumber(User user) async {
     var users = await FirebaseFirestore.instance.collection('users').get();
 
-    for (var _user in users.docs) {
-      if (_user.get('username') == user.username) {
+    for (var usr in users.docs) {
+      if (usr.get('username') == user.username) {
         return Response(isSuccess: false, value: 'Username already exists');
       }
-      if (_user.get('phoneNumber') == user.phoneNumber) {
+      if (usr.get('phoneNumber') == user.phoneNumber) {
         return Response(isSuccess: false, value: 'Phone number already exists');
       }
     }
     return Response(isSuccess: true, value: "Success");
+  }
+
+  static Future<Response> uploadCart(Cart cart) async {
+    var carts = FirebaseFirestore.instance.collection('carts');
+    var result = await carts.add({
+      'userId': cart.userId,
+      'productId': cart.productId,
+      'qty': cart.qty,
+      'time': cart.time,
+    });
+    return Response(value: result.id, isSuccess: true);
+  }
+
+  static Future<List<Cart>> getCarts(String userId) async {
+    List<Cart> carts = [];
+    var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
+    var allDocs = await collection.get();
+    for (var cart in allDocs.docs) {
+      carts.add(Cart(
+        userId: userId,
+        productId: cart.get('productId'),
+        qty: cart.get('qty'),
+        time: (cart.get('time') as Timestamp).toDate(),
+      ));
+    }
+    return carts;
   }
 }

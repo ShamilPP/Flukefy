@@ -64,23 +64,23 @@ class SlideAnimationState extends State<SlideAnimation> with SingleTickerProvide
   }
 
   Offset getOffset() {
-    double _distance;
+    double distance;
     // Set Offset Distance
     if (widget.distance == SlideDistance.slightly) {
-      _distance = 0.2;
+      distance = 0.2;
     } else {
-      _distance = 1;
+      distance = 1;
     }
 
     // Set slide position
     if (widget.position == SlidePosition.top) {
-      return Offset(0, -_distance);
+      return Offset(0, -distance);
     } else if (widget.position == SlidePosition.bottom) {
-      return Offset(0, _distance);
+      return Offset(0, distance);
     } else if (widget.position == SlidePosition.right) {
-      return Offset(_distance, 0);
+      return Offset(distance, 0);
     } else {
-      return Offset(-_distance, 0);
+      return Offset(-distance, 0);
     }
   }
 }

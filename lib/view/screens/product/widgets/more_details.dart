@@ -49,6 +49,11 @@ class MoreDetails extends StatelessWidget {
 
   Brand getBrand(BuildContext context, String docId) {
     var brands = Provider.of<BrandsProvider>(context, listen: false).brands;
-    return brands[brands.indexWhere((element) => element.docId == docId)];
+    int brandIndex = brands.indexWhere((element) => element.docId == docId);
+    if (brandIndex == -1) {
+      return Brand(name: 'No Brand');
+    } else {
+      return brands[brandIndex];
+    }
   }
 }

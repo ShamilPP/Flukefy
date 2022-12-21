@@ -22,8 +22,10 @@ class ProductsSlider extends StatelessWidget {
       var productStatus = Provider.of<ProductsProvider>(context, listen: false).productsStatus;
 
       if (brandStatus == Status.loading || productStatus == Status.loading) {
-        return const Center(
-          child: CircularProgressIndicator(),
+        return const SizedBox(
+          height: 150,
+          width: double.infinity,
+          child: Center(child: CircularProgressIndicator()),
         );
       } else if (brandStatus == Status.success && productStatus == Status.success) {
         provider.loadSelectedBrandProducts(context);
@@ -122,7 +124,17 @@ class ProductsSlider extends StatelessWidget {
                       Text(productDetails.description,
                           maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                       space,
-                      Text('₹ ${productDetails.price}', style: TextStyle(fontSize: 18, color: Colors.red.shade900)),
+                      // Price
+                      Row(
+                        children: [
+                          Text(
+                            '₹ ${productDetails.price - (productDetails.price * productDetails.discount ~/ 100)}',
+                            style: TextStyle(color: Colors.red.shade900, fontSize: 18),
+                          ),
+                          const SizedBox(width: 5),
+                          Text('${productDetails.discount}% off', style: const TextStyle(color: Colors.green, fontSize: 13)),
+                        ],
+                      ),
                       space,
                       RatingBarIndicator(
                         rating: productDetails.rating,

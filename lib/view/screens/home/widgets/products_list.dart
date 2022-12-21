@@ -17,24 +17,21 @@ class ProductsList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Text(
-              'Most popular',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
+          const SizedBox(height: 10),
+          const Text('Most popular', style: TextStyle(fontSize: 20)),
           Consumer<ProductsProvider>(builder: (ctx, provider, child) {
             var status = provider.productsStatus;
             if (status == Status.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return const SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: Center(child: CircularProgressIndicator()),
               );
             } else if (status == Status.success) {
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: provider.products.length,
+                itemCount: provider.products.length < 10 ? provider.products.length : 10,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
                 itemBuilder: (ctx, index) {
                   return productCard(context, provider.products[index]);
@@ -105,7 +102,17 @@ class ProductsList extends StatelessWidget {
                 Text(productDetails.description,
                     maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                 space,
-                Text('₹ ${productDetails.price}', style: TextStyle(fontSize: 18, color: Colors.red.shade900)),
+                // Price
+                Row(
+                  children: [
+                    Text(
+                      '₹ ${productDetails.price - (productDetails.price * productDetails.discount ~/ 100)}',
+                      style: TextStyle(color: Colors.red.shade900, fontSize: 18),
+                    ),
+                    const SizedBox(width: 5),
+                    Text('${productDetails.discount}% off', style: const TextStyle(color: Colors.green, fontSize: 13)),
+                  ],
+                ),
               ],
             ),
           ),

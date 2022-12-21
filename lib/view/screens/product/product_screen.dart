@@ -1,7 +1,7 @@
 import 'package:flukefy/model/product.dart';
+import 'package:flukefy/view/screens/product/widgets/cart_box.dart';
 import 'package:flukefy/view/screens/product/widgets/image_slider.dart';
 import 'package:flukefy/view/screens/product/widgets/more_details.dart';
-import 'package:flukefy/view/widgets/buttons/black_button.dart';
 import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -28,10 +28,7 @@ class ProductScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
-                        Text(
-                          product.name,
-                          style: const TextStyle(fontSize: 18),
-                        ),
+                        Text(product.name, style: const TextStyle(fontSize: 18)),
                         const SizedBox(height: 10),
 
                         // Price
@@ -53,7 +50,6 @@ class ProductScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 10),
 
                         // Rating
@@ -69,18 +65,13 @@ class ProductScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            const Text(
-                              '1 Rating',
-                              style: TextStyle(color: Colors.grey),
-                            ),
+                            const Text('1 Rating', style: TextStyle(color: Colors.grey)),
                           ],
                         ),
-
                         const SizedBox(height: 40),
 
                         // More details
                         MoreDetails(product: product),
-
                         const SizedBox(height: 10),
                       ],
                     ),
@@ -89,25 +80,7 @@ class ProductScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '₹${product.price - (product.price * product.discount ~/ 100)}',
-                    style: TextStyle(color: Colors.red.shade900, fontSize: 22),
-                  ),
-                  BlackButton(title: 'Add to cart', onPressed: () {})
-                ],
-              ),
-            ),
-          ),
+          CartBox(product: product),
         ],
       ),
     );

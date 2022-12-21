@@ -3,6 +3,7 @@ import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
 import 'package:flukefy/view_model/authentication_provider.dart';
 import 'package:flukefy/view_model/brands_provider.dart';
+import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flukefy/view_model/splash_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
@@ -27,6 +28,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductsProvider()),
         ChangeNotifierProvider(create: (_) => BrandsProvider()),
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
         title: 'Flukefy',

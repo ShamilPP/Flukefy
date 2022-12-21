@@ -1,5 +1,9 @@
+import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../model/enums/status.dart';
+import '../../../view_model/cart_provider.dart';
 import '../../widgets/general/curved_app_bar.dart';
 
 class CartScreen extends StatelessWidget {
@@ -7,12 +11,28 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CurvedAppBar(
+    return Scaffold(
+      appBar: const CurvedAppBar(
         title: 'Cart',
       ),
       body: Center(
-        child: Text('No cart items'),
+        child: Consumer<CartProvider>(builder: (ctx, provider, child) {
+          var status = provider.cartsStatus;
+          if (status == Status.loading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (status == Status.success) {
+            var products = Provider.of<ProductsProvider>(context, listen: false).products;
+            return ListView.builder(
+                itemCount: provider.carts.length,
+                itemBuilder: (ctx, index) {
+                  var cart = provider.carts[index];
+                  var product = products[products.indexWhere((element) => element.docId == cart.productId)];
+                  return ListTile(title: Text(product.name));
+                });
+          } else {
+            return const SizedBox();
+          }
+        }),
       ),
     );
   }
