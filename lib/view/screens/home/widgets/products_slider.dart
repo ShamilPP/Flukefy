@@ -17,9 +17,9 @@ class ProductsSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BrandsProvider>(builder: (ctx, provider, child) {
-      var brandStatus = provider.brandStatus;
-      var productStatus = Provider.of<ProductsProvider>(context, listen: false).productsStatus;
+    return Consumer2<ProductsProvider, BrandsProvider>(builder: (ctx, productProvider, brandProvider, child) {
+      var brandStatus = brandProvider.brandStatus;
+      var productStatus = productProvider.productsStatus;
 
       if (brandStatus == Status.loading || productStatus == Status.loading) {
         return const SizedBox(
@@ -28,14 +28,14 @@ class ProductsSlider extends StatelessWidget {
           child: Center(child: CircularProgressIndicator()),
         );
       } else if (brandStatus == Status.success && productStatus == Status.success) {
-        provider.loadSelectedBrandProducts(context);
+        brandProvider.loadSelectedBrandProducts(context);
         return Column(
           children: [
             CarouselSlider.builder(
               options: CarouselOptions(aspectRatio: 15 / 7, onPageChanged: (index, reason) => currentSlide.value = index),
-              itemCount: provider.selectedBrandProducts.length < 5 ? provider.selectedBrandProducts.length : 5,
+              itemCount: brandProvider.selectedBrandProducts.length < 5 ? brandProvider.selectedBrandProducts.length : 5,
               itemBuilder: (ctx, index, value) {
-                return productCard(context, provider.selectedBrandProducts[index]);
+                return productCard(context, brandProvider.selectedBrandProducts[index]);
               },
             ),
             ValueListenableBuilder(
@@ -44,7 +44,7 @@ class ProductsSlider extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    provider.selectedBrandProducts.length < 5 ? provider.selectedBrandProducts.length : 5,
+                    brandProvider.selectedBrandProducts.length < 5 ? brandProvider.selectedBrandProducts.length : 5,
                     (index) => Container(
                       width: 10,
                       height: 10,

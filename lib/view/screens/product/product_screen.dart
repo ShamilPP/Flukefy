@@ -16,6 +16,7 @@ class ProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: CurvedAppBar(title: product.name),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
             child: SingleChildScrollView(
