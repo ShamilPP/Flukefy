@@ -106,13 +106,17 @@ class FirebaseService {
     var user = await collection.doc(docId).get();
     if (user.exists) {
       // returning user data
-      return User(
-        id: user.id,
-        name: user.get('name'),
-        phoneNumber: user.get('phoneNumber'),
-        username: user.get('username'),
-        password: user.get('password'),
-      );
+      try {
+        return User(
+          id: user.id,
+          name: user.get('name'),
+          phoneNumber: user.get('phoneNumber'),
+          username: user.get('username'),
+          password: user.get('password'),
+        );
+      }catch(e){
+        return null;
+      }
     }
     return null;
   }
@@ -155,5 +159,27 @@ class FirebaseService {
       ));
     }
     return carts;
+  }
+
+  static Future<Response> getUpdateCode() async {
+    int code;
+    DocumentSnapshot<Map<String, dynamic>> doc;
+    try {
+      doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
+    } catch (e) {
+      return Response(isSuccess: false, value: 'Error detected : $e');
+    }
+    // check document exists ( avoiding null exceptions )
+    if (doc.exists && doc.data()!.containsKey("code")) {
+      // if document exists, fetch version in firebase
+      try {
+        code = doc['code'];
+        return Response(isSuccess: true, value: code);
+      } catch (e) {
+        return Response(isSuccess: false, value: 'Error detected : $e');
+      }
+    } else {
+      return Response(isSuccess: false, value: 'Error detected : Update code fetching problem');
+    }
   }
 }
