@@ -140,7 +140,6 @@ class FirebaseService {
     var result = await carts.add({
       'userId': cart.userId,
       'productId': cart.productId,
-      'qty': cart.qty,
       'time': cart.time,
     });
     return Response(value: result.id, isSuccess: true);
@@ -154,7 +153,6 @@ class FirebaseService {
       carts.add(Cart(
         userId: userId,
         productId: cart.get('productId'),
-        qty: cart.get('qty'),
         time: (cart.get('time') as Timestamp).toDate(),
       ));
     }
