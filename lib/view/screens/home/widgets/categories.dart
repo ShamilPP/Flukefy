@@ -1,4 +1,5 @@
 import 'package:flukefy/utils/colors.dart';
+import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,13 @@ class Categories extends StatelessWidget {
           child: Row(
             children: [
               CategoryCard(brand: Brand(docId: 'All', name: 'All')),
-              ...List.generate(provider.brands.length, (index) => CategoryCard(brand: provider.brands[index]))
+              ...List.generate(
+                  provider.brands.length,
+                  (index) => SlideAnimation(
+                        delay: 200,
+                        position: SlidePosition.left,
+                        child: CategoryCard(brand: provider.brands[index]),
+                      ))
             ],
           ),
         ),

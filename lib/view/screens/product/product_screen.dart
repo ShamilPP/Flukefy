@@ -1,4 +1,5 @@
 import 'package:flukefy/model/product.dart';
+import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/screens/product/widgets/cart_box.dart';
 import 'package:flukefy/view/screens/product/widgets/image_slider.dart';
 import 'package:flukefy/view/screens/product/widgets/more_details.dart';
@@ -29,50 +30,62 @@ class ProductScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
-                        Text(product.name, style: const TextStyle(fontSize: 18)),
+                        FadeAnimation(delay: 200, child: Text(product.name, style: const TextStyle(fontSize: 18))),
                         const SizedBox(height: 10),
 
                         // Price
                         Row(
                           children: [
-                            Text(
-                              '₹${product.price}',
-                              style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 18),
+                            FadeAnimation(
+                              delay: 300,
+                              child: Text(
+                                '₹${product.price}',
+                                style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 18),
+                              ),
                             ),
                             const SizedBox(width: 10),
-                            Text(
-                              '₹${product.price - (product.price * product.discount ~/ 100)}',
-                              style: const TextStyle(color: Colors.black, fontSize: 25),
+                            FadeAnimation(
+                              delay: 400,
+                              child: Text(
+                                '₹${product.price - (product.price * product.discount ~/ 100)}',
+                                style: const TextStyle(color: Colors.black, fontSize: 25),
+                              ),
                             ),
                             const SizedBox(width: 10),
-                            Text(
-                              '${product.discount}% off',
-                              style: const TextStyle(color: Colors.green, fontSize: 18),
+                            FadeAnimation(
+                              delay: 350,
+                              child: Text(
+                                '${product.discount}% off',
+                                style: const TextStyle(color: Colors.green, fontSize: 18),
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 10),
 
                         // Rating
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
-                              child: Text(
-                                '${product.rating} ★',
-                                style: const TextStyle(color: Colors.white),
+                        FadeAnimation(
+                          delay: 500,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
+                                child: Text(
+                                  '${product.rating} ★',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('1 Rating', style: TextStyle(color: Colors.grey)),
-                          ],
+                              const SizedBox(width: 10),
+                              const Text('1 Rating', style: TextStyle(color: Colors.grey)),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 40),
 
                         // More details
-                        MoreDetails(product: product),
+                        FadeAnimation(delay: 700, child: MoreDetails(product: product)),
                         const SizedBox(height: 10),
                       ],
                     ),

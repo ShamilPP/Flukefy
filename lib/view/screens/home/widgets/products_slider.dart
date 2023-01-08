@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flukefy/model/product.dart';
+import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/enums/status.dart';
@@ -22,10 +24,10 @@ class ProductsSlider extends StatelessWidget {
       var productStatus = productProvider.productsStatus;
 
       if (brandStatus == Status.loading || productStatus == Status.loading) {
-        return const SizedBox(
+        return SizedBox(
           height: 150,
           width: double.infinity,
-          child: Center(child: CircularProgressIndicator()),
+          child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
         );
       } else if (brandStatus == Status.success && productStatus == Status.success) {
         brandProvider.loadSelectedBrandProducts(context);
@@ -70,89 +72,90 @@ class ProductsSlider extends StatelessWidget {
     final String heroTag = '${productDetails.docId}Slider';
     Widget space = const SizedBox(height: 7);
 
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
-      ),
-      child: Material(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white,
-        child: InkWell(
+    return FadeAnimation(
+      delay: 300,
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Row(
-              children: [
-                Flexible(
-                    child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Hero(
-                    tag: heroTag,
-                    child: Image.network(
-                      productDetails.images[0],
-                      height: double.infinity,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          height: double.infinity,
-                          width: double.infinity,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                  : null,
+          boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
+        ),
+        child: Material(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(15),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Hero(
+                      tag: heroTag,
+                      child: Image.network(
+                        productDetails.images[0],
+                        height: double.infinity,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const SizedBox(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: Center(
+                              child: SpinKitPulse(color: Colors.black, size: 30),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                )),
-                const SizedBox(width: 20),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(productDetails.name,
-                          overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
-                      space,
-                      Text(productDetails.description,
-                          maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
-                      space,
-                      // Price
-                      Row(
-                        children: [
-                          Text(
-                            '₹ ${productDetails.price - (productDetails.price * productDetails.discount ~/ 100)}',
-                            style: TextStyle(color: Colors.red.shade900, fontSize: 18),
-                          ),
-                          const SizedBox(width: 5),
-                          Text('${productDetails.discount}% off', style: const TextStyle(color: Colors.green, fontSize: 13)),
-                        ],
-                      ),
-                      space,
-                      RatingBarIndicator(
-                        rating: productDetails.rating,
-                        itemCount: 5,
-                        itemSize: 18,
-                        unratedColor: Colors.amber.shade100,
-                        itemBuilder: (context, index) => const Icon(Icons.star, color: Colors.amber),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                  )),
+                  const SizedBox(width: 20),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(productDetails.name,
+                            overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
+                        space,
+                        Text(productDetails.description,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                        space,
+                        // Price
+                        Row(
+                          children: [
+                            Text(
+                              '₹ ${productDetails.price - (productDetails.price * productDetails.discount ~/ 100)}',
+                              style: TextStyle(color: Colors.red.shade900, fontSize: 18),
+                            ),
+                            const SizedBox(width: 5),
+                            Text('${productDetails.discount}% off', style: const TextStyle(color: Colors.green, fontSize: 13)),
+                          ],
+                        ),
+                        space,
+                        RatingBarIndicator(
+                          rating: productDetails.rating,
+                          itemCount: 5,
+                          itemSize: 18,
+                          unratedColor: Colors.amber.shade100,
+                          itemBuilder: (context, index) => const Icon(Icons.star, color: Colors.amber),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, imageHeroTag: heroTag)));
+            },
           ),
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, imageHeroTag: heroTag)));
-          },
         ),
       ),
     );
