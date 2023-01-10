@@ -49,7 +49,7 @@ class ProductsList extends StatelessWidget {
   }
 
   Widget productCard(BuildContext context, Product productDetails) {
-    final String heroTag = '${productDetails.docId}Popular';
+    final String heroTag = '${productDetails.docId}ProductList';
     Widget space = const SizedBox(height: 5);
 
     return FadeAnimation(

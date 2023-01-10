@@ -85,7 +85,11 @@ class ProductScreen extends StatelessWidget {
                         const SizedBox(height: 40),
 
                         // More details
-                        FadeAnimation(delay: 700, child: MoreDetails(product: product)),
+                        FadeAnimation(
+                          delay: 700,
+                          duration: const Duration(milliseconds: 500),
+                          child: MoreDetails(product: product),
+                        ),
                         const SizedBox(height: 10),
                       ],
                     ),

@@ -1,3 +1,4 @@
+import 'package:flukefy/view/screens/cart/widgets/cart_card.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,12 +24,13 @@ class CartScreen extends StatelessWidget {
           } else if (status == Status.success) {
             var products = Provider.of<ProductsProvider>(context, listen: false).products;
             return ListView.builder(
-                itemCount: provider.carts.length,
-                itemBuilder: (ctx, index) {
-                  var cart = provider.carts[index];
-                  var product = products[products.indexWhere((element) => element.docId == cart.productId)];
-                  return ListTile(title: Text(product.name));
-                });
+              itemCount: provider.carts.length,
+              itemBuilder: (ctx, index) {
+                var cart = provider.carts[index];
+                var product = products[products.indexWhere((element) => element.docId == cart.productId)];
+                return CartCard(product: product);
+              },
+            );
           } else {
             return const SizedBox();
           }

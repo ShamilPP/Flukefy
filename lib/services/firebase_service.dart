@@ -114,7 +114,7 @@ class FirebaseService {
           username: user.get('username'),
           password: user.get('password'),
         );
-      }catch(e){
+      } catch (e) {
         return null;
       }
     }
@@ -135,6 +135,21 @@ class FirebaseService {
     return Response(isSuccess: true, value: "Success");
   }
 
+  static Future<List<Cart>> getCarts(String userId) async {
+    List<Cart> carts = [];
+    var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
+    var allDocs = await collection.get();
+    for (var cart in allDocs.docs) {
+      carts.add(Cart(
+        cartId: cart.id,
+        userId: userId,
+        productId: cart.get('productId'),
+        time: (cart.get('time') as Timestamp).toDate(),
+      ));
+    }
+    return carts;
+  }
+
   static Future<Response> uploadCart(Cart cart) async {
     var carts = FirebaseFirestore.instance.collection('carts');
     var result = await carts.add({
@@ -145,18 +160,10 @@ class FirebaseService {
     return Response(value: result.id, isSuccess: true);
   }
 
-  static Future<List<Cart>> getCarts(String userId) async {
-    List<Cart> carts = [];
-    var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
-    var allDocs = await collection.get();
-    for (var cart in allDocs.docs) {
-      carts.add(Cart(
-        userId: userId,
-        productId: cart.get('productId'),
-        time: (cart.get('time') as Timestamp).toDate(),
-      ));
-    }
-    return carts;
+  static Future<Response> removeCart(Cart cart) async {
+    var carts = FirebaseFirestore.instance.collection('carts');
+    var result = await carts.doc(cart.cartId).delete();
+    return Response(value: 'Success', isSuccess: true);
   }
 
   static Future<Response> getUpdateCode() async {
