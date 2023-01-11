@@ -23,14 +23,9 @@ class ProductsSlider extends StatelessWidget {
       var brandStatus = brandProvider.brandStatus;
       var productStatus = productProvider.productsStatus;
 
-      if (brandStatus == Status.loading || productStatus == Status.loading) {
-        return SizedBox(
-          height: 150,
-          width: double.infinity,
-          child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
-        );
-      } else if (brandStatus == Status.success && productStatus == Status.success) {
+      if (brandStatus == Status.success && productStatus == Status.success) {
         brandProvider.loadSelectedBrandProducts(context);
+        currentSlide.value=0;
         return Column(
           children: [
             CarouselSlider.builder(
@@ -61,6 +56,12 @@ class ProductsSlider extends StatelessWidget {
               },
             ),
           ],
+        );
+      } else if (brandStatus == Status.loading || productStatus == Status.loading) {
+        return SizedBox(
+          height: 150,
+          width: double.infinity,
+          child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
         );
       } else {
         return const SizedBox();
