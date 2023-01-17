@@ -16,30 +16,35 @@ import 'brands_provider.dart';
 import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
-  void init(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2)).then((value) async {
-      var userProvider = Provider.of<UserProvider>(context, listen: false);
-      String? userId = await userProvider.getUserIdFromLocal();
-      int serverUpdateCode = await getUpdateCode();
-      if (serverUpdateCode != updateCode) {
-        // If this is not matching update code show update dialog
-        showUpdateDialog(context);
+  void init(BuildContext context) async {
+    User? user;
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    String? userId = await userProvider.getUserIdFromLocal();
+    Response serverUpdateCode = await FirebaseService.getUpdateCode();
+    if (userId != null) user = await FirebaseService.getUserWithDocId(userId);
+
+    if (serverUpdateCode.value != updateCode) {
+      // If this is not matching update code show update dialog
+      Fluttertoast.showToast(
+        msg: serverUpdateCode.value,
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: 16.0,
+        textColor: Colors.white,
+        webPosition: "center",
+        backgroundColor: Colors.red,
+        webBgColor: "linear-gradient(to right, #F44336, #F44336)",
+      );
+      showUpdateDialog(context);
+    } else {
+      if (user != null) {
+        userProvider.setUser(user);
+        loadFromFirebase(context, user.id!);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else {
-        if (userId != null) {
-          User? user = await FirebaseService.getUserWithDocId(userId);
-          if (user != null) {
-            userProvider.setUser(user);
-            loadFromFirebase(context, userId);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-          } else {
-            await Provider.of<AuthenticationProvider>(context, listen: false).logout();
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const IntroductionScreen()));
-          }
-        } else {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const IntroductionScreen()));
-        }
+        await Provider.of<AuthenticationProvider>(context, listen: false).logout();
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const IntroductionScreen()));
       }
-    });
+    }
   }
 
   void loadFromFirebase(BuildContext context, String userId) async {
@@ -63,23 +68,5 @@ class SplashProvider extends ChangeNotifier {
         ],
       ),
     );
-  }
-
-  Future<int> getUpdateCode() async {
-    Response response = await FirebaseService.getUpdateCode();
-    if (response.isSuccess) {
-      return response.value;
-    } else {
-      Fluttertoast.showToast(
-        msg: response.value,
-        toastLength: Toast.LENGTH_LONG,
-        fontSize: 16.0,
-        textColor: Colors.white,
-        webPosition: "center",
-        backgroundColor: Colors.red,
-        webBgColor: "linear-gradient(to right, #F44336, #F44336)",
-      );
-      return -1; // -1 is error code
-    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flukefy/view/animations/size_animation.dart';
 import 'package:flukefy/view_model/splash_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,9 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
+                    SpinKitFadingCube(color: Colors.white, size: 25),
                     SizedBox(width: 30),
                     Text(
                       "Fetching account details....",
