@@ -25,7 +25,7 @@ class ProductsSlider extends StatelessWidget {
 
       if (brandStatus == Status.success && productStatus == Status.success) {
         brandProvider.loadSelectedBrandProducts(context);
-        currentSlide.value=0;
+        currentSlide.value = 0;
         return Column(
           children: [
             CarouselSlider.builder(

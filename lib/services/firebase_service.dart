@@ -46,9 +46,9 @@ class FirebaseService {
   static Future<Response> uploadUser(User user) async {
     var users = FirebaseFirestore.instance.collection('users');
     // Check user is already exists
-    Response alreadyExists = await checkUserWithUsernameAndPhoneNumber(user);
-    if (!alreadyExists.isSuccess) {
-      return alreadyExists;
+    bool alreadyExists = await checkIfNumberAlreadyExists(user.phoneNumber);
+    if (alreadyExists) {
+      return Response(isSuccess: false, value: 'Phone number already exists');
     }
     // Then uploading user to firebase
     String? docId;
@@ -57,48 +57,18 @@ class FirebaseService {
       await users.doc(user.id).set({
         'name': user.name,
         'phoneNumber': user.phoneNumber,
-        'username': user.username,
-        'password': user.password,
+        'email': user.email,
       });
       docId = user.id;
     } else {
       var result = await users.add({
         'name': user.name,
         'phoneNumber': user.phoneNumber,
-        'username': user.username,
-        'password': user.password,
+        'email': user.email,
       });
       docId = result.id;
     }
     return Response(isSuccess: true, value: docId);
-  }
-
-  static Future<User?> getUserWithUsername(String username) async {
-    var collection = FirebaseFirestore.instance.collection('users');
-    var users = await collection.get();
-    for (var user in users.docs) {
-      if (user.get('username') == username) {
-        // returning user data
-        return User(
-          id: user.id,
-          name: user.get('name'),
-          phoneNumber: user.get('phoneNumber'),
-          username: user.get('username'),
-          password: user.get('password'),
-        );
-      }
-      if (user.get('phoneNumber').toString() == username) {
-        // returning user data
-        return User(
-          id: user.id,
-          name: user.get('name'),
-          phoneNumber: user.get('phoneNumber'),
-          username: user.get('username'),
-          password: user.get('password'),
-        );
-      }
-    }
-    return null;
   }
 
   static Future<User?> getUserWithDocId(String docId) async {
@@ -111,8 +81,7 @@ class FirebaseService {
           id: user.id,
           name: user.get('name'),
           phoneNumber: user.get('phoneNumber'),
-          username: user.get('username'),
-          password: user.get('password'),
+          email: user.get('email'),
         );
       } catch (e) {
         return null;
@@ -121,18 +90,17 @@ class FirebaseService {
     return null;
   }
 
-  static Future<Response> checkUserWithUsernameAndPhoneNumber(User user) async {
-    var users = await FirebaseFirestore.instance.collection('users').get();
+  static Future<bool> checkIfNumberAlreadyExists(int? phoneNumber) async {
+    if (phoneNumber != null) {
+      var users = await FirebaseFirestore.instance.collection('users').get();
 
-    for (var usr in users.docs) {
-      if (usr.get('username') == user.username) {
-        return Response(isSuccess: false, value: 'Username already exists');
-      }
-      if (usr.get('phoneNumber') == user.phoneNumber) {
-        return Response(isSuccess: false, value: 'Phone number already exists');
+      for (var usr in users.docs) {
+        if (usr.get('phoneNumber') == phoneNumber) {
+          return true;
+        }
       }
     }
-    return Response(isSuccess: true, value: "Success");
+    return false;
   }
 
   static Future<List<Cart>> getCarts(String userId) async {
@@ -162,7 +130,7 @@ class FirebaseService {
 
   static Future<Response> removeCart(Cart cart) async {
     var carts = FirebaseFirestore.instance.collection('carts');
-    var result = await carts.doc(cart.cartId).delete();
+    await carts.doc(cart.cartId).delete();
     return Response(value: 'Success', isSuccess: true);
   }
 

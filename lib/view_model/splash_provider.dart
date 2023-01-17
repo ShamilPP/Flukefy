@@ -3,7 +3,6 @@ import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../model/response.dart';
@@ -25,15 +24,6 @@ class SplashProvider extends ChangeNotifier {
 
     if (serverUpdateCode.value != updateCode) {
       // If this is not matching update code show update dialog
-      Fluttertoast.showToast(
-        msg: serverUpdateCode.value,
-        toastLength: Toast.LENGTH_LONG,
-        fontSize: 16.0,
-        textColor: Colors.white,
-        webPosition: "center",
-        backgroundColor: Colors.red,
-        webBgColor: "linear-gradient(to right, #F44336, #F44336)",
-      );
       showUpdateDialog(context);
     } else {
       if (user != null) {

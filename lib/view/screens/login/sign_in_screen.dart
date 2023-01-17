@@ -66,7 +66,7 @@ class LoginSection extends StatelessWidget {
   LoginSection({Key? key}) : super(key: key);
 
   final RoundedLoadingButtonController buttonController = RoundedLoadingButtonController();
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
@@ -86,8 +86,8 @@ class LoginSection extends StatelessWidget {
               children: <Widget>[
                 // TextField
                 LoginTextField(
-                  hint: 'Username or Phone number',
-                  controller: usernameController,
+                  hint: 'Email',
+                  controller: emailController,
                 ),
                 LoginTextField(
                   hint: 'Password',
@@ -110,7 +110,7 @@ class LoginSection extends StatelessWidget {
             controller: buttonController,
             onPressed: () async {
               AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
-              bool status = await provider.login(usernameController.text, passwordController.text);
+              bool status = await provider.login(emailController.text, passwordController.text);
               if (status) {
                 buttonController.success();
                 await Future.delayed(const Duration(milliseconds: 500));

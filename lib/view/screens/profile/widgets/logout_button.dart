@@ -27,7 +27,7 @@ class LogoutButton extends StatelessWidget {
               actions: [
                 ElevatedButton(
                     onPressed: () {
-                      // remove username in shared preferences
+                      // remove user from shared preferences
                       Provider.of<AuthenticationProvider>(context, listen: false).logout();
                       // then, go to login screen
                       Navigator.pushAndRemoveUntil(

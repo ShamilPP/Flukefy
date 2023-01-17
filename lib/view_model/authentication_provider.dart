@@ -11,8 +11,8 @@ import '../model/user.dart';
 import '../services/authentication_service.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
-  Future<bool> login(String username, String password) async {
-    Response result = await AuthenticationService.loginAccount(username, password);
+  Future<bool> login(String email, String password) async {
+    Response result = await AuthenticationService.signWithEmail(email, password);
     showToast(result.value, result.isSuccess);
     if (result.isSuccess) {
       // Save SharedPreferences
@@ -21,9 +21,9 @@ class AuthenticationProvider extends ChangeNotifier {
     return result.isSuccess;
   }
 
-  Future<bool> createAccount(String name, String phoneNumber, String username, String password, String confirmPassword) async {
+  Future<bool> createAccount(String name, String phoneNumber, String email, String password, String confirmPassword) async {
     Response result =
-        await AuthenticationService.createAccount(name, phoneNumber, username.toLowerCase(), password, confirmPassword);
+        await AuthenticationService.createAccount(name, phoneNumber, email.toLowerCase(), password, confirmPassword);
     showToast(result.value, result.isSuccess);
     if (result.isSuccess) {
       // Save SharedPreferences
@@ -41,9 +41,6 @@ class AuthenticationProvider extends ChangeNotifier {
       Navigator.pop(context);
       var userIsExists = await FirebaseService.getUserWithDocId(user!.id!);
       if (userIsExists != null) {
-        // Save SharedPreferences
-        LocalService.saveUser(user.id!);
-
         showToast('Logged in', true);
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const SplashScreen()), (route) => false);
       } else {

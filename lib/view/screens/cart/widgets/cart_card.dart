@@ -168,7 +168,11 @@ class CartCard extends StatelessWidget {
               ],
             ),
           ),
-           Divider(thickness: 5, height: 0,color: Colors.grey.shade400,),
+          Divider(
+            thickness: 5,
+            height: 0,
+            color: Colors.grey.shade400,
+          ),
         ],
       ),
     );

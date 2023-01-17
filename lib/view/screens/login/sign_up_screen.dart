@@ -70,7 +70,7 @@ class LoginSection extends StatelessWidget {
   final RoundedLoadingButtonController buttonController = RoundedLoadingButtonController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -101,8 +101,8 @@ class LoginSection extends StatelessWidget {
                   keyboardType: TextInputType.phone,
                 ),
                 LoginTextField(
-                  hint: 'Username',
-                  controller: usernameController,
+                  hint: 'Email',
+                  controller: emailController,
                 ),
                 LoginTextField(
                   hint: 'Password',
@@ -134,7 +134,7 @@ class LoginSection extends StatelessWidget {
               bool success = await provider.createAccount(
                 nameController.text,
                 phoneNumberController.text,
-                usernameController.text,
+                emailController.text,
                 passwordController.text,
                 confirmPasswordController.text,
               );

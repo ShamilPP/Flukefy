@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flukefy/utils/extensions/extension.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -21,7 +22,7 @@ class AuthenticationService {
       User? user = result.user;
 
       if (user != null && user.displayName != null && user.email != null) {
-        var usr = flukefy_user.User(id: user.uid, name: user.displayName!, username: user.email!, password: 'Google');
+        var usr = flukefy_user.User(id: user.uid, name: user.displayName!, email: user.email!);
         return usr;
       } else {
         return null;
@@ -46,29 +47,38 @@ class AuthenticationService {
     }
   }
 
-  static Future<Response> loginAccount(String username, String password) async {
-    flukefy_user.User? user = await FirebaseService.getUserWithUsername(username);
-    if (username == '') {
-      return Response(isSuccess: false, value: 'Invalid username');
+  static Future<Response> signWithEmail(String email, String password) async {
+    if (email == '' && email.isValidEmail()) {
+      return Response(isSuccess: false, value: 'Invalid email');
     } else if (password == '') {
       return Response(isSuccess: false, value: 'Invalid password');
-    } else if (user == null) {
-      return Response(isSuccess: false, value: 'Username or not exits');
-    } else if (password != user.password) {
-      return Response(isSuccess: false, value: 'Password is incorrect');
     }
-    // returning success and docId
-    return Response(isSuccess: true, value: user.id);
+    UserCredential? credential;
+    try {
+      credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return Response(isSuccess: false, value: 'No user found for that email');
+      } else if (e.code == 'wrong-password') {
+        return Response(isSuccess: false, value: 'Wrong password');
+      }
+    }
+    if (credential == null) {
+      return Response(isSuccess: false, value: 'Admin has blocked you');
+    } else {
+      // returning success and docId
+      return Response(isSuccess: true, value: credential.user?.uid);
+    }
   }
 
   static Future<Response> createAccount(
-      String name, String phoneNumber, String username, String password, String confirmPassword) async {
-    if (name == '') {
+      String name, String phoneNumber, String email, String password, String confirmPassword) async {
+    if (name == '' && email.isValidEmail()) {
       return Response(isSuccess: false, value: 'Invalid name');
     } else if (phoneNumber == '') {
       return Response(isSuccess: false, value: 'Invalid phone number');
-    } else if (username == '') {
-      return Response(isSuccess: false, value: 'Invalid username');
+    } else if (email == '') {
+      return Response(isSuccess: false, value: 'Invalid email');
     } else if (password == '') {
       return Response(isSuccess: false, value: 'Invalid password');
     } else if (password != confirmPassword) {
@@ -76,13 +86,32 @@ class AuthenticationService {
     } else if (!verifyPhoneNumber(phoneNumber)) {
       return Response(isSuccess: false, value: 'Entered mobile number is invalid');
     }
+    bool numberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(int.parse(phoneNumber));
+    if (numberAlreadyExists) return Response(isSuccess: false, value: 'Phone number already exists');
+
+    UserCredential? credential;
+    try {
+      credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return Response(isSuccess: false, value: 'The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        return Response(isSuccess: false, value: 'The account already exists for that email.');
+      }
+    } catch (e) {
+      return Response(isSuccess: false, value: e);
+    }
 
     flukefy_user.User user = flukefy_user.User(
+      id: credential!.user!.uid,
       name: name,
       phoneNumber: int.parse(phoneNumber),
-      username: username,
-      password: password,
+      email: email,
     );
+
     return FirebaseService.uploadUser(user);
   }
 
