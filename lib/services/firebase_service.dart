@@ -45,11 +45,6 @@ class FirebaseService {
 
   static Future<Response> uploadUser(User user) async {
     var users = FirebaseFirestore.instance.collection('users');
-    // Check user is already exists
-    bool alreadyExists = await checkIfNumberAlreadyExists(user.phoneNumber);
-    if (alreadyExists) {
-      return Response(isSuccess: false, value: 'Phone number already exists');
-    }
     // Then uploading user to firebase
     String? docId;
     if (user.id != null) {

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flukefy/utils/extensions/extension.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -48,11 +47,6 @@ class AuthenticationService {
   }
 
   static Future<Response> signWithEmail(String email, String password) async {
-    if (email == '' && email.isValidEmail()) {
-      return Response(isSuccess: false, value: 'Invalid email');
-    } else if (password == '') {
-      return Response(isSuccess: false, value: 'Invalid password');
-    }
     UserCredential? credential;
     try {
       credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
@@ -71,28 +65,11 @@ class AuthenticationService {
     }
   }
 
-  static Future<Response> createAccount(
-      String name, String phoneNumber, String email, String password, String confirmPassword) async {
-    if (name == '' && email.isValidEmail()) {
-      return Response(isSuccess: false, value: 'Invalid name');
-    } else if (phoneNumber == '') {
-      return Response(isSuccess: false, value: 'Invalid phone number');
-    } else if (email == '') {
-      return Response(isSuccess: false, value: 'Invalid email');
-    } else if (password == '') {
-      return Response(isSuccess: false, value: 'Invalid password');
-    } else if (password != confirmPassword) {
-      return Response(isSuccess: false, value: 'Confirm password incorrect');
-    } else if (!verifyPhoneNumber(phoneNumber)) {
-      return Response(isSuccess: false, value: 'Entered mobile number is invalid');
-    }
-    bool numberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(int.parse(phoneNumber));
-    if (numberAlreadyExists) return Response(isSuccess: false, value: 'Phone number already exists');
-
+  static Future<Response> createAccount(flukefy_user.User user, String password) async {
     UserCredential? credential;
     try {
       credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
+        email: user.email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
@@ -105,21 +82,8 @@ class AuthenticationService {
       return Response(isSuccess: false, value: e);
     }
 
-    flukefy_user.User user = flukefy_user.User(
-      id: credential!.user!.uid,
-      name: name,
-      phoneNumber: int.parse(phoneNumber),
-      email: email,
-    );
+    user.id = credential!.user!.uid;
 
     return FirebaseService.uploadUser(user);
-  }
-
-  static bool verifyPhoneNumber(String number) {
-    int? phoneNumber = int.tryParse(number);
-    if (phoneNumber != null && number.length == 10) {
-      return true;
-    }
-    return false;
   }
 }
