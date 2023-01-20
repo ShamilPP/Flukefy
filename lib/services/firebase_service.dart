@@ -63,7 +63,7 @@ class FirebaseService {
       });
       docId = result.id;
     }
-    return Response(isSuccess: true, value: docId);
+    return Response(isSuccess: true, result: docId, msg: 'Logged in');
   }
 
   static Future<User?> getUserWithDocId(String docId) async {
@@ -120,13 +120,13 @@ class FirebaseService {
       'productId': cart.productId,
       'time': cart.time,
     });
-    return Response(value: result.id, isSuccess: true);
+    return Response(result: result.id, msg: 'Success', isSuccess: true);
   }
 
   static Future<Response> removeCart(Cart cart) async {
     var carts = FirebaseFirestore.instance.collection('carts');
     await carts.doc(cart.cartId).delete();
-    return Response(value: 'Success', isSuccess: true);
+    return Response(msg: 'Success', isSuccess: true);
   }
 
   static Future<Response> getUpdateCode() async {
@@ -135,19 +135,19 @@ class FirebaseService {
     try {
       doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
     } catch (e) {
-      return Response(isSuccess: false, value: 'Error detected : $e');
+      return Response(isSuccess: false, msg: 'Error detected : $e');
     }
     // check document exists ( avoiding null exceptions )
     if (doc.exists && doc.data()!.containsKey("code")) {
       // if document exists, fetch version in firebase
       try {
         code = doc['code'];
-        return Response(isSuccess: true, value: code);
+        return Response(isSuccess: true, result: code, msg: 'Success');
       } catch (e) {
-        return Response(isSuccess: false, value: 'Error detected : $e');
+        return Response(isSuccess: false, msg: 'Error detected : $e');
       }
     } else {
-      return Response(isSuccess: false, value: 'Error detected : Update code fetching problem');
+      return Response(isSuccess: false, msg: 'Error detected : Update code fetching problem');
     }
   }
 }

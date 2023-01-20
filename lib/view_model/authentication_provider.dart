@@ -25,12 +25,11 @@ class AuthenticationProvider extends ChangeNotifier {
     // Login account using firebase
     Response result = await AuthenticationService.signWithEmail(email, password);
     if (result.isSuccess) {
-      showToast('Logged in', Colors.green);
       // Save SharedPreferences
-      LocalService.saveUser(result.value);
-    } else {
-      showToast(result.value, Colors.red);
+      LocalService.saveUser(result.result);
     }
+    if (result.msg != null) showToast(result.msg!, result.isSuccess ? Colors.green : Colors.red);
+
     return result.isSuccess;
   }
 
@@ -67,12 +66,11 @@ class AuthenticationProvider extends ChangeNotifier {
     User user = User(name: name, phoneNumber: int.parse(phoneNumber), email: email);
     Response result = await AuthenticationService.createAccount(user, password);
     if (result.isSuccess) {
-      showToast('Logged in', Colors.green);
       // Save SharedPreferences
-      LocalService.saveUser(result.value);
-    } else {
-      showToast(result.value, Colors.red);
+      LocalService.saveUser(result.result);
     }
+    if (result.msg != null) showToast(result.msg!, result.isSuccess ? Colors.green : Colors.red);
+
     return result.isSuccess;
   }
 
@@ -127,12 +125,11 @@ class AuthenticationProvider extends ChangeNotifier {
     // Upload user to firebase
     Response result = await FirebaseService.uploadUser(user);
     if (result.isSuccess) {
-      showToast('Logged in', Colors.green);
       // Save SharedPreferences
-      LocalService.saveUser(result.value);
-    } else {
-      showToast(result.value, Colors.red);
+      LocalService.saveUser(result.result);
     }
+    if (result.msg != null) showToast(result.msg!, result.isSuccess ? Colors.green : Colors.red);
+
     return result.isSuccess;
   }
 

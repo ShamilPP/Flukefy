@@ -1,6 +1,7 @@
 import 'package:flukefy/utils/constant.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
+import 'package:flukefy/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +23,9 @@ class SplashProvider extends ChangeNotifier {
     Response serverUpdateCode = await FirebaseService.getUpdateCode();
     if (userId != null) user = await FirebaseService.getUserWithDocId(userId);
 
-    if (serverUpdateCode.value != updateCode) {
+    if (serverUpdateCode.result != updateCode) {
       // If this is not matching update code show update dialog
+      if (!serverUpdateCode.isSuccess) showToast(serverUpdateCode.msg!, Colors.red);
       showUpdateDialog(context);
     } else {
       if (user != null) {

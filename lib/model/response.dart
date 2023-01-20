@@ -1,9 +1,7 @@
 class Response {
-  dynamic value;
+  dynamic result;
   final bool isSuccess;
+  final String? msg;
 
-  Response({
-    required this.value,
-    required this.isSuccess,
-  });
+  Response({this.result, required this.isSuccess, this.msg});
 }

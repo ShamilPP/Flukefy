@@ -52,16 +52,16 @@ class AuthenticationService {
       credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return Response(isSuccess: false, value: 'No user found for that email');
+        return Response(isSuccess: false, msg: 'No user found for that email');
       } else if (e.code == 'wrong-password') {
-        return Response(isSuccess: false, value: 'Wrong password');
+        return Response(isSuccess: false, msg: 'Wrong password');
       }
     }
     if (credential == null) {
-      return Response(isSuccess: false, value: 'Admin has blocked you');
+      return Response(isSuccess: false, msg: 'Admin has blocked you');
     } else {
       // returning success and docId
-      return Response(isSuccess: true, value: credential.user?.uid);
+      return Response(isSuccess: true, msg: 'Logged in', result: credential.user?.uid);
     }
   }
 
@@ -74,12 +74,12 @@ class AuthenticationService {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        return Response(isSuccess: false, value: 'The password provided is too weak.');
+        return Response(isSuccess: false, msg: 'The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        return Response(isSuccess: false, value: 'The account already exists for that email.');
+        return Response(isSuccess: false, msg: 'The account already exists for that email.');
       }
     } catch (e) {
-      return Response(isSuccess: false, value: e);
+      return Response(isSuccess: false, msg: e.toString());
     }
 
     user.id = credential!.user!.uid;
