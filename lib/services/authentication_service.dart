@@ -86,4 +86,8 @@ class AuthenticationService {
 
     return FirebaseService.uploadUser(user);
   }
+
+  static Future<void> logout() {
+    return FirebaseAuth.instance.signOut();
+  }
 }

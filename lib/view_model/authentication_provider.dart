@@ -82,26 +82,27 @@ class AuthenticationProvider extends ChangeNotifier {
       user = await AuthenticationService.signInWithGoogle();
       // Dismiss loading dialog
       Navigator.pop(context);
-      var userIsExists = await FirebaseService.getUserWithDocId(user!.id!);
-      // ask user for phone number if not current in firebase
-      if (userIsExists == null) {
-        showToast('Phone number is unavailable', Colors.red);
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => PhoneNumberScreen(user: user!)),
-          (route) => false,
-        );
+      if (user == null) {
+        showToast('Something went wrong', Colors.red);
       } else {
-        // Save SharedPreferences
-        LocalService.saveUser(user.id!);
-        // Show Toast
-        showToast('Logged in', Colors.green);
-        // Go to Splash screen
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const SplashScreen()),
-          (route) => false,
-        );
+        var userIsExists = await FirebaseService.getUserWithDocId(user.id!);
+        // ask user for phone number if not current in firebase
+        if (userIsExists == null) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => PhoneNumberScreen(user: user!)),
+            (route) => false,
+          );
+        } else {
+          // Save SharedPreferences
+          LocalService.saveUser(user.id!);
+          // Go to Splash screen
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const SplashScreen()),
+            (route) => false,
+          );
+        }
       }
     } else if (type == AuthenticationType.facebook) {
       // user = await AuthenticationService.signInWithFacebook();
@@ -134,7 +135,9 @@ class AuthenticationProvider extends ChangeNotifier {
   }
 
   // Logout
-  Future<bool> logout() {
-    return LocalService.removeUser();
+  Future<bool> logout() async {
+    await AuthenticationService.logout();
+    await LocalService.removeUser();
+    return true;
   }
 }
