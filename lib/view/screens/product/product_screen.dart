@@ -30,14 +30,14 @@ class ProductScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
-                        FadeAnimation(delay: 200, child: Text(product.name, style: const TextStyle(fontSize: 18))),
+                        FadeAnimation(delay: 100, child: Text(product.name, style: const TextStyle(fontSize: 18))),
                         const SizedBox(height: 10),
 
                         // Price
                         Row(
                           children: [
                             FadeAnimation(
-                              delay: 300,
+                              delay: 150,
                               child: Text(
                                 '₹${product.price}',
                                 style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 18),
@@ -45,7 +45,7 @@ class ProductScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             FadeAnimation(
-                              delay: 400,
+                              delay: 250,
                               child: Text(
                                 '₹${product.price - (product.price * product.discount ~/ 100)}',
                                 style: const TextStyle(color: Colors.black, fontSize: 25),
@@ -53,7 +53,7 @@ class ProductScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             FadeAnimation(
-                              delay: 350,
+                              delay: 200,
                               child: Text(
                                 '${product.discount}% off',
                                 style: const TextStyle(color: Colors.green, fontSize: 18),
@@ -65,7 +65,7 @@ class ProductScreen extends StatelessWidget {
 
                         // Rating
                         FadeAnimation(
-                          delay: 500,
+                          delay: 300,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -86,7 +86,7 @@ class ProductScreen extends StatelessWidget {
 
                         // More details
                         FadeAnimation(
-                          delay: 700,
+                          delay: 400,
                           duration: const Duration(milliseconds: 500),
                           child: MoreDetails(product: product),
                         ),

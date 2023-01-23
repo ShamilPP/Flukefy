@@ -75,6 +75,7 @@ class ProductsSlider extends StatelessWidget {
 
     return FadeAnimation(
       delay: 300,
+      animateEveryBuild: true,
       child: Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(

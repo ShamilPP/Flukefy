@@ -30,7 +30,7 @@ class _CartBoxState extends State<CartBox> {
     int cartIndex = carts.indexWhere((element) => element.productId == widget.product.docId);
     if (cartIndex == -1) isAlreadyCarted = false;
     return SlideAnimation(
-      delay: 600,
+      delay: 500,
       position: SlidePosition.bottom,
       distance: SlideDistance.high,
       child: Container(
@@ -45,7 +45,7 @@ class _CartBoxState extends State<CartBox> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FadeAnimation(
-                delay: 800,
+                delay: 600,
                 child: Text(
                   '₹ ${widget.product.price - (widget.product.price * widget.product.discount ~/ 100)}',
                   style: TextStyle(color: Colors.red.shade900, fontSize: 22),

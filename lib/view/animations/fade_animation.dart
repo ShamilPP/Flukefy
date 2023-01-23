@@ -4,12 +4,14 @@ class FadeAnimation extends StatefulWidget {
   final Widget child;
   final int delay;
   final Duration duration;
+  final bool animateEveryBuild;
 
   const FadeAnimation({
     Key? key,
     required this.child,
     this.delay = 100,
     this.duration = const Duration(milliseconds: 300),
+    this.animateEveryBuild = false,
   }) : super(key: key);
 
   @override
@@ -19,6 +21,8 @@ class FadeAnimation extends StatefulWidget {
 class FadeAnimationState extends State<FadeAnimation> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
+
+  bool isFirstBuild = true;
 
   @override
   void dispose() {
@@ -44,6 +48,8 @@ class FadeAnimationState extends State<FadeAnimation> with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
+    if (!isFirstBuild && widget.animateEveryBuild) controller.forward(from: 0);
+    if (isFirstBuild) isFirstBuild = false;
     return FadeTransition(
       opacity: animation,
       child: widget.child,
