@@ -1,6 +1,5 @@
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/cart/cart_screen.dart';
-import 'package:flukefy/view/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

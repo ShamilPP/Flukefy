@@ -1,5 +1,6 @@
 import 'package:flukefy/view/screens/profile/widgets/logout_button.dart';
 import 'package:flukefy/view/screens/profile/widgets/profile_list_tile.dart';
+import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/user.dart';
@@ -14,28 +15,15 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
+      appBar: const CurvedAppBar(title: 'Profile'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
               children: [
-                // AppBar
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: const [
-                      CloseButton(),
-                      SizedBox(width: 15),
-                      Text(
-                        "Profile",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-
                 // User profile photo
                 Center(
                   child: Stack(
@@ -81,14 +69,14 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(text: user.email, subText: 'Email'),
               ],
             ),
+          ),
 
-            // Logout button
-            const Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 10),
-              child: Center(child: LogoutButton()),
-            ),
-          ],
-        ),
+          // Logout button
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 10),
+            child: Center(child: LogoutButton()),
+          ),
+        ],
       ),
     );
   }
