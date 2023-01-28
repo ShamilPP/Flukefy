@@ -1,4 +1,3 @@
-import 'package:flukefy/view/screens/product/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -8,48 +7,47 @@ import '../../../../model/product.dart';
 import '../../../../utils/colors.dart';
 import '../../../../view_model/products_provider.dart';
 import '../../../animations/fade_animation.dart';
+import '../product_screen.dart';
 
-class ProductsList extends StatelessWidget {
-  const ProductsList({Key? key}) : super(key: key);
+class SimilarProducts extends StatelessWidget {
+  const SimilarProducts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          const Text('Most popular', style: TextStyle(fontSize: 20)),
-          Consumer<ProductsProvider>(builder: (ctx, provider, child) {
-            var status = provider.productsStatus;
-            if (status == Status.loading) {
-              return SizedBox(
-                height: 300,
-                width: double.infinity,
-                child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
-              );
-            } else if (status == Status.success) {
-              return GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: provider.products.length < 10 ? provider.products.length : 10,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
-                itemBuilder: (ctx, index) {
-                  return productCard(context, provider.products[index]);
-                },
-              );
-            } else {
-              return const SizedBox();
-            }
-          }),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        const Text('Similar Products', style: TextStyle(fontSize: 20)),
+        Consumer<ProductsProvider>(builder: (ctx, provider, child) {
+          var status = provider.productsStatus;
+          if (status == Status.loading) {
+            return SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
+            );
+          } else if (status == Status.success) {
+            return GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: provider.products.length < 4 ? provider.products.length : 4,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
+              itemBuilder: (ctx, index) {
+                var products = provider.products.toList()..shuffle();
+                return productCard(context, products[index]);
+              },
+            );
+          } else {
+            return const SizedBox();
+          }
+        }),
+      ],
     );
   }
 
   Widget productCard(BuildContext context, Product productDetails) {
-    final String heroTag = '${productDetails.docId}ProductList';
+    final String heroTag = '${productDetails.docId}SimilarProducts';
     Widget space = const SizedBox(height: 5);
 
     return FadeAnimation(

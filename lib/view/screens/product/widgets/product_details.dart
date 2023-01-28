@@ -1,4 +1,5 @@
 import 'package:flukefy/model/product.dart';
+import 'package:flukefy/view/screens/product/widgets/similar_products.dart';
 import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -86,6 +87,9 @@ class ProductDetails extends StatelessWidget {
                   const SizedBox(height: 10),
                   // Description
                   Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16)),
+
+                  // Similar Products
+                  const SimilarProducts(),
                 ],
               ),
             ],

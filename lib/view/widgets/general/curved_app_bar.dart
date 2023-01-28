@@ -4,16 +4,12 @@ import '../../../utils/colors.dart';
 
 class CurvedAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
-
   final bool backButton;
   final Widget? trailing;
+  final bool elevation;
 
-  const CurvedAppBar({
-    Key? key,
-    required this.title,
-    this.backButton = true,
-    this.trailing,
-  }) : super(key: key);
+  const CurvedAppBar({Key? key, required this.title, this.backButton = true, this.trailing, this.elevation = true})
+      : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
@@ -24,14 +20,16 @@ class CurvedAppBar extends StatelessWidget with PreferredSizeWidget {
       decoration: BoxDecoration(
         color: primaryColor,
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
+        boxShadow: elevation
+            ? [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ]
+            : null,
       ),
       child: SafeArea(
         child: Padding(

@@ -10,7 +10,11 @@ class ImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CurvedAppBar(title: 'Image'),
+      backgroundColor: Colors.black,
+      appBar: const CurvedAppBar(
+        title: 'Image',
+        elevation: false,
+      ),
       body: tag == null
           ? body()
           : Hero(
@@ -21,9 +25,8 @@ class ImageViewer extends StatelessWidget {
   }
 
   Widget body() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
+    return InteractiveViewer(
+      child: Center(
         child: Image.network(image),
       ),
     );
