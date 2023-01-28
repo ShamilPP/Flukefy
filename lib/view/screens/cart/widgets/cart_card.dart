@@ -1,6 +1,7 @@
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flukefy/view/screens/product/product_screen.dart';
+import 'package:flukefy/view/widgets/buttons/expand_button.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -130,16 +131,36 @@ class CartCard extends StatelessWidget {
               IntrinsicHeight(
                 child: Row(
                   children: [
-                    CartButton(
-                        text: 'Remove',
-                        icon: Icons.delete,
+                    ExpandButton(
+                        animationDelay: 800,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.delete, color: Colors.grey.shade700),
+                            const SizedBox(width: 10),
+                            Text(
+                              'Remove',
+                              style: TextStyle(color: Colors.grey.shade700),
+                            )
+                          ],
+                        ),
                         onTap: () {
                           Provider.of<CartProvider>(context, listen: false).removeCart(context, product);
                         }),
                     const VerticalDivider(thickness: 1, width: 0),
-                    CartButton(
-                      text: 'Buy this now',
-                      icon: Icons.electric_bolt,
+                    ExpandButton(
+                      animationDelay: 800,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.electric_bolt, color: Colors.grey.shade700),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Buy this now',
+                            style: TextStyle(color: Colors.grey.shade700),
+                          )
+                        ],
+                      ),
                       onTap: () => Fluttertoast.showToast(msg: 'Currently unavailable'),
                     ),
                   ],
@@ -195,46 +216,6 @@ class CartCard extends StatelessWidget {
               style: TextStyle(color: Colors.green),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CartButton extends StatelessWidget {
-  final String text;
-  final IconData icon;
-  final void Function() onTap;
-
-  const CartButton({Key? key, required this.text, required this.icon, required this.onTap}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: FadeAnimation(
-        delay: 800,
-        child: SizedBox(
-          height: double.infinity,
-          child: TextButton(
-            onPressed: onTap,
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              tapTargetSize: MaterialTapTargetSize.padded,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, color: Colors.grey.shade700),
-                const SizedBox(width: 10),
-                Text(
-                  text,
-                  style: TextStyle(color: Colors.grey.shade700),
-                )
-              ],
-            ),
-          ),
         ),
       ),
     );
