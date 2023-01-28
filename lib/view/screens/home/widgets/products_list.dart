@@ -21,6 +21,7 @@ class ProductsList extends StatelessWidget {
         children: [
           const SizedBox(height: 10),
           const Text('Most popular', style: TextStyle(fontSize: 20)),
+          const SizedBox(height: 10),
           Consumer<ProductsProvider>(builder: (ctx, provider, child) {
             var status = provider.productsStatus;
             if (status == Status.loading) {
@@ -33,6 +34,7 @@ class ProductsList extends StatelessWidget {
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
+                padding: EdgeInsets.zero,
                 itemCount: provider.products.length < 10 ? provider.products.length : 10,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
                 itemBuilder: (ctx, index) {

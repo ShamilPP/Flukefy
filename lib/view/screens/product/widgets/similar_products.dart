@@ -19,6 +19,7 @@ class SimilarProducts extends StatelessWidget {
       children: [
         const SizedBox(height: 20),
         const Text('Similar Products', style: TextStyle(fontSize: 20)),
+        const SizedBox(height: 10),
         Consumer<ProductsProvider>(builder: (ctx, provider, child) {
           var status = provider.productsStatus;
           if (status == Status.loading) {
@@ -29,6 +30,7 @@ class SimilarProducts extends StatelessWidget {
             );
           } else if (status == Status.success) {
             return GridView.builder(
+              padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: provider.products.length < 4 ? provider.products.length : 4,
