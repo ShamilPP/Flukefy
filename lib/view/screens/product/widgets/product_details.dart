@@ -32,7 +32,7 @@ class ProductDetails extends StatelessWidget {
                 top: 0,
                 right: 0,
                 child: FadeAnimation(
-                  delay: 100,
+                  delay: 500,
                   child: Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
@@ -54,42 +54,36 @@ class ProductDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   // Product name
-                  FadeAnimation(delay: 200, child: Text(product.name, style: const TextStyle(fontSize: 20))),
+                  FadeAnimation(delay: 200, child: Text(product.name, style: const TextStyle(fontSize: 19))),
                   const SizedBox(height: 5),
                   // Price
-                  Row(
-                    children: [
-                      FadeAnimation(
-                        delay: 250,
-                        child: Text(
+                  FadeAnimation(
+                    delay: 300,
+                    child: Row(
+                      children: [
+                        Text(
                           '₹${product.price}',
-                          style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 18),
+                          style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 17),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      FadeAnimation(
-                        delay: 300,
-                        child: Text(
+                        const SizedBox(width: 10),
+                        Text(
                           '₹${product.price - (product.price * product.discount ~/ 100)}',
-                          style: const TextStyle(color: Colors.black, fontSize: 23),
+                          style: const TextStyle(color: Colors.black, fontSize: 22),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      FadeAnimation(
-                        delay: 200,
-                        child: Text(
+                        const SizedBox(width: 10),
+                        Text(
                           '${product.discount}% off',
-                          style: const TextStyle(color: Colors.green, fontSize: 18),
+                          style: const TextStyle(color: Colors.green, fontSize: 17),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 10),
                   // Description
-                  Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16)),
+                  FadeAnimation(delay: 400,child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
 
                   // Similar Products
-                  const SimilarProducts(),
+                  const FadeAnimation(delay: 500,child: SimilarProducts()),
                 ],
               ),
             ],

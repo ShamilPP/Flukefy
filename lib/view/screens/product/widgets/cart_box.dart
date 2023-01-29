@@ -35,13 +35,13 @@ class _CartBoxState extends State<CartBox> {
         child: Row(
           children: [
             ExpandButton(
-              animationDelay: 400,
+              animationDelay: 600,
               onTap: isAlreadyCarted ? goToCart : addToCart,
               child: Text(isAlreadyCarted ? 'Go to cart' : 'Add to cart'),
             ),
             const SizedBox(width: 10),
             ExpandButton(
-              animationDelay: 400,
+              animationDelay: 600,
               onTap: () => Fluttertoast.showToast(msg: 'Currently unavailable'),
               color: Colors.amber,
               child: const Text("Buy now"),

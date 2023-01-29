@@ -18,7 +18,7 @@ class SimilarProducts extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 20),
-        const Text('Similar Products', style: TextStyle(fontSize: 20)),
+        const Text('Similar Products', style: TextStyle(fontSize: 19)),
         const SizedBox(height: 10),
         Consumer<ProductsProvider>(builder: (ctx, provider, child) {
           var status = provider.productsStatus;
