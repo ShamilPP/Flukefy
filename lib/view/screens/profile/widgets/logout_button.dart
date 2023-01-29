@@ -26,12 +26,13 @@ class LogoutButton extends StatelessWidget {
               content: const Text('Are you sure ?'),
               actions: [
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // remove user from shared preferences
-                      Provider.of<AuthenticationProvider>(context, listen: false).logout();
-                      // then, go to login screen
-                      Navigator.pushAndRemoveUntil(
-                          context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
+                      await Provider.of<AuthenticationProvider>(context, listen: false).logout().then((value) {
+                        // then, go to login screen
+                        Navigator.pushAndRemoveUntil(
+                            context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
+                      });
                     },
                     child: const Text('Logout'))
               ],

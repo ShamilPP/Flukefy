@@ -15,7 +15,7 @@ class LocalService {
 
   static Future<bool> removeUser() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.remove('user');
+    await pref.remove('user');
     return true;
   }
 }
