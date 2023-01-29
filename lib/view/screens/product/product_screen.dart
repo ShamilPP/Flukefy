@@ -27,14 +27,14 @@ class ProductScreen extends StatelessWidget {
             Positioned.fill(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ProductDetails(product: product, boxHeight: (screenHeight - imageHeight) + 30),
-                    // Cart box on bottom
-                    CartBox(product: product),
-                  ],
-                ),
+                child: ProductDetails(product: product, boxHeight: (screenHeight - imageHeight) + 30),
+              ),
+            ),
+            // Cart box on bottom
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: CartBox(product: product),
               ),
             ),
           ],
