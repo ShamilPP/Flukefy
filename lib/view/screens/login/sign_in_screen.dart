@@ -1,4 +1,5 @@
 import 'package:flukefy/utils/colors.dart';
+import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/screens/login/sign_up_screen.dart';
 import 'package:flukefy/view/screens/login/widgets/login_text_field.dart';
 import 'package:flukefy/view/screens/login/widgets/more_platforms.dart';
@@ -47,14 +48,20 @@ class SignInScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
-          Text(
-            'Welcome to Flukefy',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: 'roboto'),
+          FadeAnimation(
+            delay: 100,
+            child: Text(
+              'Welcome to Flukefy',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: 'roboto'),
+            ),
           ),
           SizedBox(height: 10),
-          Text(
-            'Please sign in to continue',
-            style: TextStyle(fontSize: 15, fontFamily: 'roboto'),
+          FadeAnimation(
+            delay: 200,
+            child: Text(
+              'Please sign in to continue',
+              style: TextStyle(fontSize: 15, fontFamily: 'roboto'),
+            ),
           ),
         ],
       ),
@@ -85,15 +92,21 @@ class LoginSection extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 // TextField
-                LoginTextField(
-                  hint: 'Email',
-                  controller: emailController,
+                FadeAnimation(
+                  delay: 300,
+                  child: LoginTextField(
+                    hint: 'Email',
+                    controller: emailController,
+                  ),
                 ),
-                LoginTextField(
-                  hint: 'Password',
-                  controller: passwordController,
-                  isPassword: true,
-                  keyboardType: TextInputType.visiblePassword,
+                FadeAnimation(
+                  delay: 400,
+                  child: LoginTextField(
+                    hint: 'Password',
+                    controller: passwordController,
+                    isPassword: true,
+                    keyboardType: TextInputType.visiblePassword,
+                  ),
                 ),
               ],
             ),
@@ -102,28 +115,31 @@ class LoginSection extends StatelessWidget {
           const SizedBox(height: 40),
 
           // Login button
-          RoundedLoadingButton(
-            width: 130,
-            height: 45,
-            color: primaryColor,
-            successColor: Colors.green,
-            controller: buttonController,
-            onPressed: () async {
-              AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
-              bool status = await provider.login(emailController.text, passwordController.text);
-              if (status) {
-                buttonController.success();
-                await Future.delayed(const Duration(milliseconds: 500));
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
-              } else {
-                buttonController.error();
-                await Future.delayed(const Duration(seconds: 2));
-                buttonController.reset();
-              }
-            },
-            child: const Text(
-              'Sign in',
-              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+          FadeAnimation(
+            delay: 500,
+            child: RoundedLoadingButton(
+              width: 130,
+              height: 45,
+              color: primaryColor,
+              successColor: Colors.green,
+              controller: buttonController,
+              onPressed: () async {
+                AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
+                bool status = await provider.login(emailController.text, passwordController.text);
+                if (status) {
+                  buttonController.success();
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
+                } else {
+                  buttonController.error();
+                  await Future.delayed(const Duration(seconds: 2));
+                  buttonController.reset();
+                }
+              },
+              child: const Text(
+                'Sign in',
+                style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
@@ -137,21 +153,24 @@ class SignUpText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Don't have an account ? ", style: TextStyle(fontSize: 14)),
-        InkWell(
-          splashColor: Colors.blue,
-          child: const Text(
-            'Sign up here',
-            style: TextStyle(fontSize: 14, color: Colors.blue),
+    return FadeAnimation(
+      delay: 900,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("Don't have an account ? ", style: TextStyle(fontSize: 14)),
+          InkWell(
+            splashColor: Colors.blue,
+            child: const Text(
+              'Sign up here',
+              style: TextStyle(fontSize: 14, color: Colors.blue),
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
+            },
           ),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

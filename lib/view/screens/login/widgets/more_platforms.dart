@@ -1,9 +1,10 @@
 import 'package:flukefy/utils/colors.dart';
-import 'package:flukefy/view_model/authentication_provider.dart';
+import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/enums/Authentication_type.dart';
+import '../../../../view_model/authentication_provider.dart';
 
 class MorePlatforms extends StatelessWidget {
   const MorePlatforms({Key? key}) : super(key: key);
@@ -18,17 +19,29 @@ class MorePlatforms extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            LoginPlatform(
-              type: AuthenticationType.guest,
-              image: 'assets/images/platforms/guest.png',
+            SlideAnimation(
+              delay: 600,
+              position: SlidePosition.left,
+              child: LoginPlatform(
+                type: AuthenticationType.guest,
+                image: 'assets/images/platforms/guest.png',
+              ),
             ),
-            LoginPlatform(
-              type: AuthenticationType.google,
-              image: 'assets/images/platforms/google.png',
+            SlideAnimation(
+              delay: 700,
+              position: SlidePosition.left,
+              child: LoginPlatform(
+                type: AuthenticationType.google,
+                image: 'assets/images/platforms/google.png',
+              ),
             ),
-            LoginPlatform(
-              type: AuthenticationType.facebook,
-              image: 'assets/images/platforms/facebook.png',
+            SlideAnimation(
+              delay: 800,
+              position: SlidePosition.left,
+              child: LoginPlatform(
+                type: AuthenticationType.facebook,
+                image: 'assets/images/platforms/facebook.png',
+              ),
             ),
           ],
         )
@@ -65,20 +78,24 @@ class LoginPlatform extends StatelessWidget {
     final String tooltip = "${type.name[0].toUpperCase()}${type.name.substring(1).toLowerCase()}";
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(30),
-        splashColor: primaryColor,
-        child: Tooltip(
-          message: tooltip,
-          child: Ink.image(
-            height: 40,
-            width: 40,
-            image: AssetImage(image),
+      child: Stack(
+        children: [
+          Image.asset(image, height: 40, width: 40),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(30),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                splashColor: primaryColor,
+                child: Tooltip(message: tooltip),
+                onTap: () {
+                  Provider.of<AuthenticationProvider>(context, listen: false).signInWithPlatforms(context, type);
+                },
+              ),
+            ),
           ),
-        ),
-        onTap: () {
-          Provider.of<AuthenticationProvider>(context, listen: false).signInWithPlatforms(context, type);
-        },
+        ],
       ),
     );
   }
