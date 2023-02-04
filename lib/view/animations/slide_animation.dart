@@ -10,6 +10,7 @@ class SlideAnimation extends StatefulWidget {
   final Duration duration;
   final SlidePosition position;
   final SlideDistance distance;
+  final bool animateEveryBuild;
 
   const SlideAnimation({
     Key? key,
@@ -18,6 +19,7 @@ class SlideAnimation extends StatefulWidget {
     this.duration = const Duration(milliseconds: 300),
     this.position = SlidePosition.bottom,
     this.distance = SlideDistance.slightly,
+    this.animateEveryBuild = false,
   }) : super(key: key);
 
   @override
@@ -28,6 +30,8 @@ class SlideAnimationState extends State<SlideAnimation> with SingleTickerProvide
   late AnimationController controller;
   late Animation<double> opacity;
   late Animation<Offset> animOffset;
+
+  bool isFirstBuild = true;
 
   @override
   void dispose() {
@@ -54,6 +58,8 @@ class SlideAnimationState extends State<SlideAnimation> with SingleTickerProvide
 
   @override
   Widget build(BuildContext context) {
+    if (!isFirstBuild && widget.animateEveryBuild) controller.forward(from: 0);
+    if (isFirstBuild) isFirstBuild = false;
     return SlideTransition(
       position: animOffset,
       child: FadeTransition(

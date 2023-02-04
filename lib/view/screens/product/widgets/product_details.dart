@@ -20,7 +20,7 @@ class ProductDetails extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
       ),
       child: SingleChildScrollView(
         child: Padding(
@@ -80,10 +80,11 @@ class ProductDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   // Description
-                  FadeAnimation(delay: 400,child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
+                  FadeAnimation(
+                      delay: 400, child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
 
                   // Similar Products
-                  const FadeAnimation(delay: 500,child: SimilarProducts()),
+                  const FadeAnimation(delay: 500, child: SimilarProducts()),
                 ],
               ),
             ],

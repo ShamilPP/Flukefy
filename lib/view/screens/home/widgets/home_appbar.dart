@@ -1,7 +1,7 @@
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/cart/cart_screen.dart';
+import 'package:flukefy/view/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
   const HomeAppBar({
@@ -20,15 +20,11 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.search, size: 25),
-          onPressed: () {
-            Fluttertoast.showToast(msg: 'Error');
-          },
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchScreen())),
         ),
         IconButton(
           icon: const Icon(Icons.shopping_cart_outlined, size: 25),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen()));
-          },
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen())),
         ),
       ],
     );
