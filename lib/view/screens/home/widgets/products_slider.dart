@@ -23,7 +23,7 @@ class ProductsSlider extends StatelessWidget {
       var brandStatus = brandProvider.brandStatus;
       var productStatus = productProvider.productsStatus;
 
-      if (brandStatus == Status.success && productStatus == Status.success) {
+      if (brandStatus == Status.completed && productStatus == Status.completed) {
         brandProvider.loadSelectedBrandProducts(context);
         currentSlide.value = 0;
         return Column(

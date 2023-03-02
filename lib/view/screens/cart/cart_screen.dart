@@ -23,7 +23,7 @@ class CartScreen extends StatelessWidget {
           var status = provider.cartsStatus;
           if (status == Status.loading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (status == Status.success) {
+          } else if (status == Status.completed) {
             var products = Provider.of<ProductsProvider>(context, listen: false).products;
             if (provider.carts.isEmpty) return const Center(child: Text('No carts'));
             return ListView.builder(

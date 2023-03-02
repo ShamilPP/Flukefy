@@ -172,18 +172,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ),
                     ),
-                    FadeAnimation(
-                      delay: 500,
-                      animateEveryBuild: true,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
-                        child: Text(
-                          '${product.rating} ★',
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

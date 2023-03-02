@@ -28,7 +28,7 @@ class SimilarProducts extends StatelessWidget {
               width: double.infinity,
               child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
             );
-          } else if (status == Status.success) {
+          } else if (status == Status.completed) {
             return GridView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),

@@ -25,7 +25,7 @@ class BrandsProvider extends ChangeNotifier {
   void loadBrands() {
     FirebaseService.getAllBrands().then((result) {
       _brands = result;
-      _brandStatus = Status.success;
+      _brandStatus = Status.completed;
       notifyListeners();
     });
   }

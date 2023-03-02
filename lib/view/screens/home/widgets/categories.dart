@@ -74,5 +74,3 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
-
-/// fetch matched category item from firebase

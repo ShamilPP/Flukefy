@@ -17,7 +17,7 @@ class CartProvider extends ChangeNotifier {
   void loadCart(String userId) async {
     FirebaseService.getCarts(userId).then((result) {
       _carts = result;
-      _cartsStatus = Status.success;
+      _cartsStatus = Status.completed;
       notifyListeners();
     });
   }

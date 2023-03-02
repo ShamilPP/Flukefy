@@ -43,15 +43,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
               ],
             ),
           ),
-          DrawerTile(title: 'Home', color: Colors.grey[300], onTap: () {}),
-          DrawerTile(
+          drawerCard(title: 'Home', color: Colors.grey[300], onTap: () {}),
+          drawerCard(
               title: 'Profile',
               onTap: () {
                 var user = Provider.of<UserProvider>(context, listen: false).user;
                 Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
               }),
-          DrawerTile(title: 'Settings', onTap: () {}),
-          DrawerTile(title: 'About', onTap: () {}),
+          drawerCard(title: 'Settings', onTap: () {}),
+          drawerCard(title: 'About', onTap: () {}),
           const Spacer(),
           const Text(appName, style: TextStyle(color: Colors.grey)),
           const Text('Version $version', style: TextStyle(color: Colors.grey)),
@@ -62,21 +62,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 }
 
-class DrawerTile extends StatelessWidget {
-  final String title;
-  final Color? color;
-  final void Function() onTap;
-
-  const DrawerTile({Key? key, required this.title, required this.onTap, this.color}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: ListTile(
-        title: Text(title),
-        tileColor: color,
-      ),
-    );
-  }
+Widget drawerCard({required String title, Color? color, required void Function() onTap}) {
+  return InkWell(
+    onTap: onTap,
+    child: ListTile(
+      title: Text(title),
+      tileColor: color,
+    ),
+  );
 }

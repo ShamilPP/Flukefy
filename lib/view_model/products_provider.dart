@@ -16,7 +16,7 @@ class ProductsProvider extends ChangeNotifier {
   void loadProducts() {
     FirebaseService.getAllProducts().then((result) {
       _products = result;
-      _productsStatus = Status.success;
+      _productsStatus = Status.completed;
       notifyListeners();
     });
   }

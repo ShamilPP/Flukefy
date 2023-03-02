@@ -1,3 +1,4 @@
+import 'package:flukefy/model/enums/status.dart';
 import 'package:flukefy/services/firebase_service.dart';
 import 'package:flukefy/services/local_service.dart';
 import 'package:flukefy/utils/extensions/extension.dart';
@@ -24,13 +25,13 @@ class AuthenticationProvider extends ChangeNotifier {
 
     // Login account using firebase
     Response result = await AuthenticationService.signWithEmail(email, password);
-    if (result.isSuccess) {
+    if (result.status == Status.completed) {
       // Save SharedPreferences
-      LocalService.saveUser(result.result);
+      LocalService.saveUser(result.data);
+    } else if (result.message != null) {
+      showToast(result.message!, Colors.red);
     }
-    if (result.msg != null) showToast(result.msg!, result.isSuccess ? Colors.green : Colors.red);
-
-    return result.isSuccess;
+    return result.status == Status.completed;
   }
 
   Future<bool> createAccount(String name, String phoneNumber, String email, String password, String confirmPassword) async {
@@ -65,13 +66,13 @@ class AuthenticationProvider extends ChangeNotifier {
     // and finally create account using firebase
     User user = User(name: name, phoneNumber: int.parse(phoneNumber), email: email);
     Response result = await AuthenticationService.createAccount(user, password);
-    if (result.isSuccess) {
+    if (result.status == Status.completed) {
       // Save SharedPreferences
-      LocalService.saveUser(result.result);
+      LocalService.saveUser(result.data);
+    } else if (result.message != null) {
+      showToast(result.message!, Colors.red);
     }
-    if (result.msg != null) showToast(result.msg!, result.isSuccess ? Colors.green : Colors.red);
-
-    return result.isSuccess;
+    return result.status == Status.completed;
   }
 
   void signInWithPlatforms(BuildContext context, AuthenticationType type) async {
@@ -125,13 +126,14 @@ class AuthenticationProvider extends ChangeNotifier {
 
     // Upload user to firebase
     Response result = await FirebaseService.uploadUser(user);
-    if (result.isSuccess) {
+    if (result.status == Status.completed) {
       // Save SharedPreferences
-      LocalService.saveUser(result.result);
+      LocalService.saveUser(result.data);
+    } else if (result.message != null) {
+      showToast(result.message!, Colors.red);
     }
-    if (result.msg != null) showToast(result.msg!, result.isSuccess ? Colors.green : Colors.red);
 
-    return result.isSuccess;
+    return result.status == Status.completed;
   }
 
   // Logout
