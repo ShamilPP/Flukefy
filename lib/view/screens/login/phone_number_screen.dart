@@ -2,7 +2,7 @@ import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
 import 'package:flukefy/view/widgets/buttons/black_button.dart';
 import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
-import 'package:flukefy/view_model/authentication_provider.dart';
+import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,7 @@ class PhoneNumberScreen extends StatelessWidget {
                     showDialog(context: context, builder: (ctx) => const Center(child: CircularProgressIndicator()));
                     user.phone = number;
                     bool isSuccess =
-                        await Provider.of<AuthenticationProvider>(context, listen: false).addPhoneNumberToGoogle(context, user);
+                        await Provider.of<AuthProvider>(context, listen: false).addPhoneNumberToGoogle(context, user);
                     //Dismiss loading dialog
                     Navigator.pop(context);
                     if (isSuccess) Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));

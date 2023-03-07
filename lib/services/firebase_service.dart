@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flukefy/model/response.dart';
+import 'package:flukefy/model/result.dart';
 import 'package:flukefy/model/user.dart';
 
 import '../model/brand.dart';
@@ -7,7 +7,7 @@ import '../model/cart.dart';
 import '../model/product.dart';
 
 class FirebaseService {
-  static Future<Response<List<Product>>> getAllProducts() async {
+  static Future<Result<List<Product>>> getAllProducts() async {
     try {
       List<Product> products = [];
 
@@ -26,13 +26,13 @@ class FirebaseService {
         ));
       }
 
-      return Response.completed(products);
+      return Result.success(products);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<List<Brand>>> getAllBrands() async {
+  static Future<Result<List<Brand>>> getAllBrands() async {
     try {
       List<Brand> brands = [];
       var collection = FirebaseFirestore.instance.collection('category');
@@ -40,13 +40,13 @@ class FirebaseService {
       for (var category in allDocs.docs) {
         brands.add(Brand(docId: category.id, name: category.get('name')));
       }
-      return Response.completed(brands);
+      return Result.success(brands);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<List<Cart>>> getAllCarts(String userId) async {
+  static Future<Result<List<Cart>>> getAllCarts(String userId) async {
     try {
       List<Cart> carts = [];
       var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
@@ -59,13 +59,13 @@ class FirebaseService {
           time: (cart.get('time') as Timestamp).toDate(),
         ));
       }
-      return Response.completed(carts);
+      return Result.success(carts);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<User>> getUserWithDocId(String docId) async {
+  static Future<Result<User>> getUserWithDocId(String docId) async {
     try {
       var collection = FirebaseFirestore.instance.collection('users');
       var user = await collection.doc(docId).get();
@@ -78,16 +78,16 @@ class FirebaseService {
           phone: user.get('phone'),
           email: user.get('email'),
         );
-        return Response.completed(usr);
+        return Result.success(usr);
       } else {
-        return Response.error('User not exists');
+        return Result.error('User not exists');
       }
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<User?>> getUserWithUID(String uid) async {
+  static Future<Result<User?>> getUserWithUID(String uid) async {
     try {
       var collection = FirebaseFirestore.instance.collection('users');
       var user = await collection.where('uid', isEqualTo: uid).get();
@@ -100,16 +100,16 @@ class FirebaseService {
           phone: user.docs[0].get('phone'),
           email: user.docs[0].get('email'),
         );
-        return Response.completed(usr);
+        return Result.success(usr);
       } else {
-        return Response.completed(null);
+        return Result.success(null);
       }
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<User>> uploadUser(User user) async {
+  static Future<Result<User>> uploadUser(User user) async {
     try {
       var users = FirebaseFirestore.instance.collection('users');
       var result = await users.add({
@@ -119,13 +119,13 @@ class FirebaseService {
         'email': user.email,
       });
       user.docId = result.id;
-      return Response.completed(user);
+      return Result.success(user);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<Cart>> uploadCart(Cart cart) async {
+  static Future<Result<Cart>> uploadCart(Cart cart) async {
     try {
       var carts = FirebaseFirestore.instance.collection('carts');
       var result = await carts.add({
@@ -134,19 +134,19 @@ class FirebaseService {
         'time': cart.time,
       });
       cart.docId = result.id;
-      return Response.completed(cart);
+      return Result.success(cart);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<bool>> removeCart(Cart cart) async {
+  static Future<Result<bool>> removeCart(Cart cart) async {
     try {
       var carts = FirebaseFirestore.instance.collection('carts');
       await carts.doc(cart.docId).delete();
-      return Response.completed(true);
+      return Result.success(true);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
@@ -163,19 +163,19 @@ class FirebaseService {
     return false;
   }
 
-  static Future<Response> getUpdateCode() async {
+  static Future<Result> getUpdateCode() async {
     try {
       var doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
       // check document exists ( avoiding null exceptions )
       if (doc.exists && doc.data()!.containsKey("client")) {
         // if document exists, fetch version in firebase
         int code = doc['client'];
-        return Response.completed(code);
+        return Result.success(code);
       } else {
-        return Response.error('Error detected : Update code fetching problem');
+        return Result.error('Error detected : Update code fetching problem');
       }
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
-import 'package:flukefy/view_model/authentication_provider.dart';
+import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ProductsProvider()),
         ChangeNotifierProvider(create: (_) => BrandsProvider()),
-        ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(

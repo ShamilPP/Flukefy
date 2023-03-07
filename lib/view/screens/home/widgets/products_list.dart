@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/product.dart';
-import '../../../../model/response.dart';
+import '../../../../model/result.dart';
 import '../../../../utils/colors.dart';
 import '../../../../view_model/products_provider.dart';
 import '../../../animations/fade_animation.dart';
@@ -30,7 +30,7 @@ class ProductsList extends StatelessWidget {
                 width: double.infinity,
                 child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
               );
-            } else if (status == Status.completed) {
+            } else if (status == Status.success) {
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,

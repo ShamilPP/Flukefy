@@ -1,11 +1,11 @@
-import 'package:flukefy/model/response.dart';
+import 'package:flukefy/model/result.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/screens/login/sign_up_screen.dart';
 import 'package:flukefy/view/screens/login/widgets/login_text_field.dart';
 import 'package:flukefy/view/screens/login/widgets/more_platforms.dart';
 import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
-import 'package:flukefy/view_model/authentication_provider.dart';
+import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -126,9 +126,9 @@ class LoginSection extends StatelessWidget {
               successColor: Colors.green,
               controller: buttonController,
               onPressed: () async {
-                AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
+                AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
                 var result = await provider.login(emailController.text, passwordController.text);
-                if (result.status == Status.completed) {
+                if (result.status == Status.success) {
                   buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));

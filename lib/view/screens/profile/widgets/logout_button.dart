@@ -1,5 +1,5 @@
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
-import 'package:flukefy/view_model/authentication_provider.dart';
+import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +28,7 @@ class LogoutButton extends StatelessWidget {
                 ElevatedButton(
                     onPressed: () async {
                       // remove user from shared preferences
-                      await Provider.of<AuthenticationProvider>(context, listen: false).logout().then((value) {
+                      await Provider.of<AuthProvider>(context, listen: false).logout().then((value) {
                         // then, go to login screen
                         Navigator.pushAndRemoveUntil(
                             context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);

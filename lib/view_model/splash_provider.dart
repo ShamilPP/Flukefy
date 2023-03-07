@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../model/response.dart';
+import '../model/result.dart';
 import '../model/user.dart';
 import '../services/firebase_service.dart';
 import '../view/screens/home/home_screen.dart';
 import '../view/screens/introduction/introduction_screen.dart';
-import 'authentication_provider.dart';
+import 'auth_provider.dart';
 import 'brands_provider.dart';
 import 'products_provider.dart';
 
@@ -19,21 +19,21 @@ class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     String? userId = await userProvider.getUserIdFromLocal();
-    Response serverUpdateCode = await FirebaseService.getUpdateCode();
+    Result serverUpdateCode = await FirebaseService.getUpdateCode();
 
     if (serverUpdateCode.data != updateCode) {
       // If this is not matching update code show update dialog
-      if (serverUpdateCode.status != Status.completed) showToast(serverUpdateCode.message!, Colors.red);
+      if (serverUpdateCode.status != Status.success) showToast(serverUpdateCode.message!, Colors.red);
       showUpdateDialog(context);
     } else {
-      Response<User>? userResponse;
-      if (userId != null) userResponse = await FirebaseService.getUserWithDocId(userId);
-      if (userResponse != null && userResponse.status == Status.completed && userResponse.data != null) {
-        userProvider.setUser(userResponse.data!);
-        loadFromFirebase(context, userResponse.data!.docId!);
+      Result<User>? userResult;
+      if (userId != null) userResult = await FirebaseService.getUserWithDocId(userId);
+      if (userResult != null && userResult.status == Status.success && userResult.data != null) {
+        userProvider.setUser(userResult.data!);
+        loadFromFirebase(context, userResult.data!.docId!);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else {
-        await Provider.of<AuthenticationProvider>(context, listen: false).logout();
+        await Provider.of<AuthProvider>(context, listen: false).logout();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const IntroductionScreen()));
       }
     }

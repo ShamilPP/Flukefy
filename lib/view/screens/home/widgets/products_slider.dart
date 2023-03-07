@@ -8,7 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../model/response.dart';
+import '../../../../model/result.dart';
 import '../../../../utils/colors.dart';
 import '../../product/product_screen.dart';
 
@@ -23,7 +23,7 @@ class ProductsSlider extends StatelessWidget {
       var brandsStatus = brandProvider.brandsStatus;
       var productStatus = productProvider.productsStatus;
 
-      if (brandsStatus == Status.completed && productStatus == Status.completed) {
+      if (brandsStatus == Status.success && productStatus == Status.success) {
         brandProvider.loadSelectedBrandProducts(context);
         currentSlide.value = 0;
         return Column(

@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../model/brand.dart';
-import '../model/response.dart';
+import '../model/result.dart';
 
 class BrandsProvider extends ChangeNotifier {
   Brand _selectedBrand = Brand(docId: 'All', name: 'All');
@@ -25,7 +25,7 @@ class BrandsProvider extends ChangeNotifier {
   void loadBrands() {
     FirebaseService.getAllBrands().then((result) {
       _brandsStatus = result.status;
-      if (_brandsStatus == Status.completed && result.data != null) {
+      if (_brandsStatus == Status.success && result.data != null) {
         _brands = result.data!;
       } else {
         _brands = [];

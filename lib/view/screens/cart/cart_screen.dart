@@ -1,4 +1,4 @@
-import 'package:flukefy/model/response.dart';
+import 'package:flukefy/model/result.dart';
 import 'package:flukefy/view/screens/cart/widgets/cart_card.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class CartScreen extends StatelessWidget {
           var status = provider.cartsStatus;
           if (status == Status.loading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (status == Status.completed) {
+          } else if (status == Status.success) {
             var products = Provider.of<ProductsProvider>(context, listen: false).products;
             if (provider.carts.isEmpty) return const Center(child: Text('No carts'));
             return ListView.builder(

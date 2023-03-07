@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../model/response.dart';
+import '../model/result.dart';
 import '../model/user.dart' as flukefy_user;
 
-class AuthenticationService {
+class AuthService {
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  static Future<Response<flukefy_user.User>> signInWithGoogle() async {
+  static Future<Result<flukefy_user.User>> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
       if (googleSignInAccount != null) {
@@ -21,15 +21,15 @@ class AuthenticationService {
 
         if (user != null && user.displayName != null && user.email != null) {
           var usr = flukefy_user.User(uid: user.uid, name: user.displayName!, email: user.email!);
-          return Response.completed(usr);
+          return Result.success(usr);
         } else {
-          return Response.error('Error : Null');
+          return Result.error('Error : Null');
         }
       } else {
-        return Response.error('Error : Null');
+        return Result.error('Error : Null');
       }
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
@@ -48,24 +48,24 @@ class AuthenticationService {
   //   }
   // }
 
-  static Future<Response<String>> signWithEmail(String email, String password) async {
+  static Future<Result<String>> signWithEmail(String email, String password) async {
     try {
       UserCredential credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      return Response.completed(credential.user?.uid);
+      return Result.success(credential.user?.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return Response.error('No user found for that email');
+        return Result.error('No user found for that email');
       } else if (e.code == 'wrong-password') {
-        return Response.error('Wrong password');
+        return Result.error('Wrong password');
       } else {
-        return Response.error(e.toString());
+        return Result.error(e.toString());
       }
     } catch (e) {
-      return Response.error(e.toString());
+      return Result.error(e.toString());
     }
   }
 
-  static Future<Response<flukefy_user.User>> createAccount(flukefy_user.User user, String password) async {
+  static Future<Result<flukefy_user.User>> createAccount(flukefy_user.User user, String password) async {
     try {
       UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: user.email,
@@ -73,29 +73,29 @@ class AuthenticationService {
       );
       if (credential.user != null) {
         user.uid = credential.user!.uid;
-        return Response.completed(user);
+        return Result.success(user);
       } else {
-        return Response.error('User is null');
+        return Result.error('User is null');
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        return Response.error('The password provided is too weak.');
+        return Result.error('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        return Response.error('The account already exists for that email.');
+        return Result.error('The account already exists for that email.');
       } else {
-        return Response.error(e.toString());
+        return Result.error(e.toString());
       }
     } catch (e) {
-      return Response.error(e.toString());
+      return Result.error(e.toString());
     }
   }
 
-  static Future<Response<bool>> logout() async {
+  static Future<Result<bool>> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
-      return Response.completed(true);
+      return Result.success(true);
     } catch (e) {
-      return Response.error(e.toString());
+      return Result.error(e.toString());
     }
   }
 }

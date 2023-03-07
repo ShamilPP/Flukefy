@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../model/cart.dart';
-import '../model/response.dart';
+import '../model/result.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Cart> _carts = [];
@@ -17,7 +17,7 @@ class CartProvider extends ChangeNotifier {
   void loadCart(String userId) async {
     FirebaseService.getAllCarts(userId).then((result) {
       _cartsStatus = result.status;
-      if (_cartsStatus == Status.completed && result.data != null) {
+      if (_cartsStatus == Status.success && result.data != null) {
         _carts = result.data!;
       } else {
         _carts = [];

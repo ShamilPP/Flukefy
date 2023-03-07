@@ -3,7 +3,7 @@ import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../view_model/authentication_provider.dart';
+import '../../../../view_model/auth_provider.dart';
 
 class MorePlatforms extends StatelessWidget {
   const MorePlatforms({Key? key}) : super(key: key);
@@ -90,11 +90,11 @@ class LoginPlatform extends StatelessWidget {
                 child: Tooltip(message: tooltip),
                 onTap: () {
                   if (type == AuthType.google) {
-                    Provider.of<AuthenticationProvider>(context, listen: false).signInWithGoogle(context);
+                    Provider.of<AuthProvider>(context, listen: false).signInWithGoogle(context);
                   } else if (type == AuthType.facebook) {
-                    Provider.of<AuthenticationProvider>(context, listen: false).signInWithFacebook(context);
+                    Provider.of<AuthProvider>(context, listen: false).signInWithFacebook(context);
                   } else if (type == AuthType.guest) {
-                    Provider.of<AuthenticationProvider>(context, listen: false).signInWitGuest(context);
+                    Provider.of<AuthProvider>(context, listen: false).signInWitGuest(context);
                   }
                 },
               ),
