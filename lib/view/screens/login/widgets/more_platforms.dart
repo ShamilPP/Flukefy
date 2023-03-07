@@ -3,7 +3,6 @@ import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../model/enums/Authentication_type.dart';
 import '../../../../view_model/authentication_provider.dart';
 
 class MorePlatforms extends StatelessWidget {
@@ -23,7 +22,7 @@ class MorePlatforms extends StatelessWidget {
               delay: 600,
               position: SlidePosition.left,
               child: LoginPlatform(
-                type: AuthenticationType.guest,
+                type: AuthType.guest,
                 image: 'assets/images/platforms/guest.png',
               ),
             ),
@@ -31,7 +30,7 @@ class MorePlatforms extends StatelessWidget {
               delay: 700,
               position: SlidePosition.left,
               child: LoginPlatform(
-                type: AuthenticationType.google,
+                type: AuthType.google,
                 image: 'assets/images/platforms/google.png',
               ),
             ),
@@ -39,7 +38,7 @@ class MorePlatforms extends StatelessWidget {
               delay: 800,
               position: SlidePosition.left,
               child: LoginPlatform(
-                type: AuthenticationType.facebook,
+                type: AuthType.facebook,
                 image: 'assets/images/platforms/facebook.png',
               ),
             ),
@@ -68,7 +67,7 @@ class MorePlatforms extends StatelessWidget {
 }
 
 class LoginPlatform extends StatelessWidget {
-  final AuthenticationType type;
+  final AuthType type;
   final String image;
 
   const LoginPlatform({Key? key, required this.type, required this.image}) : super(key: key);
@@ -90,7 +89,13 @@ class LoginPlatform extends StatelessWidget {
                 splashColor: primaryColor,
                 child: Tooltip(message: tooltip),
                 onTap: () {
-                  Provider.of<AuthenticationProvider>(context, listen: false).signInWithPlatforms(context, type);
+                  if (type == AuthType.google) {
+                    Provider.of<AuthenticationProvider>(context, listen: false).signInWithGoogle(context);
+                  } else if (type == AuthType.facebook) {
+                    Provider.of<AuthenticationProvider>(context, listen: false).signInWithFacebook(context);
+                  } else if (type == AuthType.guest) {
+                    Provider.of<AuthenticationProvider>(context, listen: false).signInWitGuest(context);
+                  }
                 },
               ),
             ),

@@ -3,7 +3,7 @@ import 'package:flukefy/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../model/enums/status.dart';
+import '../model/response.dart';
 
 class ProductsProvider extends ChangeNotifier {
   List<Product> _products = [];
@@ -15,8 +15,12 @@ class ProductsProvider extends ChangeNotifier {
 
   void loadProducts() {
     FirebaseService.getAllProducts().then((result) {
-      _products = result;
-      _productsStatus = Status.completed;
+      _productsStatus = result.status;
+      if (_productsStatus == Status.completed && result.data != null) {
+        _products = result.data!;
+      } else {
+        _products = [];
+      }
       notifyListeners();
     });
   }

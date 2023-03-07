@@ -1,4 +1,3 @@
-import 'package:flukefy/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 
 import '../model/user.dart';
@@ -11,11 +10,6 @@ class UserProvider extends ChangeNotifier {
 
   void setUser(User newUser) {
     _user = newUser;
-  }
-
-  Future<User?> getUserFromFirebase(String docId) async {
-    User? user = await FirebaseService.getUserWithDocId(docId);
-    return user;
   }
 
   Future<String?> getUserIdFromLocal() async {

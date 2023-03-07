@@ -14,7 +14,7 @@ class PhoneNumberScreen extends StatelessWidget {
 
   PhoneNumberScreen({Key? key, required this.user}) : super(key: key);
 
-  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PhoneNumberScreen extends StatelessWidget {
                   const SizedBox(height: 30),
                   TextField(
                     style: TextStyle(color: primaryColor, fontSize: 16),
-                    controller: phoneNumberController,
+                    controller: phoneController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: 'Phone number',
@@ -53,11 +53,11 @@ class PhoneNumberScreen extends StatelessWidget {
               child: BlackButton(
                 title: 'Verify',
                 onPressed: () async {
-                  int? number = int.tryParse(phoneNumberController.text);
-                  if (number != null && phoneNumberController.text.length == 10) {
+                  int? number = int.tryParse(phoneController.text);
+                  if (number != null && phoneController.text.length == 10) {
                     //show loading dialog
                     showDialog(context: context, builder: (ctx) => const Center(child: CircularProgressIndicator()));
-                    user.phoneNumber = number;
+                    user.phone = number;
                     bool isSuccess =
                         await Provider.of<AuthenticationProvider>(context, listen: false).addPhoneNumberToGoogle(context, user);
                     //Dismiss loading dialog

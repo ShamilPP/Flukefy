@@ -1,13 +1,4 @@
-import 'enums/status.dart';
-
-//
-// class Response {
-//   dynamic result;
-//   final bool isSuccess;
-//   final String? msg;
-//
-//   Response({this.result, required this.isSuccess, this.msg});
-// }
+enum Status { initial, loading, completed, error }
 
 class Response<T> {
   Status status;

@@ -1,3 +1,4 @@
+import 'package:flukefy/model/response.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/screens/login/sign_up_screen.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../../view_model/utils/helper.dart';
 import '../splash/splash_screen.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -125,12 +127,13 @@ class LoginSection extends StatelessWidget {
               controller: buttonController,
               onPressed: () async {
                 AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
-                bool status = await provider.login(emailController.text, passwordController.text);
-                if (status) {
+                var result = await provider.login(emailController.text, passwordController.text);
+                if (result.status == Status.completed) {
                   buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
                 } else {
+                  showToast(result.message!, Colors.red);
                   buttonController.error();
                   await Future.delayed(const Duration(seconds: 2));
                   buttonController.reset();

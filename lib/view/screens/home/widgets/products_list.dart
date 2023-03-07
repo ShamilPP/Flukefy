@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../model/enums/status.dart';
 import '../../../../model/product.dart';
+import '../../../../model/response.dart';
 import '../../../../utils/colors.dart';
 import '../../../../view_model/products_provider.dart';
 import '../../../animations/fade_animation.dart';

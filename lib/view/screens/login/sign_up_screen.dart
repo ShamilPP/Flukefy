@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../../model/response.dart';
+import '../../../view_model/utils/helper.dart';
 import '../splash/splash_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -76,7 +78,7 @@ class LoginSection extends StatelessWidget {
 
   final RoundedLoadingButtonController buttonController = RoundedLoadingButtonController();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
@@ -109,7 +111,7 @@ class LoginSection extends StatelessWidget {
                   delay: 400,
                   child: LoginTextField(
                     hint: 'Phone number',
-                    controller: phoneNumberController,
+                    controller: phoneController,
                     keyboardType: TextInputType.phone,
                   ),
                 ),
@@ -155,18 +157,19 @@ class LoginSection extends StatelessWidget {
               controller: buttonController,
               onPressed: () async {
                 AuthenticationProvider provider = Provider.of<AuthenticationProvider>(context, listen: false);
-                bool success = await provider.createAccount(
+                var result = await provider.createAccount(
                   nameController.text,
-                  phoneNumberController.text,
+                  phoneController.text,
                   emailController.text,
                   passwordController.text,
                   confirmPasswordController.text,
                 );
-                if (success) {
+                if (result.status == Status.completed) {
                   buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
                 } else {
+                  showToast(result.message!, Colors.red);
                   buttonController.error();
                   await Future.delayed(const Duration(seconds: 2));
                   buttonController.reset();

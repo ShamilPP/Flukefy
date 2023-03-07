@@ -1,4 +1,3 @@
-import 'package:flukefy/model/enums/status.dart';
 import 'package:flukefy/utils/constant.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
@@ -18,20 +17,20 @@ import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
-    User? user;
+    late Response<User> userResponse;
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     String? userId = await userProvider.getUserIdFromLocal();
     Response serverUpdateCode = await FirebaseService.getUpdateCode();
-    if (userId != null) user = await FirebaseService.getUserWithDocId(userId);
+    if (userId != null) userResponse = await FirebaseService.getUserWithDocId(userId);
 
     if (serverUpdateCode.data != updateCode) {
       // If this is not matching update code show update dialog
       if (serverUpdateCode.status != Status.completed) showToast(serverUpdateCode.message!, Colors.red);
       showUpdateDialog(context);
     } else {
-      if (user != null) {
-        userProvider.setUser(user);
-        loadFromFirebase(context, user.id!);
+      if (userResponse.status == Status.completed && userResponse.data != null) {
+        userProvider.setUser(userResponse.data!);
+        loadFromFirebase(context, userResponse.data!.docId!);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else {
         await Provider.of<AuthenticationProvider>(context, listen: false).logout();

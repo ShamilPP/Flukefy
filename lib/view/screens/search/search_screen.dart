@@ -16,14 +16,14 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<Product> products = [];
+  List<Product> allProducts = [];
   List<Product> searchedProducts = [];
   final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
-    products = Provider.of<ProductsProvider>(context, listen: false).products;
-    searchedProducts = products;
+    allProducts = Provider.of<ProductsProvider>(context, listen: false).products;
+    searchedProducts = allProducts;
     super.initState();
   }
 
@@ -65,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             child: const Icon(Icons.cancel),
                             onTap: () => setState(() {
                               controller.clear();
-                              searchedProducts = products;
+                              searchedProducts = allProducts;
                             }),
                           ),
                         )
@@ -88,15 +88,15 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void onTextChanged(String searchedName) {
-    List<Product> _products = [];
-    for (var user in products) {
-      if (user.name.toLowerCase().contains(searchedName.toLowerCase())) {
-        _products.add(user);
+  void onTextChanged(String value) {
+    List<Product> products = [];
+    for (var product in allProducts) {
+      if (product.name.toLowerCase().contains(value.toLowerCase())) {
+        products.add(product);
       }
     }
     setState(() {
-      searchedProducts = _products;
+      searchedProducts = products;
     });
   }
 

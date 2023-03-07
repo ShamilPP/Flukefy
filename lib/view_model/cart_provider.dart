@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../model/cart.dart';
-import '../model/enums/status.dart';
+import '../model/response.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Cart> _carts = [];
@@ -15,9 +15,13 @@ class CartProvider extends ChangeNotifier {
   Status get cartsStatus => _cartsStatus;
 
   void loadCart(String userId) async {
-    FirebaseService.getCarts(userId).then((result) {
-      _carts = result;
-      _cartsStatus = Status.completed;
+    FirebaseService.getAllCarts(userId).then((result) {
+      _cartsStatus = result.status;
+      if (_cartsStatus == Status.completed && result.data != null) {
+        _carts = result.data!;
+      } else {
+        _carts = [];
+      }
       notifyListeners();
     });
   }

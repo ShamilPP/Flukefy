@@ -1,8 +1,9 @@
 class User {
-  String? id;
+  String? docId;
+  String? uid;
   final String name;
   final String email;
-  int? phoneNumber;
+  int? phone;
 
-  User({this.id, required this.name, required this.email, this.phoneNumber});
+  User({this.docId, this.uid, required this.name, required this.email, this.phone});
 }

@@ -7,90 +7,155 @@ import '../model/cart.dart';
 import '../model/product.dart';
 
 class FirebaseService {
-  static Future<List<Product>> getAllProducts() async {
-    List<Product> products = [];
+  static Future<Response<List<Product>>> getAllProducts() async {
+    try {
+      List<Product> products = [];
 
-    var collection = FirebaseFirestore.instance.collection('products');
-    var allDocs = await collection.get();
-    for (var product in allDocs.docs) {
-      products.add(Product(
-        docId: product.id,
-        name: product.get('name'),
-        images: List<String>.from(product.get('images')),
-        description: product.get('description'),
-        brandId: product.get('category'),
-        rating: product.get('rating'),
-        price: product.get('price'),
-        discount: product.get('discount'),
-      ));
+      var collection = FirebaseFirestore.instance.collection('products');
+      var allDocs = await collection.get();
+      for (var product in allDocs.docs) {
+        products.add(Product(
+          docId: product.id,
+          name: product.get('name'),
+          images: List<String>.from(product.get('images')),
+          description: product.get('description'),
+          brandId: product.get('category'),
+          rating: product.get('rating'),
+          price: product.get('price'),
+          discount: product.get('discount'),
+        ));
+      }
+
+      return Response.completed(products);
+    } catch (e) {
+      return Response.error('Error detected : $e');
     }
-
-    return products;
   }
 
-  static Future<List<Brand>> getAllBrands() async {
-    List<Brand> categorys = [];
-
-    var collection = FirebaseFirestore.instance.collection('category');
-    var allDocs = await collection.get();
-    for (var category in allDocs.docs) {
-      categorys.add(Brand(
-        docId: category.id,
-        name: category.get('name'),
-      ));
+  static Future<Response<List<Brand>>> getAllBrands() async {
+    try {
+      List<Brand> brands = [];
+      var collection = FirebaseFirestore.instance.collection('category');
+      var allDocs = await collection.get();
+      for (var category in allDocs.docs) {
+        brands.add(Brand(docId: category.id, name: category.get('name')));
+      }
+      return Response.completed(brands);
+    } catch (e) {
+      return Response.error('Error detected : $e');
     }
-
-    return categorys;
   }
 
-  static Future<Response> uploadUser(User user) async {
-    var users = FirebaseFirestore.instance.collection('users');
-    // Then uploading user to firebase
-    String? docId;
-    if (user.id != null) {
-      // If logged in to Google, create a document using its UID
-      await users.doc(user.id).set({
-        'name': user.name,
-        'phoneNumber': user.phoneNumber,
-        'email': user.email,
-      });
-      docId = user.id;
-    } else {
-      var result = await users.add({
-        'name': user.name,
-        'phoneNumber': user.phoneNumber,
-        'email': user.email,
-      });
-      docId = result.id;
+  static Future<Response<List<Cart>>> getAllCarts(String userId) async {
+    try {
+      List<Cart> carts = [];
+      var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
+      var allDocs = await collection.get();
+      for (var cart in allDocs.docs) {
+        carts.add(Cart(
+          docId: cart.id,
+          userId: userId,
+          productId: cart.get('productId'),
+          time: (cart.get('time') as Timestamp).toDate(),
+        ));
+      }
+      return Response.completed(carts);
+    } catch (e) {
+      return Response.error('Error detected : $e');
     }
-    return Response.completed(docId);
   }
 
-  static Future<User?> getUserWithDocId(String docId) async {
-    var collection = FirebaseFirestore.instance.collection('users');
-    var user = await collection.doc(docId).get();
-    if (user.exists) {
-      // returning user data
-      try {
-        return User(
-          id: user.id,
+  static Future<Response<User>> getUserWithDocId(String docId) async {
+    try {
+      var collection = FirebaseFirestore.instance.collection('users');
+      var user = await collection.doc(docId).get();
+      if (user.exists) {
+        // returning user data
+        var usr = User(
+          docId: user.id,
+          uid: user.get('uid'),
           name: user.get('name'),
-          phoneNumber: user.get('phoneNumber'),
+          phone: user.get('phone'),
           email: user.get('email'),
         );
-      } catch (e) {
-        return null;
+        return Response.completed(usr);
+      } else {
+        return Response.error('User not exists');
       }
+    } catch (e) {
+      return Response.error('Error detected : $e');
     }
-    return null;
   }
 
-  static Future<bool> checkIfNumberAlreadyExists(int? phoneNumber) async {
-    if (phoneNumber != null) {
+  static Future<Response<User?>> getUserWithUID(String uid) async {
+    try {
+      var collection = FirebaseFirestore.instance.collection('users');
+      var user = await collection.where('uid', isEqualTo: uid).get();
+      if (user.size == 1) {
+        // returning user data
+        var usr = User(
+          docId: user.docs[0].id,
+          uid: user.docs[0].get('uid'),
+          name: user.docs[0].get('name'),
+          phone: user.docs[0].get('phone'),
+          email: user.docs[0].get('email'),
+        );
+        return Response.completed(usr);
+      } else {
+        return Response.completed(null);
+      }
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+  }
+
+  static Future<Response<User>> uploadUser(User user) async {
+    try {
+      var users = FirebaseFirestore.instance.collection('users');
+      var result = await users.add({
+        'uid': user.uid ?? "NO UID",
+        'name': user.name,
+        'phone': user.phone,
+        'email': user.email,
+      });
+      user.docId = result.id;
+      return Response.completed(user);
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+  }
+
+  static Future<Response<Cart>> uploadCart(Cart cart) async {
+    try {
+      var carts = FirebaseFirestore.instance.collection('carts');
+      var result = await carts.add({
+        'userId': cart.userId,
+        'productId': cart.productId,
+        'time': cart.time,
+      });
+      cart.docId = result.id;
+      return Response.completed(cart);
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+  }
+
+  static Future<Response<bool>> removeCart(Cart cart) async {
+    try {
+      var carts = FirebaseFirestore.instance.collection('carts');
+      await carts.doc(cart.docId).delete();
+      return Response.completed(true);
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+  }
+
+  static Future<bool> checkIfNumberAlreadyExists(int? phone) async {
+    if (phone != null) {
       var users = await FirebaseFirestore.instance.collection('users').get();
 
       for (var usr in users.docs) {
-        if (usr.get('phoneNumber') == phoneNumber) {
+        if (usr.get('phone') == phone) {
           return true;
         }
       }
@@ -98,56 +163,19 @@ class FirebaseService {
     return false;
   }
 
-  static Future<List<Cart>> getCarts(String userId) async {
-    List<Cart> carts = [];
-    var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
-    var allDocs = await collection.get();
-    for (var cart in allDocs.docs) {
-      carts.add(Cart(
-        cartId: cart.id,
-        userId: userId,
-        productId: cart.get('productId'),
-        time: (cart.get('time') as Timestamp).toDate(),
-      ));
-    }
-    return carts;
-  }
-
-  static Future<Response> uploadCart(Cart cart) async {
-    var carts = FirebaseFirestore.instance.collection('carts');
-    var result = await carts.add({
-      'userId': cart.userId,
-      'productId': cart.productId,
-      'time': cart.time,
-    });
-    return Response.completed(result.id);
-  }
-
-  static Future<Response> removeCart(Cart cart) async {
-    var carts = FirebaseFirestore.instance.collection('carts');
-    await carts.doc(cart.cartId).delete();
-    return Response.completed('Success');
-  }
-
   static Future<Response> getUpdateCode() async {
-    int code;
-    DocumentSnapshot<Map<String, dynamic>> doc;
     try {
-      doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
+      var doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
+      // check document exists ( avoiding null exceptions )
+      if (doc.exists && doc.data()!.containsKey("code")) {
+        // if document exists, fetch version in firebase
+        int code = doc['code'];
+        return Response.completed(code);
+      } else {
+        return Response.error('Error detected : Update code fetching problem');
+      }
     } catch (e) {
       return Response.error('Error detected : $e');
-    }
-    // check document exists ( avoiding null exceptions )
-    if (doc.exists && doc.data()!.containsKey("code")) {
-      // if document exists, fetch version in firebase
-      try {
-        code = doc['code'];
-        return Response.completed(code);
-      } catch (e) {
-        return Response.error('Error detected : $e');
-      }
-    } else {
-      return Response.error('Error detected : Update code fetching problem');
     }
   }
 }

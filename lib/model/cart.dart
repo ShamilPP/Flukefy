@@ -1,11 +1,11 @@
 class Cart {
-  final String? cartId;
+  String? docId;
   final String userId;
   final String productId;
   final DateTime time;
 
   Cart({
-    this.cartId,
+    this.docId,
     required this.userId,
     required this.productId,
     required this.time,

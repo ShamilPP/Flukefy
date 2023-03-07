@@ -65,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
 
                 // User details
                 ProfileListTile(text: user.name, subText: 'Name'),
-                ProfileListTile(text: '+91 ${user.phoneNumber}', subText: 'Phone number'),
+                ProfileListTile(text: '+91 ${user.phone}', subText: 'Phone number'),
                 ProfileListTile(text: user.email, subText: 'Email'),
               ],
             ),

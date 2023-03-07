@@ -17,7 +17,7 @@ class BlackButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
         padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
         ),
       ),
       child: Text(

@@ -6,26 +6,30 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../model/brand.dart';
-import '../model/enums/status.dart';
+import '../model/response.dart';
 
 class BrandsProvider extends ChangeNotifier {
   Brand _selectedBrand = Brand(docId: 'All', name: 'All');
   List<Brand> _brands = [];
-  Status _brandStatus = Status.loading;
+  Status _brandsStatus = Status.loading;
   List<Product> _selectedBrandProducts = [];
 
   Brand get selectedBrand => _selectedBrand;
 
   List<Brand> get brands => _brands;
 
-  Status get brandStatus => _brandStatus;
+  Status get brandsStatus => _brandsStatus;
 
   List<Product> get selectedBrandProducts => _selectedBrandProducts;
 
   void loadBrands() {
     FirebaseService.getAllBrands().then((result) {
-      _brands = result;
-      _brandStatus = Status.completed;
+      _brandsStatus = result.status;
+      if (_brandsStatus == Status.completed && result.data != null) {
+        _brands = result.data!;
+      } else {
+        _brands = [];
+      }
       notifyListeners();
     });
   }

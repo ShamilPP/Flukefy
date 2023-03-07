@@ -1,9 +1,9 @@
+import 'package:flukefy/model/response.dart';
 import 'package:flukefy/view/screens/cart/widgets/cart_card.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../model/enums/status.dart';
 import '../../../utils/colors.dart';
 import '../../../view_model/cart_provider.dart';
 import '../../widgets/general/curved_app_bar.dart';

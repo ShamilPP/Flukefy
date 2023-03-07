@@ -8,7 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../model/enums/status.dart';
+import '../../../../model/response.dart';
 import '../../../../utils/colors.dart';
 import '../../product/product_screen.dart';
 
@@ -20,10 +20,10 @@ class ProductsSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<ProductsProvider, BrandsProvider>(builder: (ctx, productProvider, brandProvider, child) {
-      var brandStatus = brandProvider.brandStatus;
+      var brandsStatus = brandProvider.brandsStatus;
       var productStatus = productProvider.productsStatus;
 
-      if (brandStatus == Status.completed && productStatus == Status.completed) {
+      if (brandsStatus == Status.completed && productStatus == Status.completed) {
         brandProvider.loadSelectedBrandProducts(context);
         currentSlide.value = 0;
         return Column(
@@ -57,7 +57,7 @@ class ProductsSlider extends StatelessWidget {
             ),
           ],
         );
-      } else if (brandStatus == Status.loading || productStatus == Status.loading) {
+      } else if (brandsStatus == Status.loading || productStatus == Status.loading) {
         return SizedBox(
           height: 150,
           width: double.infinity,
