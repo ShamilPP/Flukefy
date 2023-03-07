@@ -167,9 +167,9 @@ class FirebaseService {
     try {
       var doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
       // check document exists ( avoiding null exceptions )
-      if (doc.exists && doc.data()!.containsKey("code")) {
+      if (doc.exists && doc.data()!.containsKey("client")) {
         // if document exists, fetch version in firebase
-        int code = doc['code'];
+        int code = doc['client'];
         return Response.completed(code);
       } else {
         return Response.error('Error detected : Update code fetching problem');
