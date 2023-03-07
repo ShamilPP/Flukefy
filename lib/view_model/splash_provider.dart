@@ -17,18 +17,18 @@ import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
-    late Response<User> userResponse;
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     String? userId = await userProvider.getUserIdFromLocal();
     Response serverUpdateCode = await FirebaseService.getUpdateCode();
-    if (userId != null) userResponse = await FirebaseService.getUserWithDocId(userId);
 
     if (serverUpdateCode.data != updateCode) {
       // If this is not matching update code show update dialog
       if (serverUpdateCode.status != Status.completed) showToast(serverUpdateCode.message!, Colors.red);
       showUpdateDialog(context);
     } else {
-      if (userResponse.status == Status.completed && userResponse.data != null) {
+      Response<User>? userResponse;
+      if (userId != null) userResponse = await FirebaseService.getUserWithDocId(userId);
+      if (userResponse != null && userResponse.status == Status.completed && userResponse.data != null) {
         userProvider.setUser(userResponse.data!);
         loadFromFirebase(context, userResponse.data!.docId!);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));

@@ -21,11 +21,17 @@ class AuthenticationProvider extends ChangeNotifier {
     }
 
     // Login account using firebase
-    Response result = await AuthenticationService.signWithEmail(email, password);
-    if (result.status == Status.completed) {
-      // Save SharedPreferences
-      LocalService.saveUser(result.data);
-      return Response.completed(true);
+    var result = await AuthenticationService.signWithEmail(email, password);
+    if (result.status == Status.completed && result.data != null) {
+      // The user docID is required to save the user in the shared preferences
+      var user = await FirebaseService.getUserWithUID(result.data!);
+      if (user.status == Status.completed && user.data != null) {
+        // Save user in SharedPreferences
+        LocalService.saveUser(user.data!.docId!);
+        return Response.completed(true);
+      } else {
+        return Response.error(result.message!);
+      }
     } else {
       return Response.error(result.message!);
     }
@@ -35,7 +41,7 @@ class AuthenticationProvider extends ChangeNotifier {
     // Verify that the user entered valid values
     if (name == '') {
       return Response.error('Invalid name');
-    } else if (phone == '') {
+    } else if ((int.tryParse(phone) == null || phone.length != 10)) {
       return Response.error('Invalid phone number');
     } else if (!email.isValidEmail()) {
       return Response.error('Invalid email');
@@ -43,8 +49,6 @@ class AuthenticationProvider extends ChangeNotifier {
       return Response.error('Invalid password');
     } else if (password != confirmPassword) {
       return Response.error('Confirm password incorrect');
-    } else if (int.tryParse(phone) == null || phone.length != 10) {
-      return Response.error('Entered mobile number is invalid');
     }
 
     // Check Phone number is already exists
