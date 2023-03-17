@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "150694088229-ahlo984nb1cdg8v54tvoivel5m7n8adk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shamil.flukefy",
+            "certificate_hash": "8b31e08358ada5f95c20b45c162b16cdc8d1f778"
+          }
+        },
+        {
           "client_id": "150694088229-bj9nfelkn69im77nvnotrhn8o54hbtll.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -42,6 +50,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "150694088229-upah6kfhbom0bf273jvkeg14t4juma3k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shamil.flukefy_admin",
+            "certificate_hash": "8b31e08358ada5f95c20b45c162b16cdc8d1f778"
+          }
+        },
         {
           "client_id": "150694088229-bj9nfelkn69im77nvnotrhn8o54hbtll.apps.googleusercontent.com",
           "client_type": 3

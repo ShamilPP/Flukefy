@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flukefy/firebase_options.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
 import 'package:flukefy/view_model/auth_provider.dart';
@@ -12,7 +13,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const App());
 }
 
