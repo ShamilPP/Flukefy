@@ -5,5 +5,17 @@ class User {
   final String email;
   int? phone;
 
-  User({this.docId, this.uid, required this.name, required this.email, this.phone});
+  // Use only when uploading to Firebase
+  DateTime? createdTime;
+  DateTime? lastLogged;
+
+  User({
+    this.docId,
+    this.uid,
+    required this.name,
+    required this.email,
+    this.phone,
+    this.createdTime,
+    this.lastLogged,
+  });
 }

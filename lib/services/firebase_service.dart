@@ -117,6 +117,8 @@ class FirebaseService {
         'name': user.name,
         'phone': user.phone,
         'email': user.email,
+        'createdTime': user.createdTime!,
+        'lastLogged': user.lastLogged!,
       });
       user.docId = result.id;
       return Result.success(user);
@@ -144,6 +146,17 @@ class FirebaseService {
     try {
       var carts = FirebaseFirestore.instance.collection('carts');
       await carts.doc(cart.docId).delete();
+      return Result.success(true);
+    } catch (e) {
+      return Result.error('Error detected : $e');
+    }
+  }
+
+  static Future<Result<bool>> updateUserLastLogged(String userID) async {
+    try {
+      DateTime time = DateTime.now();
+      var users = FirebaseFirestore.instance.collection('users');
+      await users.doc(userID).update({'lastLogged': time});
       return Result.success(true);
     } catch (e) {
       return Result.error('Error detected : $e');

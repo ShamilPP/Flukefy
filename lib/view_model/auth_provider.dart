@@ -57,11 +57,13 @@ class AuthProvider extends ChangeNotifier {
       return Result.error('Phone number already exists');
     }
 
-    // and finally create account using firebase
     User user = User(name: name, phone: int.parse(phone), email: email);
     // Create account in firebase authentication
     var createAccountResult = await AuthService.createAccount(user, password);
     if (createAccountResult.status == Status.success) {
+      // Set account created time and last logged time
+      createAccountResult.data!.createdTime = DateTime.now();
+      createAccountResult.data!.lastLogged = DateTime.now();
       // Create document in firebase user collection
       var uploadUserResult = await FirebaseService.uploadUser(createAccountResult.data!);
       if (uploadUserResult.status == Status.success) {
@@ -125,7 +127,9 @@ class AuthProvider extends ChangeNotifier {
       showToast('Phone number already registered', Colors.red);
       return false;
     } else {
-      // This number not registered, Then upload to firebase
+      // Set account created time and last logged time
+      user.createdTime = DateTime.now();
+      user.lastLogged = DateTime.now();
       // Upload user to firebase
       var result = await FirebaseService.uploadUser(user);
       if (result.status == Status.success) {
