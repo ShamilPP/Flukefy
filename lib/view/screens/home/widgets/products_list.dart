@@ -83,7 +83,7 @@ class ProductsList extends StatelessWidget {
                         productDetails.images[0],
                         height: double.infinity,
                         width: double.infinity,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                           if (loadingProgress == null) return child;
                           return const SizedBox(

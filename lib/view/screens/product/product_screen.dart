@@ -23,7 +23,7 @@ class ProductScreen extends StatelessWidget {
             ImageSlider(images: product.images, imageHeroTag: imageHeroTag, imageHeight: imageHeight),
             // Appbar
             SizedBox(height: MediaQuery.of(context).viewPadding.top + 50, child: CurvedAppBar(title: product.name)),
-            // Product details
+            // Product details (Included similar products)
             Positioned.fill(
               child: Align(
                 alignment: Alignment.bottomCenter,

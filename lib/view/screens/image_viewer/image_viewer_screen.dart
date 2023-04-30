@@ -10,7 +10,7 @@ class ImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: const CurvedAppBar(
         title: 'Image',
         elevation: false,

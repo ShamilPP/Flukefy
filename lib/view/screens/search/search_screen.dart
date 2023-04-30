@@ -132,7 +132,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             product.images[0],
                             height: 50,
                             width: 50,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                               if (loadingProgress == null) return child;
                               return const SizedBox(

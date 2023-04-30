@@ -53,7 +53,7 @@ class _ImageSliderState extends State<ImageSlider> {
                   widget.images[index],
                   height: widget.imageHeight,
                   width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                     if (loadingProgress == null) return child;
                     return const SizedBox(
