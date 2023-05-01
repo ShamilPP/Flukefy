@@ -1,8 +1,10 @@
+import 'package:flukefy/model/brand.dart';
 import 'package:flukefy/model/product.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flukefy/view/screens/product/product_screen.dart';
+import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,7 +24,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    allProducts = Provider.of<ProductsProvider>(context, listen: false).products;
+    allProducts = Provider.of<ProductsProvider>(context, listen: false).products.toList();
+    allProducts.sort((a, b) {
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
     searchedProducts = allProducts;
     super.initState();
   }
@@ -91,7 +96,10 @@ class _SearchScreenState extends State<SearchScreen> {
   void onTextChanged(String value) {
     List<Product> products = [];
     for (var product in allProducts) {
-      if (product.name.toLowerCase().contains(value.toLowerCase())) {
+      var brand = getBrand(product.brandId);
+      if (product.name.toLowerCase().contains(value.toLowerCase()) ||
+          product.description.toLowerCase().contains(value.toLowerCase()) ||
+          (brand != null && brand.name.toString().contains(value.toLowerCase()))) {
         products.add(product);
       }
     }
@@ -180,5 +188,15 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
+  }
+
+  Brand? getBrand(String brandId) {
+    var allBrands = Provider.of<BrandsProvider>(context, listen: false).brands;
+    for (var brand in allBrands) {
+      if (brand.docId == brandId) {
+        return brand;
+      }
+    }
+    return null;
   }
 }

@@ -18,6 +18,8 @@ class ProductDetails extends StatelessWidget {
     return Container(
       height: boxHeight,
       width: double.infinity,
+      // Due to cart box, similar products are not found, so cart box height is given as padding
+      padding: const EdgeInsets.only(bottom: 50),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -87,7 +89,7 @@ class ProductDetails extends StatelessWidget {
                       delay: 400, child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
 
                   // Similar Products
-                  FadeAnimation(delay: 500, child: SimilarProducts(brandId: product.brandId)),
+                  FadeAnimation(delay: 500, child: SimilarProducts(product: product)),
                 ],
               ),
             ],

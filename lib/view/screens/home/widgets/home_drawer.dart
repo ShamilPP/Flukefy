@@ -14,12 +14,12 @@ class HomeDrawer extends StatefulWidget {
 class _HomeDrawerState extends State<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context, listen: false).user;
     return Drawer(
       child: Column(
         children: [
           InkWell(
             onTap: () {
-              var user = Provider.of<UserProvider>(context, listen: false).user;
               Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
             },
             child: Stack(
@@ -28,9 +28,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: Center(
                     child: Column(
                       children: [
-                        const Icon(Icons.account_circle, color: Colors.grey, size: 80),
+                        // User profile photo
+                        Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(color: Colors.blue.shade800, borderRadius: BorderRadius.circular(50)),
+                          child: Center(
+                              child: Text(
+                            user.name[0],
+                            style: const TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'roboto'),
+                          )),
+                        ),
                         const SizedBox(height: 10),
-                        Text(Provider.of<UserProvider>(context, listen: false).user.name),
+                        Text(user.name),
                       ],
                     ),
                   ),
@@ -47,7 +57,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
           drawerCard(
               title: 'Profile',
               onTap: () {
-                var user = Provider.of<UserProvider>(context, listen: false).user;
                 Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
               }),
           drawerCard(title: 'Settings', onTap: () {}),

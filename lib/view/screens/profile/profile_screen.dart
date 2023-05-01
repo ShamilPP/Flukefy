@@ -4,8 +4,6 @@ import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/user.dart';
-import '../../../utils/colors.dart';
-import '../../animations/slide_animation.dart';
 
 class ProfileScreen extends StatelessWidget {
   final User user;
@@ -25,42 +23,15 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 // User profile photo
-                Center(
-                  child: Stack(
-                    children: [
-                      const SlideAnimation(
-                        delay: 200,
-                        child: Icon(
-                          Icons.account_circle,
-                          size: 130,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: SlideAnimation(
-                          delay: 400,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 4,
-                                color: Colors.white,
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                Container(
+                  height: 90,
+                  width: 90,
+                  decoration: BoxDecoration(color: Colors.blue.shade800, borderRadius: BorderRadius.circular(50)),
+                  child: Center(
+                      child: Text(
+                    user.name[0],
+                    style: const TextStyle(color: Colors.white, fontSize: 40, fontFamily: 'roboto'),
+                  )),
                 ),
 
                 // User details

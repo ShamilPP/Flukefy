@@ -11,9 +11,9 @@ import '../../../animations/fade_animation.dart';
 import '../product_screen.dart';
 
 class SimilarProducts extends StatelessWidget {
-  final String brandId;
+  final Product product;
 
-  const SimilarProducts({Key? key, required this.brandId}) : super(key: key);
+  const SimilarProducts({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +33,13 @@ class SimilarProducts extends StatelessWidget {
             );
           } else if (status == Status.success) {
             var brandProvider = Provider.of<BrandsProvider>(context, listen: false);
-            var products = brandProvider.getBrandProducts(brandId, provider.products);
+            var products = brandProvider.getBrandProducts(product.brandId, provider.products);
+            products.remove(product);
             return GridView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: provider.products.length < 4 ? provider.products.length : 4,
+              itemCount: products.length < 4 ? products.length : 4,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
               itemBuilder: (ctx, index) {
                 return productCard(context, products[index]);
