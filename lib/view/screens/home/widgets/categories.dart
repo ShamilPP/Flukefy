@@ -67,7 +67,7 @@ class CategoryCard extends StatelessWidget {
             ),
           ),
           onTap: () async {
-            brandProvider.setBrand(context, brand);
+            brandProvider.setBrand(brand);
           },
         ),
       ),

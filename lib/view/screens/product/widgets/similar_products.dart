@@ -5,12 +5,15 @@ import 'package:provider/provider.dart';
 import '../../../../model/product.dart';
 import '../../../../model/result.dart';
 import '../../../../utils/colors.dart';
+import '../../../../view_model/brands_provider.dart';
 import '../../../../view_model/products_provider.dart';
 import '../../../animations/fade_animation.dart';
 import '../product_screen.dart';
 
 class SimilarProducts extends StatelessWidget {
-  const SimilarProducts({Key? key}) : super(key: key);
+  final String brandId;
+
+  const SimilarProducts({Key? key, required this.brandId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,8 @@ class SimilarProducts extends StatelessWidget {
               child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
             );
           } else if (status == Status.success) {
+            var brandProvider = Provider.of<BrandsProvider>(context, listen: false);
+            var products = brandProvider.getBrandProducts(brandId, provider.products);
             return GridView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
@@ -36,7 +41,6 @@ class SimilarProducts extends StatelessWidget {
               itemCount: provider.products.length < 4 ? provider.products.length : 4,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
               itemBuilder: (ctx, index) {
-                var products = provider.products.toList()..shuffle();
                 return productCard(context, products[index]);
               },
             );

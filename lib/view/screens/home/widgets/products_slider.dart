@@ -24,15 +24,15 @@ class ProductsSlider extends StatelessWidget {
       var productStatus = productProvider.productsStatus;
 
       if (brandsStatus == Status.success && productStatus == Status.success) {
-        brandProvider.loadSelectedBrandProducts(context);
         currentSlide.value = 0;
+        var selectedBrandProducts = brandProvider.getBrandProducts(brandProvider.selectedBrand.docId!, productProvider.products);
         return Column(
           children: [
             CarouselSlider.builder(
               options: CarouselOptions(aspectRatio: 15 / 7, onPageChanged: (index, reason) => currentSlide.value = index),
-              itemCount: brandProvider.selectedBrandProducts.length < 5 ? brandProvider.selectedBrandProducts.length : 5,
+              itemCount: selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
               itemBuilder: (ctx, index, value) {
-                return productCard(context, brandProvider.selectedBrandProducts[index]);
+                return productCard(context, selectedBrandProducts[index]);
               },
             ),
             ValueListenableBuilder(
@@ -41,7 +41,7 @@ class ProductsSlider extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    brandProvider.selectedBrandProducts.length < 5 ? brandProvider.selectedBrandProducts.length : 5,
+                    selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
                     (index) => Container(
                       width: 10,
                       height: 10,
