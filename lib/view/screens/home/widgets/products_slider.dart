@@ -25,7 +25,14 @@ class ProductsSlider extends StatelessWidget {
 
       if (brandsStatus == Status.success && productStatus == Status.success) {
         currentSlide.value = 0;
-        var selectedBrandProducts = brandProvider.getBrandProducts(brandProvider.selectedBrand.docId!, productProvider.products);
+        List<Product> selectedBrandProducts;
+        // If selected "New".show new products
+        if (brandProvider.selectedBrand.docId == "New") {
+          selectedBrandProducts = productProvider.products.toList();
+          selectedBrandProducts.sort((a, b) => b.createdTime.compareTo(a.createdTime));
+        } else {
+          selectedBrandProducts = brandProvider.getBrandProducts(brandProvider.selectedBrand.docId!, productProvider.products);
+        }
         return Column(
           children: [
             CarouselSlider.builder(

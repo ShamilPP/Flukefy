@@ -7,6 +7,7 @@ class Product {
   final double rating;
   final int price;
   final int discount;
+  final DateTime createdTime;
 
   Product({
     required this.docId,
@@ -17,5 +18,6 @@ class Product {
     required this.rating,
     required this.price,
     required this.discount,
+    required this.createdTime,
   });
 }

@@ -15,15 +15,15 @@ class FirebaseService {
       var allDocs = await collection.get();
       for (var product in allDocs.docs) {
         products.add(Product(
-          docId: product.id,
-          name: product.get('name'),
-          images: List<String>.from(product.get('images')),
-          description: product.get('description'),
-          brandId: product.get('category'),
-          rating: product.get('rating'),
-          price: product.get('price'),
-          discount: product.get('discount'),
-        ));
+            docId: product.id,
+            name: product.get('name'),
+            images: List<String>.from(product.get('images')),
+            description: product.get('description'),
+            brandId: product.get('category'),
+            rating: product.get('rating'),
+            price: product.get('price'),
+            discount: product.get('discount'),
+            createdTime: (product.get('createdTime') as Timestamp).toDate()));
       }
 
       return Result.success(products);

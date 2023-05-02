@@ -6,7 +6,7 @@ import '../model/brand.dart';
 import '../model/result.dart';
 
 class BrandsProvider extends ChangeNotifier {
-  Brand _selectedBrand = Brand(docId: 'All', name: 'All');
+  Brand _selectedBrand = Brand(docId: 'New', name: 'New');
   List<Brand> _brands = [];
   Status _brandsStatus = Status.loading;
 

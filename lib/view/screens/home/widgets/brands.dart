@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import '../../../../model/brand.dart';
 import '../../../../view_model/brands_provider.dart';
 
-class Categories extends StatelessWidget {
-  const Categories({Key? key}) : super(key: key);
+class Brands extends StatelessWidget {
+  const Brands({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class Categories extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              CategoryCard(brand: Brand(docId: 'All', name: 'All')),
+              BrandCard(brand: Brand(docId: 'New', name: 'New')),
               ...List.generate(
                   provider.brands.length,
                   (index) => SlideAnimation(
                         delay: 200,
                         position: SlidePosition.left,
-                        child: CategoryCard(brand: provider.brands[index]),
+                        child: BrandCard(brand: provider.brands[index]),
                       ))
             ],
           ),
@@ -34,10 +34,10 @@ class Categories extends StatelessWidget {
   }
 }
 
-class CategoryCard extends StatelessWidget {
+class BrandCard extends StatelessWidget {
   final Brand brand;
 
-  const CategoryCard({Key? key, required this.brand}) : super(key: key);
+  const BrandCard({Key? key, required this.brand}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:flukefy/utils/colors.dart';
-import 'package:flukefy/view/screens/home/widgets/categories.dart';
+import 'package:flukefy/view/screens/home/widgets/brands.dart';
 import 'package:flukefy/view/screens/home/widgets/home_appbar.dart';
 import 'package:flukefy/view/screens/home/widgets/home_drawer.dart';
 import 'package:flukefy/view/screens/home/widgets/products_list.dart';
@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               child: Text('Find your product', style: TextStyle(fontSize: 25)),
             ),
             const SizedBox(height: 20),
-            const Categories(),
+            const Brands(),
             const SizedBox(height: 10),
             ProductsSlider(),
             const ProductsList(),
