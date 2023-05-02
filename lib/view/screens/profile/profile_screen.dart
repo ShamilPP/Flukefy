@@ -1,6 +1,6 @@
 import 'package:flukefy/view/screens/profile/widgets/logout_button.dart';
 import 'package:flukefy/view/screens/profile/widgets/profile_list_tile.dart';
-import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
+import 'package:flukefy/view/widgets/general/curved_appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/user.dart';

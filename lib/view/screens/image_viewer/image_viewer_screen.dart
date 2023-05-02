@@ -1,4 +1,4 @@
-import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
+import 'package:flukefy/view/widgets/general/curved_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ImageViewer extends StatelessWidget {

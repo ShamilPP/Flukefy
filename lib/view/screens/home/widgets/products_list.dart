@@ -31,14 +31,15 @@ class ProductsList extends StatelessWidget {
                 child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
               );
             } else if (status == Status.success) {
+              var products = provider.products.toList()..shuffle();
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: provider.products.length < 10 ? provider.products.length : 10,
+                itemCount: products.length < 10 ? products.length : 10,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
                 itemBuilder: (ctx, index) {
-                  return productCard(context, provider.products[index]);
+                  return productCard(context, products[index]);
                 },
               );
             } else {

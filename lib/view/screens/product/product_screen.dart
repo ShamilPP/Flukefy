@@ -2,8 +2,9 @@ import 'package:flukefy/model/product.dart';
 import 'package:flukefy/view/screens/product/widgets/cart_box.dart';
 import 'package:flukefy/view/screens/product/widgets/image_slider.dart';
 import 'package:flukefy/view/screens/product/widgets/product_details.dart';
-import 'package:flukefy/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/general/curved_appbar.dart';
 
 class ProductScreen extends StatelessWidget {
   final Product product;
@@ -13,32 +14,18 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final imageHeight = screenHeight / 1.7;
     return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            ImageSlider(images: product.images, imageHeroTag: imageHeroTag, imageHeight: imageHeight),
-            // Appbar
-            SizedBox(height: MediaQuery.of(context).viewPadding.top + 50, child: CurvedAppBar(title: product.name)),
-            // Product details (Included similar products)
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ProductDetails(product: product, boxHeight: (screenHeight - imageHeight) + 30),
-              ),
-            ),
-            // Cart box on bottom
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CartBox(product: product),
-              ),
-            ),
-          ],
-        ),
+      appBar: CurvedAppBar(title: product.name),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          //Images
+          Expanded(flex: 3, child: ImageSlider(images: product.images, imageHeroTag: imageHeroTag)),
+          // Product details (Included similar products)
+          Expanded(flex: 2, child: ProductDetails(product: product)),
+          // Cart box on bottom
+          CartBox(product: product),
+        ],
       ),
     );
   }

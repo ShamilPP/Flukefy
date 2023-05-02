@@ -9,17 +9,12 @@ import '../../../animations/fade_animation.dart';
 
 class ProductDetails extends StatelessWidget {
   final Product product;
-  final double boxHeight;
 
-  const ProductDetails({Key? key, required this.product, required this.boxHeight}) : super(key: key);
+  const ProductDetails({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: boxHeight,
-      width: double.infinity,
-      // Due to cart box, similar products are not found, so cart box height is given as padding
-      padding: const EdgeInsets.only(bottom: 50),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -29,7 +24,7 @@ class ProductDetails extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Stack(
             children: [
               // Rating
