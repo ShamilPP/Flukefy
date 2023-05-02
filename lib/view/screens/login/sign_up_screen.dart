@@ -169,7 +169,7 @@ class LoginSection extends StatelessWidget {
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
                 } else {
-                  showToast(result.message!, Colors.red);
+                  Helper.showToast(result.message!, Colors.red);
                   buttonController.error();
                   await Future.delayed(const Duration(seconds: 2));
                   buttonController.reset();

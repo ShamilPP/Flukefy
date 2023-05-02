@@ -104,18 +104,18 @@ class AuthProvider extends ChangeNotifier {
       }
     } else {
       // Login Failed
-      showToast('Something went wrong', Colors.red);
+      Helper.showToast('Something went wrong', Colors.red);
     }
   }
 
   void signInWithFacebook(BuildContext context) async {
     // user = await AuthService.signInWithFacebook();
-    showToast('Facebook service currently unavailable', Colors.red);
+    Helper.showToast('Facebook service currently unavailable', Colors.red);
   }
 
   void signInWitGuest(BuildContext context) async {
     // user = await AuthService.signInWithFacebook();
-    showToast('Guest account unavailable', Colors.red);
+    Helper.showToast('Guest account unavailable', Colors.red);
   }
 
   // Upload to Firebase after checking the phone number
@@ -124,7 +124,7 @@ class AuthProvider extends ChangeNotifier {
     // Check Phone number is already registered
     bool numberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(user.phone);
     if (numberAlreadyExists) {
-      showToast('Phone number already registered', Colors.red);
+      Helper.showToast('Phone number already registered', Colors.red);
       return false;
     } else {
       // Set account created time and last logged time
@@ -138,7 +138,7 @@ class AuthProvider extends ChangeNotifier {
         return true;
       } else {
         // Show error
-        showToast(result.message!, Colors.red);
+        Helper.showToast(result.message!, Colors.red);
         return false;
       }
     }
