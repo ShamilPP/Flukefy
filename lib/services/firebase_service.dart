@@ -28,7 +28,7 @@ class FirebaseService {
 
       return Result.success(products);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -42,7 +42,7 @@ class FirebaseService {
       }
       return Result.success(brands);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -61,7 +61,7 @@ class FirebaseService {
       }
       return Result.success(carts);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -83,7 +83,7 @@ class FirebaseService {
         return Result.error('User not exists');
       }
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -105,7 +105,7 @@ class FirebaseService {
         return Result.success(null);
       }
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -123,7 +123,7 @@ class FirebaseService {
       user.docId = result.id;
       return Result.success(user);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -138,7 +138,7 @@ class FirebaseService {
       cart.docId = result.id;
       return Result.success(cart);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -148,7 +148,7 @@ class FirebaseService {
       await carts.doc(cart.docId).delete();
       return Result.success(true);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -159,7 +159,7 @@ class FirebaseService {
       await users.doc(userID).update({'lastLogged': time});
       return Result.success(true);
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 
@@ -185,10 +185,10 @@ class FirebaseService {
         int code = doc['client'];
         return Result.success(code);
       } else {
-        return Result.error('Error detected : Update code fetching problem');
+        return Result.error('Update code fetching problem');
       }
     } catch (e) {
-      return Result.error('Error detected : $e');
+      return Result.error('$e');
     }
   }
 }

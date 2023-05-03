@@ -2,7 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flukefy/utils/constant.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
-import 'package:flukefy/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -41,37 +40,51 @@ class SplashProvider extends ChangeNotifier {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const IntroductionScreen()));
         }
       } else {
-        // If update code is not matching, show update dialog
-        showUpdateDialog(context, 'Update is available', 'Please update to latest version');
-        // If update code fetching problem, show error in toast
-        if (serverUpdateCode.status != Status.success) Helper.showToast(serverUpdateCode.message!, Colors.red);
+        if (serverUpdateCode.status == Status.success) {
+          // If update code is not matching, show update dialog
+          showUpdateDialog(context, 'Update is available', 'Please update to latest version');
+        } else {
+          // If update code fetching problem, show error in dialog
+          showUpdateDialog(context, 'Error', 'Message : ${serverUpdateCode.message!}');
+        }
       }
     } else {
       // If not connected network
+      // Avoid sudden dialog
+      await Future.delayed(const Duration(seconds: 2));
       showUpdateDialog(context, 'Connection problem', 'Please check your internet connection');
     }
   }
-}
 
-void loadFromFirebase(BuildContext context, String userId) async {
-  Provider.of<ProductsProvider>(context, listen: false).loadProducts();
-  Provider.of<BrandsProvider>(context, listen: false).loadBrands();
-  Provider.of<CartProvider>(context, listen: false).loadCart(userId);
-}
+  void loadFromFirebase(BuildContext context, String userId) async {
+    Provider.of<ProductsProvider>(context, listen: false).loadProducts();
+    Provider.of<BrandsProvider>(context, listen: false).loadBrands();
+    Provider.of<CartProvider>(context, listen: false).loadCart(userId);
+  }
 
-void showUpdateDialog(BuildContext context, String title, String message) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (ctx) => AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [
-        ElevatedButton(
-          onPressed: () => SystemNavigator.pop(),
-          child: const Text('Close'),
-        ),
-      ],
-    ),
-  );
+  void showUpdateDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => SystemNavigator.pop(),
+            child: const Text('Close'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Close dialog
+              Navigator.pop(context);
+              // Reload functions
+              init(context);
+            },
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
 }
