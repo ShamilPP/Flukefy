@@ -73,7 +73,7 @@ class _ImageSliderState extends State<ImageSlider> {
 
           // Number of images
           Positioned.fill(
-            bottom: 30,
+            bottom: 10,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Row(

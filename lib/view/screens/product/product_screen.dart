@@ -20,9 +20,9 @@ class ProductScreen extends StatelessWidget {
       body: Column(
         children: [
           //Images
-          Expanded(flex: 3, child: ImageSlider(images: product.images, imageHeroTag: imageHeroTag)),
+          ImageSlider(images: product.images, imageHeroTag: imageHeroTag),
           // Product details (Included similar products)
-          Expanded(flex: 2, child: ProductDetails(product: product)),
+          Expanded(child: ProductDetails(product: product)),
           // Cart box on bottom
           CartBox(product: product),
         ],

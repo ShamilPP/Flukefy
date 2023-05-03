@@ -1,5 +1,7 @@
 import 'package:flukefy/utils/constant.dart';
+import 'package:flukefy/view/screens/about/about_screen.dart';
 import 'package:flukefy/view/screens/profile/profile_screen.dart';
+import 'package:flukefy/view/screens/settings/settings_screen.dart';
 import 'package:flukefy/view_model/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         children: [
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen()));
             },
             child: Stack(
               children: [
@@ -32,7 +34,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         Container(
                           height: 70,
                           width: 70,
-                          decoration: BoxDecoration(color: Colors.blue.shade800, borderRadius: BorderRadius.circular(50)),
+                          decoration: BoxDecoration(color: Colors.blue.shade900, borderRadius: BorderRadius.circular(50)),
                           child: Center(
                               child: Text(
                             user.name[0],
@@ -57,10 +59,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
           drawerCard(
               title: 'Profile',
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen()));
               }),
-          drawerCard(title: 'Settings', onTap: () {}),
-          drawerCard(title: 'About', onTap: () {}),
+          drawerCard(
+              title: 'Settings',
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+              }),
+          drawerCard(
+              title: 'About',
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
+              }),
           const Spacer(),
           const Text(appName, style: TextStyle(color: Colors.grey)),
           const Text('Version $version', style: TextStyle(color: Colors.grey)),
