@@ -170,7 +170,7 @@ class ProductsSlider extends StatelessWidget {
             ),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, imageHeroTag: heroTag)));
+                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, heroTag: heroTag)));
             },
           ),
         ),

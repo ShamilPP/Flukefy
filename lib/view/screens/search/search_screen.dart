@@ -121,7 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: product, imageHeroTag: heroTag)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: product, heroTag: heroTag)));
             },
             child: Padding(
               padding: const EdgeInsets.all(10),

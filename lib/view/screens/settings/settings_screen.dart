@@ -33,7 +33,9 @@ class SettingsScreen extends StatelessWidget {
           ListTile(
             title: const Text('Privacy'),
             leading: const Icon(Icons.privacy_tip),
-            onTap: () {},
+            onTap: () {
+              Fluttertoast.showToast(msg: 'Coming soon');
+            },
           ),
           const Divider(),
           ListTile(

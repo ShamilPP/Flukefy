@@ -8,9 +8,9 @@ import '../../widgets/general/curved_appbar.dart';
 
 class ProductScreen extends StatelessWidget {
   final Product product;
-  final String imageHeroTag;
+  final String heroTag;
 
-  const ProductScreen({Key? key, required this.product, required this.imageHeroTag}) : super(key: key);
+  const ProductScreen({Key? key, required this.product, required this.heroTag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,18 @@ class ProductScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          //Images
-          ImageSlider(images: product.images, imageHeroTag: imageHeroTag),
-          // Product details (Included similar products)
-          Expanded(child: ProductDetails(product: product)),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  //Images
+                  ImageSlider(images: product.images, heroTag: heroTag),
+                  // Product details (Included similar products)
+                  ProductDetails(product: product),
+                ],
+              ),
+            ),
+          ),
           // Cart box on bottom
           CartBox(product: product),
         ],
