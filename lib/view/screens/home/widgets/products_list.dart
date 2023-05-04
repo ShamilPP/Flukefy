@@ -14,6 +14,10 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    //For Responsive Design
+    int crossAxisCount = 2;
+    if (size.height < size.width) crossAxisCount = size.width ~/ 200;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -36,8 +40,8 @@ class ProductsList extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: products.length < 10 ? products.length : 10,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
+                itemCount: products.length < crossAxisCount * 5 ? products.length : crossAxisCount * 5,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: .7),
                 itemBuilder: (ctx, index) {
                   return productCard(context, products[index]);
                 },

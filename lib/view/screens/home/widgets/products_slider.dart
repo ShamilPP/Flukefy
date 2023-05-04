@@ -19,6 +19,9 @@ class ProductsSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    //For Responsive Design
+    bool isLandscape = size.height < size.width;
     return Consumer2<ProductsProvider, BrandsProvider>(builder: (ctx, productProvider, brandProvider, child) {
       var brandsStatus = brandProvider.brandsStatus;
       var productStatus = productProvider.productsStatus;
@@ -36,7 +39,12 @@ class ProductsSlider extends StatelessWidget {
         return Column(
           children: [
             CarouselSlider.builder(
-              options: CarouselOptions(aspectRatio: 15 / 7, onPageChanged: (index, reason) => currentSlide.value = index),
+              options: CarouselOptions(
+                //For Responsive Design
+                aspectRatio: isLandscape ? 5 : 2.1,
+                viewportFraction: isLandscape ? .5 : .8,
+                onPageChanged: (index, reason) => currentSlide.value = index,
+              ),
               itemCount: selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
               itemBuilder: (ctx, index, value) {
                 return productCard(context, selectedBrandProducts[index]);
