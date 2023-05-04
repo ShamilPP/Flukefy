@@ -5,9 +5,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ImageSlider extends StatefulWidget {
   final List<String> images;
-  final String imageHeroTag;
+  final String heroTag;
 
-  const ImageSlider({required this.images, Key? key, required this.imageHeroTag}) : super(key: key);
+  const ImageSlider({required this.images, Key? key, required this.heroTag}) : super(key: key);
 
   @override
   State<ImageSlider> createState() => _ImageSliderState();
@@ -35,7 +35,7 @@ class _ImageSliderState extends State<ImageSlider> {
             ),
             itemCount: widget.images.length,
             itemBuilder: (ctx, index, value) {
-              var heroTag = index == 0 ? widget.imageHeroTag : '$index';
+              var heroTag = index == 0 ? widget.heroTag : '$index';
               return InkWell(
                 onTap: () {
                   Navigator.push(
@@ -73,7 +73,7 @@ class _ImageSliderState extends State<ImageSlider> {
 
           // Number of images
           Positioned.fill(
-            bottom: 10,
+            bottom: 5,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Row(

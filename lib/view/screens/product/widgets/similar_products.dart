@@ -17,6 +17,11 @@ class SimilarProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    //For Responsive Design
+    int crossAxisCount = 2;
+    if (size.height < size.width) crossAxisCount = size.width ~/ 200;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +45,7 @@ class SimilarProducts extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: products.length < 4 ? products.length : 4,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: 9 / 12),
               itemBuilder: (ctx, index) {
                 return productCard(context, products[index]);
               },
@@ -123,7 +128,7 @@ class SimilarProducts extends StatelessWidget {
             ),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, imageHeroTag: heroTag)));
+                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, heroTag: heroTag)));
             },
           ),
         ),

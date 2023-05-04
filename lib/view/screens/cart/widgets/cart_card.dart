@@ -28,7 +28,7 @@ class CartCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: product, imageHeroTag: heroTag)));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: product, heroTag: heroTag)));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +48,7 @@ class CartCard extends StatelessWidget {
                               product.images[0],
                               height: 75,
                               width: 75,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                               loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                 if (loadingProgress == null) return child;
                                 return const SizedBox(

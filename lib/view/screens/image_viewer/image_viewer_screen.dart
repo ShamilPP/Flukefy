@@ -11,16 +11,25 @@ class ImageViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CurvedAppBar(
-        title: 'Image',
-        elevation: false,
-      ),
-      body: tag == null
-          ? body()
-          : Hero(
-              tag: tag!,
-              child: body(),
+      body: Stack(
+        children: [
+          // Image
+          tag == null
+              ? body()
+              : Hero(
+                  tag: tag!,
+                  child: body(),
+                ),
+          // Appbar
+          SizedBox(
+            height: MediaQuery.of(context).viewPadding.top + 50,
+            child: const CurvedAppBar(
+              title: 'Image',
+              elevation: false,
             ),
+          ),
+        ],
+      ),
     );
   }
 
