@@ -12,22 +12,22 @@ class Brands extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<BrandsProvider>(builder: (ctx, provider, child) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              BrandCard(brand: Brand(docId: 'New', name: 'New')),
-              ...List.generate(
-                  provider.brands.length,
-                  (index) => SlideAnimation(
-                        delay: 200,
-                        position: SlidePosition.left,
-                        child: BrandCard(brand: provider.brands[index]),
-                      ))
-            ],
-          ),
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: BrandCard(brand: Brand(docId: 'New', name: 'New')),
+            ),
+            ...List.generate(
+                provider.brands.length,
+                (index) => SlideAnimation(
+                      delay: 200,
+                      position: SlidePosition.left,
+                      child: BrandCard(brand: provider.brands[index]),
+                    ))
+          ],
         ),
       );
     });
