@@ -1,6 +1,6 @@
+import 'package:flukefy/view/screens/buy/buy_screen.dart';
 import 'package:flukefy/view/widgets/buttons/expand_button.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/cart.dart';
@@ -42,7 +42,7 @@ class _CartBoxState extends State<CartBox> {
             const SizedBox(width: 10),
             ExpandButton(
               animationDelay: 600,
-              onTap: () => Fluttertoast.showToast(msg: 'Currently unavailable'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BuyScreen(product: widget.product))),
               color: Colors.amber,
               child: const Text("Buy now"),
             ),

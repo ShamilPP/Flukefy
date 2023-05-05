@@ -44,7 +44,7 @@ class PhoneNumberScreen extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.black, width: 1),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

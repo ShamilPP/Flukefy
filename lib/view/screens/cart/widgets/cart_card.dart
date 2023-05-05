@@ -6,10 +6,10 @@ import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/product.dart';
+import '../../buy/buy_screen.dart';
 
 class CartCard extends StatelessWidget {
   final Product product;
@@ -161,7 +161,7 @@ class CartCard extends StatelessWidget {
                           )
                         ],
                       ),
-                      onTap: () => Fluttertoast.showToast(msg: 'Currently unavailable'),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BuyScreen(product: product))),
                     ),
                   ],
                 ),
