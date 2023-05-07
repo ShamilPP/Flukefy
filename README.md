@@ -6,6 +6,12 @@
 
 Flukefy is a powerful and user-friendly E-Commerce app designed to revolutionize your online shopping experience. With a sleek and intuitive interface, Flukefy brings together buyers and sellers, making it easy to discover and purchase a wide range of products.
 
+## Admin App
+
+For managing the Flukefy app, an admin app is available. You can access the Flukefy Admin app by visiting the following link: [Flukefy Admin GitHub](https://github.com/ShamilPP/FlukefyAdmin)
+
+The Flukefy Admin app provides control over access to product view, edit, update, and delete functionalities. It allows admins to manage user-related operations and perform necessary administrative tasks.
+
 ## Features
 
 - Browse through a vast catalog of products across various categories
