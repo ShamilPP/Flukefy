@@ -24,9 +24,9 @@ The Flukefy Admin app provides control over access to product view, edit, update
 
 ## Screenshots
 
-![Screenshot 1](/screenshots/screenshot1.png)
-![Screenshot 2](/screenshots/screenshot2.png)
-![Screenshot 3](/screenshots/screenshot3.png)
+![Screenshot 1](/screenshots/screenshot1.jpg)
+![Screenshot 2](/screenshots/screenshot2.jpg)
+![Screenshot 3](/screenshots/screenshot3.jpg)
 
 ## Installation
 
