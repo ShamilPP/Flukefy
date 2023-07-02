@@ -3,7 +3,7 @@ import 'package:flukefy/view/screens/cart/cart_screen.dart';
 import 'package:flukefy/view/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
 
-class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({
     Key? key,
   }) : super(key: key);

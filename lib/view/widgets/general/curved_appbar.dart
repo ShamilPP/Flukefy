@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/colors.dart';
 
-class CurvedAppBar extends StatelessWidget with PreferredSizeWidget {
+class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool backButton;
   final Widget? trailing;
