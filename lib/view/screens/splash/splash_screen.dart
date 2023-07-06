@@ -41,9 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
               delay: 800,
               child: Container(
                 margin: const EdgeInsets.all(10),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SpinKitFadingCube(color: Colors.white, size: 25),
                     SizedBox(width: 30),
                     Text(

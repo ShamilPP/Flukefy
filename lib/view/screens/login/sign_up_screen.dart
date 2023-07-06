@@ -46,11 +46,11 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget welcomeSection() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20),
+    return const Padding(
+      padding: EdgeInsets.only(left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           FadeAnimation(
             delay: 100,
             child: Text(

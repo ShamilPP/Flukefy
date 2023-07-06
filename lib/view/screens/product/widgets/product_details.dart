@@ -21,27 +21,27 @@ class ProductDetails extends StatelessWidget {
           BoxShadow(color: Colors.grey.shade600, spreadRadius: 5, blurRadius: 7, offset: const Offset(0, 3)),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-        child: Stack(
-          children: [
-            // Rating
-            Positioned(
-              top: 0,
-              right: 0,
-              child: FadeAnimation(
-                delay: 500,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
-                  child: Text(
-                    '${product.rating} ★',
-                    style: const TextStyle(color: Colors.white),
-                  ),
+      child: Stack(
+        children: [
+          // Rating
+          Positioned(
+            top: 10,
+            right: 10,
+            child: FadeAnimation(
+              delay: 500,
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(4)),
+                child: Text(
+                  '${product.rating} ★',
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            Column(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Brand
@@ -84,8 +84,8 @@ class ProductDetails extends StatelessWidget {
                 FadeAnimation(delay: 500, child: SimilarProducts(product: product)),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

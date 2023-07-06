@@ -15,9 +15,9 @@ class MorePlatforms extends StatelessWidget {
         // (or login with) divider
         divider(),
         const SizedBox(height: 20),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             SlideAnimation(
               delay: 600,
               position: SlidePosition.left,

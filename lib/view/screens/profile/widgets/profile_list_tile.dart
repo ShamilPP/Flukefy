@@ -21,7 +21,7 @@ class ProfileListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SlideAnimation(
-            delay: 600,
+            delay: 400,
             child: Text(
               subText,
               style: const TextStyle(fontSize: 15, color: Colors.grey),
@@ -29,7 +29,7 @@ class ProfileListTile extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           SlideAnimation(
-            delay: 800,
+            delay: 600,
             child: Text(
               text,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

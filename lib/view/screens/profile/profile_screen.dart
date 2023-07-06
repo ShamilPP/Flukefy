@@ -1,6 +1,8 @@
+import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flukefy/view/screens/profile/widgets/logout_button.dart';
 import 'package:flukefy/view/screens/profile/widgets/profile_list_tile.dart';
 import 'package:flukefy/view/widgets/general/curved_appbar.dart';
+import 'package:flukefy/view/widgets/general/fill_remaining_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,25 +16,28 @@ class ProfileScreen extends StatelessWidget {
     var user = Provider.of<UserProvider>(context, listen: false).user;
     return Scaffold(
       appBar: const CurvedAppBar(title: 'Profile'),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Column(
+      body: FillRemainingScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, bottom: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 children: [
                   // User profile photo
-                  Container(
-                    height: 90,
-                    width: 90,
-                    decoration: BoxDecoration(color: Colors.blue.shade900, borderRadius: BorderRadius.circular(50)),
-                    child: Center(
-                        child: Text(
-                      user.name[0],
-                      style: const TextStyle(color: Colors.white, fontSize: 40, fontFamily: 'roboto'),
-                    )),
+                  SlideAnimation(
+                    delay: 200,
+                    child: Container(
+                      height: 90,
+                      width: 90,
+                      decoration: BoxDecoration(color: Colors.blue.shade900, borderRadius: BorderRadius.circular(50)),
+                      child: Center(
+                          child: Text(
+                        user.name[0],
+                        style: const TextStyle(color: Colors.white, fontSize: 40, fontFamily: 'roboto'),
+                      )),
+                    ),
                   ),
 
                   // User details
@@ -41,14 +46,11 @@ class ProfileScreen extends StatelessWidget {
                   ProfileListTile(text: user.email, subText: 'Email'),
                 ],
               ),
-            ),
 
-            // Logout button
-            const Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 10),
-              child: Center(child: LogoutButton()),
-            ),
-          ],
+              // Logout button
+              const Center(child: SlideAnimation(delay: 800, child: LogoutButton())),
+            ],
+          ),
         ),
       ),
     );

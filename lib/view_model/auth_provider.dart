@@ -30,7 +30,7 @@ class AuthProvider extends ChangeNotifier {
         LocalService.saveUser(user.data!.docId!);
         return Result.success(true);
       } else {
-        return Result.error(result.message!);
+        return Result.error(user.message!);
       }
     } else {
       return Result.error(result.message!);

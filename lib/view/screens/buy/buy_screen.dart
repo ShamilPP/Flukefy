@@ -3,55 +3,42 @@ import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/buy/widgets/address_page.dart';
 import 'package:flukefy/view/screens/buy/widgets/payment_page.dart';
 import 'package:flukefy/view/widgets/general/curved_appbar.dart';
+import 'package:flukefy/view_model/buy_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BuyScreen extends StatefulWidget {
+class BuyScreen extends StatelessWidget {
   final Product product;
-  static ValueNotifier<int> pageNotifier = ValueNotifier(1);
 
   const BuyScreen({Key? key, required this.product}) : super(key: key);
-
-  @override
-  State<BuyScreen> createState() => _BuyScreenState();
-}
-
-class _BuyScreenState extends State<BuyScreen> {
-  int page = 1;
-
-  @override
-  void initState() {
-    BuyScreen.pageNotifier.addListener(() {
-      setState(() {
-        page = BuyScreen.pageNotifier.value;
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CurvedAppBar(title: page == 1 ? 'Address' : "Payment"),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buyProgress(page == 1 ? 1 : null, 'Address', Colors.black, Colors.white),
-                const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: SizedBox(width: 100, child: Divider(thickness: 1, color: Colors.black)),
-                ),
-                buyProgress(2, 'Payment', page == 2 ? Colors.black : backgroundColor, page == 2 ? Colors.white : Colors.black),
-              ],
+      appBar: const CurvedAppBar(title: "Order Screen"),
+      body: Consumer<BuyProvider>(builder: (context, provider, child) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buyProgress(provider.page == 1 ? 1 : null, 'Address', Colors.black, Colors.white),
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: SizedBox(width: 100, child: Divider(thickness: 1, color: Colors.black)),
+                  ),
+                  buyProgress(2, 'Payment', provider.page == 2 ? Colors.black : backgroundColor,
+                      provider.page == 2 ? Colors.white : Colors.black),
+                ],
+              ),
             ),
-          ),
-          page == 1 ? AddressPage() : PaymentPage(product: widget.product),
-        ],
-      ),
+            provider.page == 1 ? const AddressPage() : PaymentPage(product: product),
+          ],
+        );
+      }),
     );
   }
 

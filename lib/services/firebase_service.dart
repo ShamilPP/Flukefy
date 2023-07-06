@@ -102,7 +102,8 @@ class FirebaseService {
         );
         return Result.success(usr);
       } else {
-        return Result.success(null);
+        return Result.error(
+            'The provided user ID already exists or is not available. Please choose a different user ID to proceed.');
       }
     } catch (e) {
       return Result.error('$e');

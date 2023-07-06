@@ -9,18 +9,18 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CurvedAppBar(title: 'About $appName'),
+    return const Scaffold(
+      appBar: CurvedAppBar(title: 'About $appName'),
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircleAvatar(
                     radius: 70,
                     backgroundColor: Colors.white,
