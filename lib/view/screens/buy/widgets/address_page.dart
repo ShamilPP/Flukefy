@@ -182,6 +182,7 @@ class _AddressPageState extends State<AddressPage> {
           icon: const Icon(Icons.my_location),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7),
               side: const BorderSide(color: Colors.black, width: 1),

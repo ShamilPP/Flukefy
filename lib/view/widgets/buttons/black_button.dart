@@ -7,7 +7,7 @@ class BlackButton extends StatelessWidget {
   final void Function() onPressed;
   final double fontSize;
 
-  const BlackButton({Key? key, required this.title, required this.onPressed, this.fontSize = 16}) : super(key: key);
+  const BlackButton({super.key, required this.title, required this.onPressed, this.fontSize = 16});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,7 @@ class BlackButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),

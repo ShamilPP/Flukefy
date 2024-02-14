@@ -36,7 +36,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Flukefy',
         theme: ThemeData(
-          primarySwatch: primarySwatch,
+          colorScheme: ColorScheme.light(primary: primaryColor),
           fontFamily: 'Averta',
         ),
         home: const SplashScreen(),
