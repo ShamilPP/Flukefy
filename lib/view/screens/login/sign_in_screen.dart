@@ -129,14 +129,14 @@ class LoginSection extends StatelessWidget {
                 AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
                 var result = await provider.login(emailController.text, passwordController.text);
                 if (result.status == Status.success) {
-                  buttonController.success();
+                  // buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
                 } else {
                   Helper.showToast(result.message!, Colors.red);
-                  buttonController.error();
+                  // buttonController.error();
                   await Future.delayed(const Duration(seconds: 2));
-                  buttonController.reset();
+                  // buttonController.reset();
                 }
               },
               child: const Text(

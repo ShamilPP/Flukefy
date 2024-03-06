@@ -104,7 +104,7 @@ class AuthProvider extends ChangeNotifier {
       }
     } else {
       // Login Failed
-      Helper.showToast('Something went wrong', Colors.red);
+      Helper.showToast(userResult.message!, Colors.red);
     }
   }
 

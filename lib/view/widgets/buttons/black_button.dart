@@ -13,13 +13,19 @@ class BlackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-        ),
+      // style: ButtonStyle(
+      //   backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+      //   foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      //   padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
+      //   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+      //   ),
+      // ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
       ),
       child: Text(
         title,
