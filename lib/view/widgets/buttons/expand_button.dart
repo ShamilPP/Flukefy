@@ -6,8 +6,9 @@ class ExpandButton extends StatelessWidget {
   final void Function() onTap;
   final Color? color;
   final int animationDelay;
+  final OutlinedBorder? shape;
 
-  const ExpandButton({Key? key, required this.child, required this.onTap, this.color, this.animationDelay = 0}) : super(key: key);
+  const ExpandButton({Key? key, required this.child, required this.onTap, this.color, this.animationDelay = 0, this.shape}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class ExpandButton extends StatelessWidget {
           child: TextButton(
             onPressed: onTap,
             style: TextButton.styleFrom(
+              shape: shape,
               backgroundColor: color,
               minimumSize: Size.zero,
               padding: EdgeInsets.zero,

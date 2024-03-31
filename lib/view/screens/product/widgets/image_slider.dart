@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flukefy/view/screens/image_viewer/image_viewer_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../../../widgets/general/loading_network_image.dart';
 
 class ImageSlider extends StatefulWidget {
   final List<String> images;
@@ -50,20 +51,10 @@ class _ImageSliderState extends State<ImageSlider> {
                   padding: const EdgeInsets.all(10),
                   child: Hero(
                     tag: heroTag,
-                    child: Image.network(
+                    child: LoadingNetworkImage(
                       widget.images[index],
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.contain,
-                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const SizedBox(
-                          height: double.infinity,
-                          width: double.infinity,
-                          child: Center(
-                            child: SpinKitPulse(color: Colors.black, size: 30),
-                          ),
-                        );
-                      },
                     ),
                   ),
                 ),

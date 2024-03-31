@@ -1,4 +1,5 @@
 import 'package:flukefy/model/address.dart';
+import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/widgets/buttons/black_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -159,7 +160,7 @@ class _AddressPageState extends State<AddressPage> {
         prefixText: prefixText,
         prefixStyle: const TextStyle(color: Colors.black, fontSize: 16),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: backgroundColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
           borderSide: const BorderSide(color: Colors.black, width: 1),

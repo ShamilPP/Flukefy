@@ -58,8 +58,7 @@ class PhoneNumberScreen extends StatelessWidget {
                     //show loading dialog
                     showDialog(context: context, builder: (ctx) => const Center(child: CircularProgressIndicator()));
                     user.phone = number;
-                    bool isSuccess =
-                        await Provider.of<AuthProvider>(context, listen: false).addPhoneNumberToGoogle(context, user);
+                    bool isSuccess = await Provider.of<AuthProvider>(context, listen: false).addPhoneNumberToGoogle(context, user);
                     //Dismiss loading dialog
                     Navigator.pop(context);
                     if (isSuccess) Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));

@@ -30,8 +30,7 @@ class BuyScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: SizedBox(width: 100, child: Divider(thickness: 1, color: Colors.black)),
                   ),
-                  buyProgress(2, 'Payment', provider.page == 2 ? Colors.black : backgroundColor,
-                      provider.page == 2 ? Colors.white : Colors.black),
+                  buyProgress(2, 'Payment', provider.page == 2 ? Colors.black : backgroundColor, provider.page == 2 ? Colors.white : Colors.black),
                 ],
               ),
             ),
@@ -54,9 +53,7 @@ class BuyScreen extends StatelessWidget {
             border: Border.all(color: Colors.black),
           ),
           child: Center(
-            child: progressNum == null
-                ? Icon(Icons.check, size: 20, color: foregroundColor)
-                : Text('$progressNum', style: TextStyle(fontSize: 16, color: foregroundColor)),
+            child: progressNum == null ? Icon(Icons.check, size: 20, color: foregroundColor) : Text('$progressNum', style: TextStyle(fontSize: 16, color: foregroundColor)),
           ),
         ),
         const SizedBox(height: 5),

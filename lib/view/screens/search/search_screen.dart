@@ -7,8 +7,9 @@ import 'package:flukefy/view/screens/product/product_screen.dart';
 import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+
+import '../../widgets/general/loading_network_image.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -42,19 +43,14 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-          title: const Text('Flukefy'),
-          centerTitle: true,
-          backgroundColor: backgroundColor,
-          foregroundColor: Colors.black,
-          elevation: 0),
+      appBar: AppBar(title: const Text('Flukefy'), centerTitle: true, backgroundColor: backgroundColor, foregroundColor: Colors.black, elevation: 0),
       body: SafeArea(
         child: Column(
           children: [
             // Search TextField
             Container(
               margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.circular(10)),
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
@@ -118,6 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
         child: Material(
           borderRadius: BorderRadius.circular(10),
+          color: secondaryColor,
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: () {
@@ -136,21 +133,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         tag: heroTag,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          child: Image.network(
+                          child: LoadingNetworkImage(
                             product.images[0],
                             height: 50,
                             width: 50,
                             fit: BoxFit.contain,
-                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return const SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Center(
-                                  child: SpinKitPulse(color: Colors.black, size: 30),
-                                ),
-                              );
-                            },
                           ),
                         ),
                       ),
@@ -165,16 +152,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             FadeAnimation(
                               delay: 300,
                               animateEveryBuild: true,
-                              child: Text(product.name,
-                                  overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
+                              child: Text(product.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
                             ),
                             FadeAnimation(
                               delay: 400,
                               animateEveryBuild: true,
-                              child: Text(product.description,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                              child: Text(product.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                             ),
                           ],
                         ),

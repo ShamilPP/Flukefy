@@ -77,8 +77,7 @@ class ProductDetails extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 // Description
-                FadeAnimation(
-                    delay: 400, child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
+                FadeAnimation(delay: 400, child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
 
                 // Similar Products
                 FadeAnimation(delay: 500, child: SimilarProducts(product: product)),

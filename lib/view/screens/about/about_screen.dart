@@ -55,7 +55,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Developed by: Your Company Name',
+                    'Developed by: SHAMIL',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.black54,

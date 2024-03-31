@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flukefy/model/product.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
+import 'package:flukefy/view/widgets/general/loading_network_image.dart';
 import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
@@ -111,21 +112,11 @@ class ProductsSlider extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     child: Hero(
                       tag: heroTag,
-                      child: Image.network(
+                      child: LoadingNetworkImage(
                         productDetails.images[0],
                         height: double.infinity,
                         width: double.infinity,
                         fit: BoxFit.contain,
-                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const SizedBox(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: Center(
-                              child: SpinKitPulse(color: Colors.black, size: 30),
-                            ),
-                          );
-                        },
                       ),
                     ),
                   )),
@@ -135,13 +126,9 @@ class ProductsSlider extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(productDetails.name,
-                            overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
+                        Text(productDetails.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
                         space,
-                        Text(productDetails.description,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                        Text(productDetails.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                         space,
                         // Price
                         Row(
@@ -169,8 +156,7 @@ class ProductsSlider extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, heroTag: heroTag)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, heroTag: heroTag)));
             },
           ),
         ),

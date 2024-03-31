@@ -1,4 +1,5 @@
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
+import 'package:flukefy/view/widgets/buttons/black_button.dart';
 import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,16 +26,16 @@ class LogoutButton extends StatelessWidget {
               title: const Text('Logout'),
               content: const Text('Are you sure ?'),
               actions: [
-                ElevatedButton(
-                    onPressed: () async {
-                      // remove user from shared preferences
-                      await Provider.of<AuthProvider>(context, listen: false).logout().then((value) {
-                        // then, go to login screen
-                        Navigator.pushAndRemoveUntil(
-                            context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
-                      });
-                    },
-                    child: const Text('Logout'))
+                BlackButton(
+                  title: 'Logout',
+                  onPressed: () async {
+                    // remove user from shared preferences
+                    await Provider.of<AuthProvider>(context, listen: false).logout().then((value) {
+                      // then, go to login screen
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
+                    });
+                  },
+                ),
               ],
             ),
           );

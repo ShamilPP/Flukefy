@@ -9,8 +9,7 @@ class CurvedDialog extends StatelessWidget {
   final Widget? button;
   final bool closeButton;
 
-  const CurvedDialog({Key? key, required this.title, this.height, this.content, this.button, this.closeButton = true})
-      : super(key: key);
+  const CurvedDialog({Key? key, required this.title, this.height, this.content, this.button, this.closeButton = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

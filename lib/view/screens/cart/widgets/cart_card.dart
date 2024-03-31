@@ -5,10 +5,10 @@ import 'package:flukefy/view/widgets/buttons/expand_button.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/product.dart';
+import '../../../widgets/general/loading_network_image.dart';
 import '../../buy/buy_screen.dart';
 
 class CartCard extends StatelessWidget {
@@ -44,19 +44,11 @@ class CartCard extends StatelessWidget {
                         children: [
                           Hero(
                             tag: heroTag,
-                            child: Image.network(
+                            child: LoadingNetworkImage(
                               product.images[0],
                               height: 75,
                               width: 75,
                               fit: BoxFit.contain,
-                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const SizedBox(
-                                  height: 75,
-                                  width: 75,
-                                  child: Center(child: SpinKitPulse(color: Colors.black, size: 30)),
-                                );
-                              },
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -75,16 +67,12 @@ class CartCard extends StatelessWidget {
                           children: [
                             SlideAnimation(
                               delay: 500,
-                              child: Text(product.name,
-                                  overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
+                              child: Text(product.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
                             ),
                             space,
                             SlideAnimation(
                               delay: 400,
-                              child: Text(product.description,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                              child: Text(product.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                             ),
                             space,
 
@@ -107,8 +95,7 @@ class CartCard extends StatelessWidget {
                                 children: [
                                   Text(
                                     '₹${product.price}',
-                                    style:
-                                        const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 13),
+                                    style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 13),
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
@@ -127,46 +114,49 @@ class CartCard extends StatelessWidget {
               ),
               SlideAnimation(delay: 100, child: _deliveryDate()),
               const SizedBox(height: 10),
-              const Divider(thickness: 1, height: 0),
+              FadeAnimation(delay: 800, child: const Divider(thickness: 1, height: 0)),
               IntrinsicHeight(
-                child: Row(
-                  children: [
-                    ExpandButton(
-                        animationDelay: 800,
+                child: FadeAnimation(
+                  delay: 800,
+                  child: Row(
+                    children: [
+                      ExpandButton(
+                          shape: RoundedRectangleBorder(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.delete, color: Colors.grey.shade700),
+                              const SizedBox(width: 10),
+                              Text(
+                                'Remove',
+                                style: TextStyle(color: Colors.grey.shade700),
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            Provider.of<CartProvider>(context, listen: false).removeCart(context, product);
+                          }),
+                      const VerticalDivider(thickness: 1, width: 0),
+                      ExpandButton(
+                        shape: RoundedRectangleBorder(),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.delete, color: Colors.grey.shade700),
+                            Icon(Icons.electric_bolt, color: Colors.grey.shade700),
                             const SizedBox(width: 10),
                             Text(
-                              'Remove',
+                              'Buy this now',
                               style: TextStyle(color: Colors.grey.shade700),
                             )
                           ],
                         ),
-                        onTap: () {
-                          Provider.of<CartProvider>(context, listen: false).removeCart(context, product);
-                        }),
-                    const VerticalDivider(thickness: 1, width: 0),
-                    ExpandButton(
-                      animationDelay: 800,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.electric_bolt, color: Colors.grey.shade700),
-                          const SizedBox(width: 10),
-                          Text(
-                            'Buy this now',
-                            style: TextStyle(color: Colors.grey.shade700),
-                          )
-                        ],
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BuyScreen(product: product))),
                       ),
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BuyScreen(product: product))),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const Divider(thickness: 1, height: 0),
+              // const Divider(thickness: 1, height: 0),
             ],
           ),
         ),
@@ -204,9 +194,7 @@ class CartCard extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           children: [
-            TextSpan(
-                text:
-                    'Delivery by ${weeks[DateTime.now().weekday - 1]} ${mounts[DateTime.now().month - 1]} ${deliveryTime.day} | '),
+            TextSpan(text: 'Delivery by ${weeks[DateTime.now().weekday - 1]} ${mounts[DateTime.now().month - 1]} ${deliveryTime.day} | '),
             const TextSpan(
               text: '₹40',
               style: TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough),

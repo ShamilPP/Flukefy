@@ -8,8 +8,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? trailing;
   final bool elevation;
 
-  const CurvedAppBar({Key? key, required this.title, this.backButton = true, this.trailing, this.elevation = true})
-      : super(key: key);
+  const CurvedAppBar({Key? key, required this.title, this.backButton = true, this.trailing, this.elevation = true}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
