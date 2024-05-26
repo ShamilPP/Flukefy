@@ -18,7 +18,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       appBar: const CurvedAppBar(
         title: 'Register',
       ),
@@ -94,7 +94,7 @@ class LoginSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 20, offset: const Offset(0, 10))],
+              boxShadow: [BoxShadow(color: AppColors.primaryColor.withOpacity(.4), blurRadius: 20, offset: const Offset(0, 10))],
             ),
             child: Column(
               children: <Widget>[
@@ -152,7 +152,7 @@ class LoginSection extends StatelessWidget {
             child: RoundedLoadingButton(
               width: 130,
               height: 45,
-              color: primaryColor,
+              color: AppColors.primaryColor,
               successColor: Colors.green,
               controller: buttonController,
               onPressed: () async {

@@ -160,14 +160,14 @@ class _AddressPageState extends State<AddressPage> {
         prefixText: prefixText,
         prefixStyle: const TextStyle(color: Colors.black, fontSize: 16),
         filled: true,
-        fillColor: backgroundColor,
+        fillColor: AppColors.secondaryColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
-          borderSide: const BorderSide(color: Colors.black, width: 1),
+          borderSide: const BorderSide(color: AppColors.dividerColor, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
-          borderSide: const BorderSide(color: Colors.black, width: 2),
+          borderSide: const BorderSide(color: AppColors.dividerColor, width: 1),
         ),
       ),
     );

@@ -15,7 +15,7 @@ class BuyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       appBar: const CurvedAppBar(title: "Order Screen"),
       body: Consumer<BuyProvider>(builder: (context, provider, child) {
         return Column(
@@ -28,9 +28,9 @@ class BuyScreen extends StatelessWidget {
                   buyProgress(provider.page == 1 ? 1 : null, 'Address', Colors.black, Colors.white),
                   const Padding(
                     padding: EdgeInsets.all(10),
-                    child: SizedBox(width: 100, child: Divider(thickness: 1, color: Colors.black)),
+                    child: SizedBox(width: 100, child: Divider(thickness: 1, color: AppColors.dividerColor)),
                   ),
-                  buyProgress(2, 'Payment', provider.page == 2 ? Colors.black : backgroundColor, provider.page == 2 ? Colors.white : Colors.black),
+                  buyProgress(2, 'Payment', provider.page == 2 ? Colors.black : AppColors.backgroundColor, provider.page == 2 ? Colors.white : Colors.black),
                 ],
               ),
             ),

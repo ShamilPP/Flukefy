@@ -19,7 +19,7 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       appBar: const CurvedAppBar(
         title: 'Login',
       ),
@@ -89,7 +89,7 @@ class LoginSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 20, offset: const Offset(0, 10))],
+              boxShadow: [BoxShadow(color: AppColors.primaryColor.withOpacity(.4), blurRadius: 20, offset: const Offset(0, 10))],
             ),
             child: Column(
               children: <Widget>[
@@ -122,21 +122,21 @@ class LoginSection extends StatelessWidget {
             child: RoundedLoadingButton(
               width: 130,
               height: 45,
-              color: primaryColor,
+              color: AppColors.primaryColor,
               successColor: Colors.green,
               controller: buttonController,
               onPressed: () async {
                 AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
                 var result = await provider.login(emailController.text, passwordController.text);
                 if (result.status == Status.success) {
-                  // buttonController.success();
+                  buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
                 } else {
                   Helper.showToast(result.message!, Colors.red);
-                  // buttonController.error();
+                  buttonController.error();
                   await Future.delayed(const Duration(seconds: 2));
-                  // buttonController.reset();
+                  buttonController.reset();
                 }
               },
               child: const Text(

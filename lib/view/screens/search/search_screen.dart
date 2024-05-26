@@ -42,15 +42,15 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(title: const Text('Flukefy'), centerTitle: true, backgroundColor: backgroundColor, foregroundColor: Colors.black, elevation: 0),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(title: const Text('Flukefy'), centerTitle: true, backgroundColor: AppColors.backgroundColor, foregroundColor: Colors.black, elevation: 0),
       body: SafeArea(
         child: Column(
           children: [
             // Search TextField
             Container(
               margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: AppColors.secondaryColor, borderRadius: BorderRadius.circular(10)),
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
@@ -114,7 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
         child: Material(
           borderRadius: BorderRadius.circular(10),
-          color: secondaryColor,
+          color: AppColors.secondaryColor,
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: () {

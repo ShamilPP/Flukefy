@@ -2,8 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flukefy/utils/constant.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
+import 'package:flukefy/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../model/result.dart';
@@ -19,11 +19,12 @@ class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
     // For checking internet connection
     final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+    print(connectivityResult);
+    if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       String? userId = await userProvider.getUserIdFromLocal();
       Result serverUpdateCode = await FirebaseService.getUpdateCode();
-      if (serverUpdateCode.data == updateCode) {
+      if (serverUpdateCode.data == AppDetails.updateCode) {
         Result<User>? userResult;
         if (userId != null) userResult = await FirebaseService.getUserWithDocId(userId);
         if (userResult != null && userResult.status == Status.success && userResult.data != null) {
@@ -42,17 +43,26 @@ class SplashProvider extends ChangeNotifier {
       } else {
         if (serverUpdateCode.status == Status.success) {
           // If update code is not matching, show update dialog
-          showUpdateDialog(context, 'Update is available', 'Please update to latest version');
+          Helper.showErrorDialog(context, title: 'Update is available', message: 'Please update to latest version', onRetryPressed: () {
+            // Reload functions
+            init(context);
+          });
         } else {
           // If update code fetching problem, show error in dialog
-          showUpdateDialog(context, 'Error', 'Message : ${serverUpdateCode.message!}');
+          Helper.showErrorDialog(context, title: 'Error', message: 'Message : ${serverUpdateCode.message!}', onRetryPressed: () {
+            // Reload functions
+            init(context);
+          });
         }
       }
     } else {
       // If not connected network
       // Avoid sudden dialog
       await Future.delayed(const Duration(seconds: 2));
-      showUpdateDialog(context, 'Connection problem', 'Please check your internet connection');
+      Helper.showErrorDialog(context, title: 'Connection problem', message: 'Please check your internet connection', onRetryPressed: () {
+        // Reload functions
+        init(context);
+      });
     }
   }
 
@@ -60,31 +70,5 @@ class SplashProvider extends ChangeNotifier {
     Provider.of<ProductsProvider>(context, listen: false).loadProducts();
     Provider.of<BrandsProvider>(context, listen: false).loadBrands();
     Provider.of<CartProvider>(context, listen: false).loadCart(userId);
-  }
-
-  void showUpdateDialog(BuildContext context, String title, String message) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => SystemNavigator.pop(),
-            child: const Text('Close'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Close dialog
-              Navigator.pop(context);
-              // Reload functions
-              init(context);
-            },
-            child: const Text('Retry'),
-          ),
-        ],
-      ),
-    );
   }
 }

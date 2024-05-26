@@ -35,12 +35,14 @@ class _CartBoxState extends State<CartBox> {
         child: Row(
           children: [
             ExpandButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               animationDelay: 600,
               onTap: isAlreadyCarted ? goToCart : addToCart,
               child: Text(isAlreadyCarted ? 'Go to cart' : 'Add to cart'),
             ),
             const SizedBox(width: 10),
             ExpandButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               animationDelay: 600,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BuyScreen(product: widget.product))),
               color: Colors.amber,

@@ -74,8 +74,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
               }),
           const Spacer(),
-          const Text(appName, style: TextStyle(color: Colors.grey)),
-          const Text('Version $version', style: TextStyle(color: Colors.grey)),
+          const Text(AppDetails.appName, style: TextStyle(color: Colors.grey)),
+          const Text('Version ${AppDetails.version}', style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 10),
         ],
       ),

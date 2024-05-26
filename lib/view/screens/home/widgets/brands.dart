@@ -46,17 +46,17 @@ class BrandCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Material(
-        color: backgroundColor,
+        color: AppColors.backgroundColor,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          splashColor: primaryColor,
+          splashColor: AppColors.primaryColor,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 400),
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             decoration: BoxDecoration(
-              color: isSelected ? primaryColor : null,
-              border: Border.all(color: primaryColor),
+              color: isSelected ? AppColors.primaryColor : null,
+              border: Border.all(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(

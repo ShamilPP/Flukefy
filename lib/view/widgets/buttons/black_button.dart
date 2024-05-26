@@ -14,7 +14,7 @@ class BlackButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       // style: ButtonStyle(
-      //   backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+      //   backgroundColor: MaterialStateProperty.all<Color>(AppColors.primaryColor),
       //   foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
       //   padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
       //   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -22,7 +22,7 @@ class BlackButton extends StatelessWidget {
       //   ),
       // ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: primaryColor,
+        backgroundColor: AppColors.primaryColor,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),

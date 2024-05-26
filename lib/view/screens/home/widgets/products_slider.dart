@@ -77,7 +77,7 @@ class ProductsSlider extends StatelessWidget {
         return SizedBox(
           height: 150,
           width: double.infinity,
-          child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
+          child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
         );
       } else {
         return const SizedBox();
@@ -96,7 +96,7 @@ class ProductsSlider extends StatelessWidget {
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
+          boxShadow: [BoxShadow(color: AppColors.primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
         ),
         child: Material(
           borderRadius: BorderRadius.circular(15),

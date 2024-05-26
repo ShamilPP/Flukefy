@@ -1,3 +1,4 @@
+import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/profile/profile_screen.dart';
 import 'package:flukefy/view/widgets/general/curved_appbar.dart';
 import 'package:flutter/material.dart';
@@ -16,31 +17,31 @@ class SettingsScreen extends StatelessWidget {
         children: [
           ListTile(
             title: const Text('Account'),
-            leading: const Icon(Icons.account_circle),
+            leading: Icon(Icons.account_circle, color: Colors.grey.shade600),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen()));
             },
           ),
-          const Divider(),
+          const Divider(color: AppColors.dividerColor),
           ListTile(
             title: const Text('Notifications'),
-            leading: const Icon(Icons.notifications),
+            leading: Icon(Icons.notifications, color: Colors.grey.shade600),
             onTap: () {
               Fluttertoast.showToast(msg: 'Coming soon');
             },
           ),
-          const Divider(),
+          const Divider(color: AppColors.dividerColor),
           ListTile(
             title: const Text('Privacy'),
-            leading: const Icon(Icons.privacy_tip),
+            leading: Icon(Icons.privacy_tip, color: Colors.grey.shade600),
             onTap: () {
               Fluttertoast.showToast(msg: 'Coming soon');
             },
           ),
-          const Divider(),
+          const Divider(color: AppColors.dividerColor),
           ListTile(
             title: const Text('About'),
-            leading: const Icon(Icons.info),
+            leading: Icon(Icons.info, color: Colors.grey.shade600),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
             },

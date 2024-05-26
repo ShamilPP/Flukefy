@@ -86,7 +86,7 @@ class LoginPlatform extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
-                splashColor: primaryColor,
+                splashColor: AppColors.primaryColor,
                 child: Tooltip(message: tooltip),
                 onTap: () {
                   if (type == AuthType.google) {

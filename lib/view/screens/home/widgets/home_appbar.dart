@@ -15,7 +15,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       foregroundColor: Colors.black,
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       elevation: 0,
       actions: [
         IconButton(

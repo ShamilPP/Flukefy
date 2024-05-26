@@ -14,7 +14,7 @@ class CurvedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       alignment: Alignment.center,
       child: Padding(

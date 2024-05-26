@@ -71,13 +71,7 @@ class FirebaseService {
       var user = await collection.doc(docId).get();
       if (user.exists) {
         // returning user data
-        var usr = User(
-          docId: user.id,
-          uid: user.get('uid'),
-          name: user.get('name'),
-          phone: user.get('phone'),
-          email: user.get('email'),
-        );
+        var usr = User.fromDocument(user);
         return Result.success(usr);
       } else {
         return Result.error('User not exists');
@@ -91,15 +85,10 @@ class FirebaseService {
     try {
       var collection = FirebaseFirestore.instance.collection('users');
       var user = await collection.where('uid', isEqualTo: uid).get();
+      print(user.size.toString() + " $uid");
       if (user.size == 1) {
         // returning user data
-        var usr = User(
-          docId: user.docs[0].id,
-          uid: user.docs[0].get('uid'),
-          name: user.docs[0].get('name'),
-          phone: user.docs[0].get('phone'),
-          email: user.docs[0].get('email'),
-        );
+        var usr = User.fromDocument(user.docs[0]);
         return Result.success(usr);
       } else {
         return Result.error('The provided user ID already exists or is not available. Please choose a different user ID to proceed.');

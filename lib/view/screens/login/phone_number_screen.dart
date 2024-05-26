@@ -32,13 +32,13 @@ class PhoneNumberScreen extends StatelessWidget {
                   const Text('Verify your phone number', style: TextStyle(fontSize: 18)),
                   const SizedBox(height: 30),
                   TextField(
-                    style: TextStyle(color: primaryColor, fontSize: 16),
+                    style: TextStyle(color: AppColors.primaryColor, fontSize: 16),
                     controller: phoneController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: 'Phone number',
                       prefixText: '+91 ',
-                      prefixStyle: TextStyle(color: primaryColor, fontSize: 16),
+                      prefixStyle: TextStyle(color: AppColors.primaryColor, fontSize: 16),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderSide: BorderSide(color: Colors.black, width: 1),

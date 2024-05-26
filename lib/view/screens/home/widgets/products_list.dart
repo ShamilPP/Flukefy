@@ -33,7 +33,7 @@ class ProductsList extends StatelessWidget {
               return SizedBox(
                 height: 300,
                 width: double.infinity,
-                child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
+                child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
               );
             } else if (status == Status.success) {
               var products = provider.products.toList()..shuffle();
@@ -68,7 +68,7 @@ class ProductsList extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
+          boxShadow: [BoxShadow(color: AppColors.primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
         ),
         child: Material(
           borderRadius: BorderRadius.circular(10),
