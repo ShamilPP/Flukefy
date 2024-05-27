@@ -22,10 +22,10 @@ class AuthProvider extends ChangeNotifier {
 
     // Login account using firebase
     var result = await AuthService.signWithEmail(email, password);
-    if (result.status == Status.success && result.data != null) {
+    if (result.status == ResultStatus.success && result.data != null) {
       // The user docID is required to save the user in the shared preferences
       var user = await FirebaseService.getUserWithUID(result.data!);
-      if (user.status == Status.success && user.data != null) {
+      if (user.status == ResultStatus.success && user.data != null) {
         // Save user in SharedPreferences
         LocalService.saveUser(user.data!.docId!);
         return Result.success(true);
@@ -60,13 +60,13 @@ class AuthProvider extends ChangeNotifier {
     User user = User(name: name, phone: int.parse(phone), email: email);
     // Create account in firebase authentication
     var createAccountResult = await AuthService.createAccount(user, password);
-    if (createAccountResult.status == Status.success) {
+    if (createAccountResult.status == ResultStatus.success) {
       // Set account created time and last logged time
       createAccountResult.data!.createdTime = DateTime.now();
       createAccountResult.data!.lastLogged = DateTime.now();
       // Create document in firebase user collection
       var uploadUserResult = await FirebaseService.uploadUser(createAccountResult.data!);
-      if (uploadUserResult.status == Status.success) {
+      if (uploadUserResult.status == ResultStatus.success) {
         // Save user in SharedPreferences
         LocalService.saveUser(uploadUserResult.data!.docId!);
         return Result.success(true);
@@ -85,7 +85,7 @@ class AuthProvider extends ChangeNotifier {
     // Dismiss loading dialog
     Navigator.pop(context);
 
-    if (userResult.status == Status.success && userResult.data != null) {
+    if (userResult.status == ResultStatus.success && userResult.data != null) {
       User user = userResult.data!;
       // When logging into Google, the user provides a UID
       // If the UID exists in the users collection documents
@@ -122,17 +122,14 @@ class AuthProvider extends ChangeNotifier {
   // When using a Google account to log in, the phone number does not get. It asks the user for their phone number and upload it to Firebase
   Future<bool> addPhoneNumberToGoogle(BuildContext context, User user) async {
     // Check Phone number is already registered
-    bool numberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(user.phone);
-    if (numberAlreadyExists) {
-      Helper.showToast('Phone number already registered', Colors.red);
-      return false;
-    } else {
+    bool isNumberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(user.phone);
+    if (!isNumberAlreadyExists) {
       // Set account created time and last logged time
       user.createdTime = DateTime.now();
       user.lastLogged = DateTime.now();
       // Upload user to firebase
       var result = await FirebaseService.uploadUser(user);
-      if (result.status == Status.success) {
+      if (result.status == ResultStatus.success) {
         // Save SharedPreferences
         LocalService.saveUser(result.data!.docId!);
         return true;
@@ -141,6 +138,9 @@ class AuthProvider extends ChangeNotifier {
         Helper.showToast(result.message!, Colors.red);
         return false;
       }
+    } else {
+      Helper.showToast('Phone number already registered', Colors.red);
+      return false;
     }
   }
 

@@ -1,5 +1,7 @@
+import 'package:flukefy/utils/app_default.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/animations/slide_animation.dart';
+import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,10 +18,9 @@ class Brands extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: BrandCard(brand: Brand(docId: 'New', name: 'New')),
-            ),
+            // New Button
+            Padding(padding: const EdgeInsets.only(left: 15), child: BrandCard(brand: AppDefault.defaultNewBrand)),
+
             ...List.generate(
                 provider.brands.length,
                 (index) => SlideAnimation(
@@ -67,7 +68,9 @@ class BrandCard extends StatelessWidget {
             ),
           ),
           onTap: () async {
+            var productProvider = Provider.of<ProductsProvider>(context, listen: false);
             brandProvider.setBrand(brand);
+            productProvider.loadBrandProducts(brand);
           },
         ),
       ),

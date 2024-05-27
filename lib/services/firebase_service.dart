@@ -8,28 +8,13 @@ import '../model/product.dart';
 
 class FirebaseService {
   static Future<Result<List<Product>>> getAllProducts() async {
-    try {
-      List<Product> products = [];
-
-      var collection = FirebaseFirestore.instance.collection('products');
-      var allDocs = await collection.get();
-      for (var product in allDocs.docs) {
-        products.add(Product(
-            docId: product.id,
-            name: product.get('name'),
-            images: List<String>.from(product.get('images')),
-            description: product.get('description'),
-            brandId: product.get('category'),
-            rating: product.get('rating'),
-            price: product.get('price'),
-            discount: product.get('discount'),
-            createdTime: (product.get('createdTime') as Timestamp).toDate()));
-      }
-
-      return Result.success(products);
-    } catch (e) {
-      return Result.error('$e');
+    List<Product> products = [];
+    var collection = FirebaseFirestore.instance.collection('products');
+    var allDocs = await collection.get();
+    for (var product in allDocs.docs) {
+      products.add(Product.fromDocument(product));
     }
+    return Result.success(products);
   }
 
   static Future<Result<List<Brand>>> getAllBrands() async {
@@ -38,7 +23,7 @@ class FirebaseService {
       var collection = FirebaseFirestore.instance.collection('category');
       var allDocs = await collection.get();
       for (var category in allDocs.docs) {
-        brands.add(Brand(docId: category.id, name: category.get('name')));
+        brands.add(Brand.fromDocument(category));
       }
       return Result.success(brands);
     } catch (e) {
@@ -52,12 +37,7 @@ class FirebaseService {
       var collection = FirebaseFirestore.instance.collection("carts").where("userId", isEqualTo: userId);
       var allDocs = await collection.get();
       for (var cart in allDocs.docs) {
-        carts.add(Cart(
-          docId: cart.id,
-          userId: userId,
-          productId: cart.get('productId'),
-          time: (cart.get('time') as Timestamp).toDate(),
-        ));
+        carts.add(Cart.fromDocument(cart));
       }
       return Result.success(carts);
     } catch (e) {
@@ -85,7 +65,6 @@ class FirebaseService {
     try {
       var collection = FirebaseFirestore.instance.collection('users');
       var user = await collection.where('uid', isEqualTo: uid).get();
-      print(user.size.toString() + " $uid");
       if (user.size == 1) {
         // returning user data
         var usr = User.fromDocument(user.docs[0]);
@@ -101,14 +80,7 @@ class FirebaseService {
   static Future<Result<User>> uploadUser(User user) async {
     try {
       var users = FirebaseFirestore.instance.collection('users');
-      var result = await users.add({
-        'uid': user.uid ?? "NO UID",
-        'name': user.name,
-        'phone': user.phone,
-        'email': user.email,
-        'createdTime': user.createdTime!,
-        'lastLogged': user.lastLogged!,
-      });
+      var result = await users.add(User.toMap(user));
       user.docId = result.id;
       return Result.success(user);
     } catch (e) {
@@ -119,11 +91,7 @@ class FirebaseService {
   static Future<Result<Cart>> uploadCart(Cart cart) async {
     try {
       var carts = FirebaseFirestore.instance.collection('carts');
-      var result = await carts.add({
-        'userId': cart.userId,
-        'productId': cart.productId,
-        'time': cart.time,
-      });
+      var result = await carts.add(Cart.toMap(cart));
       cart.docId = result.id;
       return Result.success(cart);
     } catch (e) {
@@ -165,19 +133,15 @@ class FirebaseService {
     return false;
   }
 
-  static Future<Result> getUpdateCode() async {
-    try {
-      var doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
-      // check document exists ( avoiding null exceptions )
-      if (doc.exists && doc.data()!.containsKey("client")) {
-        // if document exists, fetch version in firebase
-        int code = doc['client'];
-        return Result.success(code);
-      } else {
-        return Result.error('Update code fetching problem');
-      }
-    } catch (e) {
-      return Result.error('$e');
+  static Future<Result<int>> getUpdateCode() async {
+    var doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
+    // check document exists ( avoiding null exceptions )
+    if (doc.exists && doc.data()!.containsKey("client")) {
+      // if document exists, fetch version in firebase
+      int code = doc['client'];
+      return Result.success(code);
+    } else {
+      return Result.error('Update code fetching problem');
     }
   }
 }

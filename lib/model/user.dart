@@ -6,8 +6,6 @@ class User {
   final String name;
   final String email;
   int? phone;
-
-  // Use only when uploading to Firebase and admin panel
   DateTime? createdTime;
   DateTime? lastLogged;
 
@@ -31,7 +29,7 @@ class User {
     );
   }
 
-  Map<String, dynamic> toMap(User user) {
+  static Map<String, dynamic> toMap(User user) {
     return {
       'uid': user.uid ?? "NO UID",
       'name': user.name,

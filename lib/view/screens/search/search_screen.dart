@@ -1,5 +1,6 @@
 import 'package:flukefy/model/brand.dart';
 import 'package:flukefy/model/product.dart';
+import 'package:flukefy/model/result.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/animations/slide_animation.dart';
@@ -25,11 +26,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    allProducts = Provider.of<ProductsProvider>(context, listen: false).products.toList();
-    allProducts.sort((a, b) {
-      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-    });
-    searchedProducts = allProducts;
+    var provider = Provider.of<ProductsProvider>(context, listen: false);
+    if (provider.products.status == ResultStatus.success) {
+      allProducts = provider.products.data!.toList();
+      allProducts.sort((a, b) {
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
+      searchedProducts = allProducts;
+    }
     super.initState();
   }
 

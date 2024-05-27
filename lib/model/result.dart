@@ -1,20 +1,34 @@
-enum Status { initial, loading, success, error }
+enum ResultStatus { idle, loading, success, failed }
 
 class Result<T> {
-  Status status;
+  ResultStatus status;
   T? data;
   String? message;
 
-  Result.initial(this.message) : status = Status.initial;
+  Result() : status = ResultStatus.idle;
 
-  Result.loading(this.message) : status = Status.loading;
+  Result.initial() : status = ResultStatus.idle;
 
-  Result.success(this.data) : status = Status.success;
+  Result.loading() : status = ResultStatus.loading;
 
-  Result.error(this.message) : status = Status.error;
+  Result.success(this.data) : status = ResultStatus.success;
+
+  Result.error(this.message) : status = ResultStatus.failed;
+
+  void setStatus(ResultStatus _status) {
+    status = _status;
+  }
+
+  void resetStatus() {
+    status = ResultStatus.idle;
+  }
+
+  void setMessage(String msg) {
+    message = msg;
+  }
 
   @override
   String toString() {
-    return "Status : $status \n Message : $message \n Data : $data";
+    return "ResultStatus : $status \n Message : $message \n Data : $data";
   }
 }

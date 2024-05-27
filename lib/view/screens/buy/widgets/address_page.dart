@@ -119,7 +119,7 @@ class _AddressPageState extends State<AddressPage> {
                 title: 'Next',
                 onPressed: () async {
                   var isValid = _isAddressValid();
-                  if (isValid.status == Status.success) {
+                  if (isValid.status == ResultStatus.success) {
                     // If entered all Information
                     // Show dialog (For animation)
                     showDialog(

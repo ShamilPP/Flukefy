@@ -1,3 +1,4 @@
+import 'package:flukefy/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +18,7 @@ class Helper {
     );
   }
 
-  static void showErrorDialog(BuildContext context, {required String title, required String message, required VoidCallback? onRetryPressed}) {
+  static void showErrorDialog(BuildContext context, {required String title, required String message, VoidCallback? onRetryPressed}) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -37,13 +38,23 @@ class Helper {
             onPressed: () {
               // Close dialog
               Navigator.pop(context);
-              onRetryPressed!();
+              if (onRetryPressed != null) onRetryPressed();
             },
             child: const Text('Retry'),
           ),
         ],
       ),
     );
+  }
+
+  static List<Product> getBrandProducts(String brandId, List<Product> allProducts) {
+    List<Product> brandProducts = [];
+    for (var product in allProducts) {
+      if (product.brandId == brandId) {
+        brandProducts.add(product);
+      }
+    }
+    return brandProducts;
   }
 }
 

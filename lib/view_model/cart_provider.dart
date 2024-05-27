@@ -8,16 +8,16 @@ import '../model/result.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Cart> _carts = [];
-  Status _cartsStatus = Status.loading;
+  ResultStatus _cartsStatus = ResultStatus.loading;
 
   List<Cart> get carts => _carts;
 
-  Status get cartsStatus => _cartsStatus;
+  ResultStatus get cartsStatus => _cartsStatus;
 
   void loadCart(String userId) async {
     FirebaseService.getAllCarts(userId).then((result) {
       _cartsStatus = result.status;
-      if (_cartsStatus == Status.success && result.data != null) {
+      if (_cartsStatus == ResultStatus.success && result.data != null) {
         _carts = result.data!;
       } else {
         _carts = [];

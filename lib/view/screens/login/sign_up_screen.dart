@@ -164,7 +164,7 @@ class LoginSection extends StatelessWidget {
                   passwordController.text,
                   confirmPasswordController.text,
                 );
-                if (result.status == Status.success) {
+                if (result.status == ResultStatus.success) {
                   buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const SplashScreen()));

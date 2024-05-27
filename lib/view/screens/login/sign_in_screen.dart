@@ -128,7 +128,7 @@ class LoginSection extends StatelessWidget {
               onPressed: () async {
                 AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
                 var result = await provider.login(emailController.text, passwordController.text);
-                if (result.status == Status.success) {
+                if (result.status == ResultStatus.success) {
                   buttonController.success();
                   await Future.delayed(const Duration(milliseconds: 500));
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));

@@ -5,22 +5,35 @@ import 'package:provider/provider.dart';
 import '../../../../model/product.dart';
 import '../../../../model/result.dart';
 import '../../../../utils/colors.dart';
-import '../../../../view_model/brands_provider.dart';
 import '../../../../view_model/products_provider.dart';
 import '../../../animations/fade_animation.dart';
 import '../../../widgets/general/loading_network_image.dart';
 import '../product_screen.dart';
 
-class SimilarProducts extends StatelessWidget {
+class SimilarProducts extends StatefulWidget {
   final Product product;
 
   const SimilarProducts({Key? key, required this.product}) : super(key: key);
 
   @override
+  State<SimilarProducts> createState() => _SimilarProductsState();
+}
+
+class _SimilarProductsState extends State<SimilarProducts> {
+  int crossAxisCount = 2;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductsProvider>(context, listen: false).loadSimilarProducts(widget.product);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     //For Responsive Design
-    int crossAxisCount = 2;
+    var size = MediaQuery.of(context).size;
     if (size.height < size.width) crossAxisCount = size.width ~/ 200;
 
     return Column(
@@ -30,29 +43,29 @@ class SimilarProducts extends StatelessWidget {
         const Text('Similar Products', style: TextStyle(fontSize: 19)),
         const SizedBox(height: 10),
         Consumer<ProductsProvider>(builder: (ctx, provider, child) {
-          var status = provider.productsStatus;
-          if (status == Status.loading) {
-            return SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
-            );
-          } else if (status == Status.success) {
-            var brandProvider = Provider.of<BrandsProvider>(context, listen: false);
-            var products = brandProvider.getBrandProducts(product.brandId, provider.products);
-            products.remove(product);
-            return GridView.builder(
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: products.length < 4 ? products.length : 4,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: 9 / 12),
-              itemBuilder: (ctx, index) {
-                return productCard(context, products[index]);
-              },
-            );
-          } else {
-            return const SizedBox();
+          switch (provider.similarProducts.status) {
+            case ResultStatus.success:
+              var products = provider.similarProducts.data!;
+              return GridView.builder(
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: products.length < 4 ? products.length : 4,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: 9 / 12),
+                itemBuilder: (ctx, index) {
+                  return productCard(context, products[index]);
+                },
+              );
+            case ResultStatus.loading:
+              return SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
+              );
+            case ResultStatus.failed:
+              return Center(child: Text('Error : ${provider.products.message}'));
+            case ResultStatus.idle:
+              return const SizedBox();
           }
         }),
       ],

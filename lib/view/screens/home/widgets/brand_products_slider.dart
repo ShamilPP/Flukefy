@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flukefy/model/product.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/widgets/general/loading_network_image.dart';
-import 'package:flukefy/view_model/brands_provider.dart';
 import 'package:flukefy/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -13,8 +12,8 @@ import '../../../../model/result.dart';
 import '../../../../utils/colors.dart';
 import '../../product/product_screen.dart';
 
-class ProductsSlider extends StatelessWidget {
-  ProductsSlider({Key? key}) : super(key: key);
+class BrandProductsSlider extends StatelessWidget {
+  BrandProductsSlider({Key? key}) : super(key: key);
 
   final ValueNotifier<int> currentSlide = ValueNotifier(0);
 
@@ -23,64 +22,57 @@ class ProductsSlider extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     //For Responsive Design
     bool isLandscape = size.height < size.width;
-    return Consumer2<ProductsProvider, BrandsProvider>(builder: (ctx, productProvider, brandProvider, child) {
-      var brandsStatus = brandProvider.brandsStatus;
-      var productStatus = productProvider.productsStatus;
-
-      if (brandsStatus == Status.success && productStatus == Status.success) {
-        currentSlide.value = 0;
-        List<Product> selectedBrandProducts;
-        // If selected "New".show new products
-        if (brandProvider.selectedBrand.docId == "New") {
-          selectedBrandProducts = productProvider.products.toList();
-          selectedBrandProducts.sort((a, b) => b.createdTime.compareTo(a.createdTime));
-        } else {
-          selectedBrandProducts = brandProvider.getBrandProducts(brandProvider.selectedBrand.docId!, productProvider.products);
-        }
-        return Column(
-          children: [
-            CarouselSlider.builder(
-              options: CarouselOptions(
-                //For Responsive Design
-                aspectRatio: isLandscape ? 5 : 2.1,
-                viewportFraction: isLandscape ? .5 : .8,
-                onPageChanged: (index, reason) => currentSlide.value = index,
+    return Consumer<ProductsProvider>(builder: (ctx, provider, child) {
+      switch (provider.brandProducts.status) {
+        case ResultStatus.success:
+          currentSlide.value = 0;
+          List<Product> selectedBrandProducts = provider.brandProducts.data!;
+          return Column(
+            children: [
+              CarouselSlider.builder(
+                options: CarouselOptions(
+                  //For Responsive Design
+                  aspectRatio: isLandscape ? 5 : 2.1,
+                  viewportFraction: isLandscape ? .5 : .8,
+                  onPageChanged: (index, reason) => currentSlide.value = index,
+                ),
+                itemCount: selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
+                itemBuilder: (ctx, index, value) {
+                  return productCard(context, selectedBrandProducts[index]);
+                },
               ),
-              itemCount: selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
-              itemBuilder: (ctx, index, value) {
-                return productCard(context, selectedBrandProducts[index]);
-              },
-            ),
-            ValueListenableBuilder(
-              valueListenable: currentSlide,
-              builder: (context, value, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
-                    (index) => Container(
-                      width: 10,
-                      height: 10,
-                      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black.withOpacity(value == index ? 0.9 : 0.4),
+              ValueListenableBuilder(
+                valueListenable: currentSlide,
+                builder: (context, value, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      selectedBrandProducts.length < 5 ? selectedBrandProducts.length : 5,
+                      (index) => Container(
+                        width: 10,
+                        height: 10,
+                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black.withOpacity(value == index ? 0.9 : 0.4),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      } else if (brandsStatus == Status.loading || productStatus == Status.loading) {
-        return SizedBox(
-          height: 150,
-          width: double.infinity,
-          child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
-        );
-      } else {
-        return const SizedBox();
+                  );
+                },
+              ),
+            ],
+          );
+        case ResultStatus.loading:
+          return SizedBox(
+            height: 300,
+            width: double.infinity,
+            child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
+          );
+        case ResultStatus.failed:
+          return Center(child: Text('Error : ${provider.brandProducts.message}'));
+        case ResultStatus.idle:
+          return const SizedBox();
       }
     });
   }

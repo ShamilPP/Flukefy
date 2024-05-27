@@ -21,16 +21,16 @@ class CartScreen extends StatelessWidget {
       body: Center(
         child: Consumer<CartProvider>(builder: (ctx, provider, child) {
           var status = provider.cartsStatus;
-          if (status == Status.loading) {
+          if (status == ResultStatus.loading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (status == Status.success) {
+          } else if (status == ResultStatus.success) {
             var products = Provider.of<ProductsProvider>(context, listen: false).products;
             if (provider.carts.isEmpty) return const Center(child: Text('No carts'));
             return ListView.builder(
               itemCount: provider.carts.length,
               itemBuilder: (ctx, index) {
                 var cart = provider.carts[index];
-                var product = products[products.indexWhere((element) => element.docId == cart.productId)];
+                var product = products.data![products.data!.indexWhere((element) => element.docId == cart.productId)];
                 return CartCard(product: product);
               },
             );

@@ -28,27 +28,28 @@ class ProductsList extends StatelessWidget {
           const Text('Most popular', style: TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
           Consumer<ProductsProvider>(builder: (ctx, provider, child) {
-            var status = provider.productsStatus;
-            if (status == Status.loading) {
-              return SizedBox(
-                height: 300,
-                width: double.infinity,
-                child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
-              );
-            } else if (status == Status.success) {
-              var products = provider.products.toList()..shuffle();
-              return GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: products.length < crossAxisCount * 5 ? products.length : crossAxisCount * 5,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: .7),
-                itemBuilder: (ctx, index) {
-                  return productCard(context, products[index]);
-                },
-              );
-            } else {
-              return const SizedBox();
+            switch (provider.products.status) {
+              case ResultStatus.success:
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemCount: provider.products.data!.length < crossAxisCount * 5 ? provider.products.data!.length : crossAxisCount * 5,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: .7),
+                  itemBuilder: (ctx, index) {
+                    return productCard(context, provider.products.data![index]);
+                  },
+                );
+              case ResultStatus.loading:
+                return SizedBox(
+                  height: 300,
+                  width: double.infinity,
+                  child: Center(child: SpinKitFadingCube(color: AppColors.primaryColor, size: 25)),
+                );
+              case ResultStatus.failed:
+                return Center(child: Text('Error : ${provider.products.message}'));
+              case ResultStatus.idle:
+                return const SizedBox();
             }
           }),
         ],

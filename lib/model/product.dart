@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Product {
   final String? docId;
   final List<String> images;
@@ -20,4 +22,17 @@ class Product {
     required this.discount,
     required this.createdTime,
   });
+
+  factory Product.fromDocument(DocumentSnapshot<Map<String, dynamic>> product) {
+    return Product(
+        docId: product.id,
+        name: product.get('name'),
+        images: List<String>.from(product.get('images')),
+        description: product.get('description'),
+        brandId: product.get('category'),
+        rating: product.get('rating'),
+        price: product.get('price'),
+        discount: product.get('discount'),
+        createdTime: (product.get('createdTime') as Timestamp).toDate());
+  }
 }
