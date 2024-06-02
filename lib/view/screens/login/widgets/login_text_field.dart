@@ -29,7 +29,11 @@ class LoginTextField extends StatelessWidget {
         keyboardType: keyboardType,
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
         decoration: InputDecoration(
-            hintText: hint, hintStyle: const TextStyle(color: Colors.grey), border: InputBorder.none, labelText: errorText, labelStyle: TextStyle(color: Colors.red)),
+          hintText: hint,
+          hintStyle: const TextStyle(color: Colors.grey),
+          border: InputBorder.none,
+          errorText: errorText,
+        ),
         onChanged: onChanged,
       ),
     );

@@ -37,7 +37,7 @@ class AuthProvider extends ChangeNotifier {
   Future<Result<bool>> createAccount(User user, String password) async {
     try {
       // Check Phone number is already exists
-      bool numberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(user.phone);
+      bool numberAlreadyExists = await FirebaseService.isPhoneNumberRegistered(user.phone!);
       if (!numberAlreadyExists) {
         // Create account in firebase authentication
         var createAccountResult = await AuthService.createAccount(user, password);
@@ -115,7 +115,7 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> addPhoneNumberToGoogle(BuildContext context, User user) async {
     try {
       // Check Phone number is already registered
-      bool isNumberAlreadyExists = await FirebaseService.checkIfNumberAlreadyExists(user.phone);
+      bool isNumberAlreadyExists = await FirebaseService.isPhoneNumberRegistered(user.phone!);
       if (!isNumberAlreadyExists) {
         // Set account created time and last logged time
         user.createdTime = DateTime.now();

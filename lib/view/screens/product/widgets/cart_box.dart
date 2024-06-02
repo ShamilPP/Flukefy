@@ -19,14 +19,16 @@ class CartBox extends StatefulWidget {
 }
 
 class _CartBoxState extends State<CartBox> {
-  bool isAlreadyCarted = true;
+  bool isAlreadyCarted = false;
 
   @override
   Widget build(BuildContext context) {
-    // Hide cart if item is already cart
+    // check if item is already cart
     var carts = Provider.of<CartProvider>(context, listen: false).carts;
-    int cartIndex = carts.indexWhere((element) => element.productId == widget.product.docId);
-    if (cartIndex == -1) isAlreadyCarted = false;
+    if (carts.data != null) {
+      int cartIndex = carts.data!.indexWhere((element) => element.productId == widget.product.docId);
+      if (cartIndex != -1) isAlreadyCarted = true;
+    }
     return Container(
       color: Colors.white,
       height: 70,

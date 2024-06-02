@@ -4,9 +4,7 @@ import 'package:flukefy/view/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({
-    Key? key,
-  }) : super(key: key);
+  const HomeAppBar({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(60);

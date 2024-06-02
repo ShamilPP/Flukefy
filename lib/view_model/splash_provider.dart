@@ -34,7 +34,7 @@ class SplashProvider extends ChangeNotifier {
             // Set user in user provider
             userProvider.setUser(userResult.data!);
             // Update last seen in firebase
-            FirebaseService.updateUserLastLogged(userResult.data!.docId!,currentTime);
+            FirebaseService.updateUserLastLogged(userResult.data!.docId!, currentTime);
             // Load products, carts and brands
             loadFromFirebase(context, userResult.data!.docId!);
             // Go to home screen

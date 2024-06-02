@@ -13,25 +13,29 @@ class Brands extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BrandsProvider>(builder: (ctx, provider, child) {
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            // New Button
-            Padding(padding: const EdgeInsets.only(left: 15), child: BrandCard(brand: AppDefault.defaultNewBrand)),
+    return Consumer<BrandsProvider>(
+      builder: (ctx, provider, child) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              // New Button
+              Padding(padding: const EdgeInsets.only(left: 15), child: BrandCard(brand: AppDefault.defaultNewBrand)),
 
-            ...List.generate(
-                provider.brands.length,
-                (index) => SlideAnimation(
-                      delay: 200,
-                      position: SlidePosition.left,
-                      child: BrandCard(brand: provider.brands[index]),
-                    ))
-          ],
-        ),
-      );
-    });
+              if (provider.brands.data != null)
+                ...List.generate(
+                  provider.brands.data!.length,
+                  (index) => SlideAnimation(
+                    delay: 200,
+                    position: SlidePosition.left,
+                    child: BrandCard(brand: provider.brands.data![index]),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -69,7 +73,7 @@ class BrandCard extends StatelessWidget {
           ),
           onTap: () async {
             var productProvider = Provider.of<ProductsProvider>(context, listen: false);
-            brandProvider.setBrand(brand);
+            brandProvider.setSelectedBrand(brand);
             productProvider.loadBrandProducts(brand);
           },
         ),

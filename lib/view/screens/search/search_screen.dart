@@ -179,9 +179,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Brand? getBrand(String brandId) {
     var allBrands = Provider.of<BrandsProvider>(context, listen: false).brands;
-    for (var brand in allBrands) {
-      if (brand.docId == brandId) {
-        return brand;
+    if (allBrands.data != null) {
+      for (var brand in allBrands.data!) {
+        if (brand.docId == brandId) {
+          return brand;
+        }
       }
     }
     return null;

@@ -6,29 +6,27 @@ import '../model/brand.dart';
 import '../model/result.dart';
 
 class BrandsProvider extends ChangeNotifier {
+  Result<List<Brand>> _brands = Result();
+
+  Result<List<Brand>> get brands => _brands;
+
   Brand _selectedBrand = AppDefault.defaultNewBrand;
-  List<Brand> _brands = [];
-  ResultStatus _brandsStatus = ResultStatus.loading;
 
   Brand get selectedBrand => _selectedBrand;
 
-  List<Brand> get brands => _brands;
-
-  ResultStatus get brandsStatus => _brandsStatus;
-
-  void loadBrands() {
-    FirebaseService.getAllBrands().then((result) {
-      _brandsStatus = result.status;
-      if (_brandsStatus == ResultStatus.success && result.data != null) {
-        _brands = result.data!;
-      } else {
-        _brands = [];
-      }
+  void loadBrands() async {
+    _brands.setStatus(ResultStatus.loading);
+    notifyListeners();
+    try {
+      _brands = await FirebaseService.getAllBrands();
       notifyListeners();
-    });
+    } catch (e) {
+      _brands.setStatus(ResultStatus.failed);
+      notifyListeners();
+    }
   }
 
-  void setBrand(Brand brand) {
+  void setSelectedBrand(Brand brand) {
     _selectedBrand = brand;
     notifyListeners();
   }
