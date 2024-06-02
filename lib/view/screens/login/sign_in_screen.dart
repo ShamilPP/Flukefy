@@ -20,9 +20,7 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: const CurvedAppBar(
-        title: 'Login',
-      ),
+      appBar: const CurvedAppBar(title: 'Login'),
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         slivers: [
@@ -35,7 +33,26 @@ class SignInScreen extends StatelessWidget {
                 welcomeSection(),
                 LoginSection(),
                 const MorePlatforms(),
-                const SignUpText(),
+                // SignUp Text
+                FadeAnimation(
+                  delay: 900,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account ? ", style: TextStyle(fontSize: 14)),
+                      InkWell(
+                        splashColor: Colors.blue,
+                        child: const Text(
+                          'Sign up here',
+                          style: TextStyle(fontSize: 14, color: Colors.blue),
+                        ),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -71,12 +88,20 @@ class SignInScreen extends StatelessWidget {
   }
 }
 
-class LoginSection extends StatelessWidget {
+class LoginSection extends StatefulWidget {
   LoginSection({Key? key}) : super(key: key);
 
+  @override
+  State<LoginSection> createState() => _LoginSectionState();
+}
+
+class _LoginSectionState extends State<LoginSection> {
   final RoundedLoadingButtonController buttonController = RoundedLoadingButtonController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool isEmailValid = true;
+  bool isPasswordValid = true;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +124,14 @@ class LoginSection extends StatelessWidget {
                   child: LoginTextField(
                     hint: 'Email',
                     controller: emailController,
+                    errorText: !isEmailValid ? 'Please enter a valid email address' : null,
+                    onChanged: (text) {
+                      if (!isEmailValid) {
+                        setState(() {
+                          isEmailValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
                 FadeAnimation(
@@ -108,6 +141,14 @@ class LoginSection extends StatelessWidget {
                     controller: passwordController,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
+                    errorText: !isPasswordValid ? 'Please enter a valid password' : null,
+                    onChanged: (text) {
+                      if (!isPasswordValid) {
+                        setState(() {
+                          isPasswordValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
               ],
@@ -125,20 +166,7 @@ class LoginSection extends StatelessWidget {
               color: AppColors.primaryColor,
               successColor: Colors.green,
               controller: buttonController,
-              onPressed: () async {
-                AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
-                var result = await provider.login(emailController.text, passwordController.text);
-                if (result.status == ResultStatus.success) {
-                  buttonController.success();
-                  await Future.delayed(const Duration(milliseconds: 500));
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
-                } else {
-                  Helper.showToast(result.message!, Colors.red);
-                  buttonController.error();
-                  await Future.delayed(const Duration(seconds: 2));
-                  buttonController.reset();
-                }
-              },
+              onPressed: signIn,
               child: const Text(
                 'Sign in',
                 style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
@@ -149,31 +177,29 @@ class LoginSection extends StatelessWidget {
       ),
     );
   }
-}
 
-class SignUpText extends StatelessWidget {
-  const SignUpText({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeAnimation(
-      delay: 900,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text("Don't have an account ? ", style: TextStyle(fontSize: 14)),
-          InkWell(
-            splashColor: Colors.blue,
-            child: const Text(
-              'Sign up here',
-              style: TextStyle(fontSize: 14, color: Colors.blue),
-            ),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
-            },
-          ),
-        ],
-      ),
-    );
+  void signIn() async {
+    setState(() {
+      isEmailValid = emailController.text.isValidEmail();
+      isPasswordValid = passwordController.text.isNotEmpty;
+    });
+    if (isEmailValid && isPasswordValid) {
+      AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
+      var result = await provider.login(emailController.text, passwordController.text);
+      if (result.status == ResultStatus.success) {
+        buttonController.success();
+        await Future.delayed(const Duration(milliseconds: 500));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
+      } else {
+        Helper.showToast(result.message!, Colors.red);
+        buttonController.error();
+        await Future.delayed(const Duration(seconds: 2));
+        buttonController.reset();
+      }
+    } else {
+      buttonController.error();
+      await Future.delayed(const Duration(seconds: 1));
+      buttonController.reset();
+    }
   }
 }

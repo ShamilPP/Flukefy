@@ -30,10 +30,11 @@ class SplashProvider extends ChangeNotifier {
           Result<User>? userResult;
           if (userId != null) userResult = await FirebaseService.getUserWithDocId(userId);
           if (userResult != null && userResult.status == ResultStatus.success && userResult.data != null) {
+            DateTime currentTime = DateTime.now();
             // Set user in user provider
             userProvider.setUser(userResult.data!);
             // Update last seen in firebase
-            FirebaseService.updateUserLastLogged(userResult.data!.docId!);
+            FirebaseService.updateUserLastLogged(userResult.data!.docId!,currentTime);
             // Load products, carts and brands
             loadFromFirebase(context, userResult.data!.docId!);
             // Go to home screen

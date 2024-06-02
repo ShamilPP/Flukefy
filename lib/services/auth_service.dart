@@ -8,44 +8,40 @@ class AuthService {
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
   static Future<Result<flukefy_user.User>> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-        final AuthCredential authCredential = GoogleAuthProvider.credential(idToken: googleSignInAuthentication.idToken, accessToken: googleSignInAuthentication.accessToken);
+    final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      final AuthCredential authCredential = GoogleAuthProvider.credential(idToken: googleSignInAuthentication.idToken, accessToken: googleSignInAuthentication.accessToken);
 
-        // Getting users credential
-        UserCredential result = await auth.signInWithCredential(authCredential);
-        User? user = result.user;
+      // Getting users credential
+      UserCredential result = await auth.signInWithCredential(authCredential);
+      User? user = result.user;
 
-        if (user != null && user.displayName != null && user.email != null) {
-          var usr = flukefy_user.User(uid: user.uid, name: user.displayName!, email: user.email!);
-          return Result.success(usr);
-        } else {
-          return Result.error('Error : Null');
-        }
+      if (user != null && user.displayName != null && user.email != null) {
+        var usr = flukefy_user.User(uid: user.uid, name: user.displayName!, email: user.email!);
+        return Result.success(usr);
       } else {
         return Result.error('Error : Null');
       }
-    } catch (e) {
-      return Result.error('Error detected : $e');
+    } else {
+      return Result.error('Error : Null');
     }
   }
 
-  // static Future<User?> signInWithFacebook() async {
-  //   final LoginResult facebookResult = await FacebookAuth.instance.login();
-  //   final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(facebookResult.accessToken!.token);
-  //
-  //   // Getting users credential
-  //   UserCredential result = await auth.signInWithCredential(facebookAuthCredential);
-  //   User? user = result.user;
-  //
-  //   if (user != null) {
-  //     return user;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+// static Future<User?> signInWithFacebook() async {
+//   final LoginResult facebookResult = await FacebookAuth.instance.login();
+//   final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(facebookResult.accessToken!.token);
+//
+//   // Getting users credential
+//   UserCredential result = await auth.signInWithCredential(facebookAuthCredential);
+//   User? user = result.user;
+//
+//   if (user != null) {
+//     return user;
+//   } else {
+//     return null;
+//   }
+// }
 
   static Future<Result<String>> signWithEmail(String email, String password) async {
     try {
@@ -59,8 +55,6 @@ class AuthService {
       } else {
         return Result.error(e.toString());
       }
-    } catch (e) {
-      return Result.error(e.toString());
     }
   }
 
@@ -84,8 +78,6 @@ class AuthService {
       } else {
         return Result.error(e.toString());
       }
-    } catch (e) {
-      return Result.error(e.toString());
     }
   }
 

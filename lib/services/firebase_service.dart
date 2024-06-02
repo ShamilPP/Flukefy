@@ -109,9 +109,8 @@ class FirebaseService {
     }
   }
 
-  static Future<Result<bool>> updateUserLastLogged(String userID) async {
+  static Future<Result<bool>> updateUserLastLogged(String userID, DateTime time) async {
     try {
-      DateTime time = DateTime.now();
       var users = FirebaseFirestore.instance.collection('users');
       await users.doc(userID).update({'lastLogged': time});
       return Result.success(true);

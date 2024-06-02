@@ -5,6 +5,8 @@ class LoginTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isPassword;
   final TextInputType? keyboardType;
+  final String? errorText;
+  final void Function(String)? onChanged;
 
   const LoginTextField({
     Key? key,
@@ -12,6 +14,8 @@ class LoginTextField extends StatelessWidget {
     required this.controller,
     this.isPassword = false,
     this.keyboardType,
+    this.errorText,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -25,10 +29,8 @@ class LoginTextField extends StatelessWidget {
         keyboardType: keyboardType,
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
         decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: const TextStyle(color: Colors.grey),
-          border: InputBorder.none,
-        ),
+            hintText: hint, hintStyle: const TextStyle(color: Colors.grey), border: InputBorder.none, labelText: errorText, labelStyle: TextStyle(color: Colors.red)),
+        onChanged: onChanged,
       ),
     );
   }

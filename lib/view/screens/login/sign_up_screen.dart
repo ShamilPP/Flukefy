@@ -1,3 +1,4 @@
+import 'package:flukefy/model/user.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/screens/login/widgets/login_text_field.dart';
@@ -73,15 +74,27 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-class LoginSection extends StatelessWidget {
+class LoginSection extends StatefulWidget {
   LoginSection({Key? key}) : super(key: key);
 
+  @override
+  State<LoginSection> createState() => _LoginSectionState();
+}
+
+class _LoginSectionState extends State<LoginSection> {
   final RoundedLoadingButtonController buttonController = RoundedLoadingButtonController();
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+
+  bool isNameValid = true;
+  bool isEmailValid = true;
+  bool isPhoneValid = true;
+  bool isPasswordValid = true;
+  bool isConfirmPasswordValid = true;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +118,14 @@ class LoginSection extends StatelessWidget {
                     hint: 'Full name',
                     controller: nameController,
                     keyboardType: TextInputType.name,
+                    errorText: !isNameValid ? 'Please enter a valid name' : null,
+                    onChanged: (text) {
+                      if (!isNameValid) {
+                        setState(() {
+                          isNameValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
                 FadeAnimation(
@@ -113,6 +134,14 @@ class LoginSection extends StatelessWidget {
                     hint: 'Phone number',
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
+                    errorText: !isPhoneValid ? 'Please enter a valid phone number' : null,
+                    onChanged: (text) {
+                      if (!isPhoneValid) {
+                        setState(() {
+                          isPhoneValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
                 FadeAnimation(
@@ -120,6 +149,14 @@ class LoginSection extends StatelessWidget {
                   child: LoginTextField(
                     hint: 'Email',
                     controller: emailController,
+                    errorText: !isEmailValid ? 'Please enter a valid email address' : null,
+                    onChanged: (text) {
+                      if (!isEmailValid) {
+                        setState(() {
+                          isEmailValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
                 FadeAnimation(
@@ -129,6 +166,14 @@ class LoginSection extends StatelessWidget {
                     controller: passwordController,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
+                    errorText: !isPasswordValid ? 'Please enter a valid password' : null,
+                    onChanged: (text) {
+                      if (!isPasswordValid) {
+                        setState(() {
+                          isPasswordValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
                 FadeAnimation(
@@ -138,6 +183,14 @@ class LoginSection extends StatelessWidget {
                     controller: confirmPasswordController,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
+                    errorText: !isConfirmPasswordValid ? 'Passwords do not match' : null,
+                    onChanged: (text) {
+                      if (!isConfirmPasswordValid) {
+                        setState(() {
+                          isConfirmPasswordValid = true;
+                        });
+                      }
+                    },
                   ),
                 ),
               ],
@@ -155,26 +208,7 @@ class LoginSection extends StatelessWidget {
               color: AppColors.primaryColor,
               successColor: Colors.green,
               controller: buttonController,
-              onPressed: () async {
-                AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
-                var result = await provider.createAccount(
-                  nameController.text,
-                  phoneController.text,
-                  emailController.text,
-                  passwordController.text,
-                  confirmPasswordController.text,
-                );
-                if (result.status == ResultStatus.success) {
-                  buttonController.success();
-                  await Future.delayed(const Duration(milliseconds: 500));
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
-                } else {
-                  Helper.showToast(result.message!, Colors.red);
-                  buttonController.error();
-                  await Future.delayed(const Duration(seconds: 2));
-                  buttonController.reset();
-                }
-              },
+              onPressed: signUp,
               child: const Text(
                 'Sign up',
                 style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
@@ -184,5 +218,39 @@ class LoginSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void signUp() async {
+    setState(() {
+      isNameValid = nameController.text.isNotEmpty;
+      isPhoneValid = ((int.tryParse(phoneController.text) != null) && phoneController.text.length == 10);
+      isEmailValid = emailController.text.isValidEmail();
+      isPasswordValid = passwordController.text.isNotEmpty;
+      isConfirmPasswordValid = (passwordController.text == confirmPasswordController.text) && confirmPasswordController.text.isNotEmpty;
+    });
+    if (isNameValid && isPhoneValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
+      AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
+      User user = User(
+        name: nameController.text,
+        email: emailController.text,
+        phone: int.parse(phoneController.text),
+      );
+
+      var result = await provider.createAccount(user, passwordController.text);
+      if (result.status == ResultStatus.success) {
+        buttonController.success();
+        await Future.delayed(const Duration(milliseconds: 500));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
+      } else {
+        Helper.showToast(result.message!, Colors.red);
+        buttonController.error();
+        await Future.delayed(const Duration(seconds: 2));
+        buttonController.reset();
+      }
+    } else {
+      buttonController.error();
+      await Future.delayed(const Duration(seconds: 1));
+      buttonController.reset();
+    }
   }
 }
