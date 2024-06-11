@@ -1,4 +1,5 @@
-import 'package:flukefy/services/firebase_service.dart';
+import 'package:flukefy/services/remote/firebase/brand_service.dart';
+import 'package:flukefy/services/remote/firebase/update_service.dart';
 import 'package:flukefy/utils/app_default.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class BrandsProvider extends ChangeNotifier {
     _brands.setStatus(ResultStatus.loading);
     notifyListeners();
     try {
-      _brands = await FirebaseService.getAllBrands();
+      _brands = await BrandService.getAllBrands();
       notifyListeners();
     } catch (e) {
       _brands.setStatus(ResultStatus.failed);

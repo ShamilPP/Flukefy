@@ -1,15 +1,16 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flukefy/services/remote/firebase/user_service.dart';
 import 'package:flukefy/utils/app_default.dart';
-import 'package:flukefy/utils/constant.dart';
+import 'package:flukefy/utils/app_details.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
-import 'package:flukefy/view_model/utils/helper.dart';
+import 'package:flukefy/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/result.dart';
 import '../model/user.dart';
-import '../services/firebase_service.dart';
+import '../services/remote/firebase/update_service.dart';
 import '../view/screens/home/home_screen.dart';
 import '../view/screens/introduction/introduction_screen.dart';
 import 'auth_provider.dart';
@@ -24,17 +25,17 @@ class SplashProvider extends ChangeNotifier {
       if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         String? userId = await userProvider.getUserIdFromLocal();
-        Result serverUpdateCode = await FirebaseService.getUpdateCode();
+        Result serverUpdateCode = await UpdateService.getUpdateCode();
         // This is checking for any new updates that are available
         if (serverUpdateCode.data == AppDetails.updateCode) {
           Result<User>? userResult;
-          if (userId != null) userResult = await FirebaseService.getUserWithDocId(userId);
+          if (userId != null) userResult = await UserService.getUserWithDocId(userId);
           if (userResult != null && userResult.status == ResultStatus.success && userResult.data != null) {
             DateTime currentTime = DateTime.now();
             // Set user in user provider
             userProvider.setUser(userResult.data!);
             // Update last seen in firebase
-            FirebaseService.updateUserLastLogged(userResult.data!.docId!, currentTime);
+            UserService.updateUserLastLogged(userResult.data!.docId!, currentTime);
             // Load products, carts and brands
             loadFromFirebase(context, userResult.data!.docId!);
             // Go to home screen
@@ -46,13 +47,13 @@ class SplashProvider extends ChangeNotifier {
         } else {
           if (serverUpdateCode.status == ResultStatus.success) {
             // If update code is not matching, show update dialog
-            Helper.showErrorDialog(context, title: 'Update is available', message: 'Please update to latest version', onRetryPressed: () {
+            Utils.showErrorDialog(context, title: 'Update is available', message: 'Please update to latest version', onRetryPressed: () {
               // Reload functions
               init(context);
             });
           } else {
             // If update code fetching problem, show error in dialog
-            Helper.showErrorDialog(context, title: 'Error', message: 'Message : ${serverUpdateCode.message!}', onRetryPressed: () {
+            Utils.showErrorDialog(context, title: 'Error', message: 'Message : ${serverUpdateCode.message!}', onRetryPressed: () {
               // Reload functions
               init(context);
             });
@@ -62,13 +63,13 @@ class SplashProvider extends ChangeNotifier {
         // If not connected network
         // Avoid sudden dialog
         await Future.delayed(const Duration(seconds: 2));
-        Helper.showErrorDialog(context, title: 'Connection problem', message: 'Please check your internet connection', onRetryPressed: () {
+        Utils.showErrorDialog(context, title: 'Connection problem', message: 'Please check your internet connection', onRetryPressed: () {
           // Reload functions
           init(context);
         });
       }
     } catch (e) {
-      Helper.showErrorDialog(context, title: 'Error', message: e.toString());
+      Utils.showErrorDialog(context, title: 'Error', message: e.toString());
     }
   }
 

@@ -1,7 +1,8 @@
 import 'package:flukefy/model/product.dart';
-import 'package:flukefy/services/firebase_service.dart';
+import 'package:flukefy/services/remote/firebase/product_service.dart';
+import 'package:flukefy/services/remote/firebase/update_service.dart';
 import 'package:flukefy/utils/app_default.dart';
-import 'package:flukefy/view_model/utils/helper.dart';
+import 'package:flukefy/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../model/brand.dart';
@@ -24,7 +25,7 @@ class ProductsProvider extends ChangeNotifier {
     _products.setStatus(ResultStatus.loading);
     notifyListeners();
     try {
-      _products = await FirebaseService.getAllProducts();
+      _products = await ProductService.getAllProducts();
       notifyListeners();
     } catch (e) {
       _products.setStatus(ResultStatus.failed);
@@ -43,7 +44,7 @@ class ProductsProvider extends ChangeNotifier {
           _brandProducts.data!.sort((a, b) => b.createdTime.compareTo(a.createdTime));
           _brandProducts.setStatus(ResultStatus.success);
         } else {
-          var list = Helper.getBrandProducts(selectedBrand.docId!, products.data!);
+          var list = Utils.getBrandProducts(selectedBrand.docId!, products.data!);
           if (list.isNotEmpty) {
             _brandProducts.data = list;
             _brandProducts.setStatus(ResultStatus.success);
@@ -68,7 +69,7 @@ class ProductsProvider extends ChangeNotifier {
     _similarProducts.setStatus(ResultStatus.loading);
     notifyListeners();
     try {
-      List<Product> list = Helper.getBrandProducts(product.brandId, products.data!);
+      List<Product> list = Utils.getBrandProducts(product.brandId, products.data!);
       list.remove(product);
       if (list.isNotEmpty) {
         _similarProducts.data = list;

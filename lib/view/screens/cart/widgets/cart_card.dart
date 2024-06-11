@@ -27,6 +27,7 @@ class CartCard extends StatelessWidget {
         color: Colors.white,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: InkWell(
+          borderRadius: BorderRadius.circular(10),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: product, heroTag: heroTag)));
           },

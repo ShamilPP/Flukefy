@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../../../view_model/utils/helper.dart';
+import '../../../utils/utils.dart';
 import '../splash/splash_screen.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -191,7 +191,7 @@ class _LoginSectionState extends State<LoginSection> {
         await Future.delayed(const Duration(milliseconds: 500));
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SplashScreen()));
       } else {
-        Helper.showToast(result.message!, Colors.red);
+        Utils.showToast(result.message!, Colors.red);
         buttonController.error();
         await Future.delayed(const Duration(seconds: 2));
         buttonController.reset();

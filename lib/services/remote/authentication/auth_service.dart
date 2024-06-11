@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../model/result.dart';
-import '../model/user.dart' as flukefy_user;
+import '../../../model/result.dart';
+import '../../../model/user.dart' as flukefy_user;
 
 class AuthService {
   static final FirebaseAuth auth = FirebaseAuth.instance;

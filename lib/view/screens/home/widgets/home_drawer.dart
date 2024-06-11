@@ -1,4 +1,4 @@
-import 'package:flukefy/utils/constant.dart';
+import 'package:flukefy/utils/app_details.dart';
 import 'package:flukefy/view/screens/about/about_screen.dart';
 import 'package:flukefy/view/screens/profile/profile_screen.dart';
 import 'package:flukefy/view/screens/settings/settings_screen.dart';

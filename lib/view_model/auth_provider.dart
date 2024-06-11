@@ -1,13 +1,14 @@
-import 'package:flukefy/services/firebase_service.dart';
-import 'package:flukefy/services/local_service.dart';
+import 'package:flukefy/services/remote/firebase/update_service.dart';
+import 'package:flukefy/services/local/local_service.dart';
+import 'package:flukefy/services/remote/firebase/user_service.dart';
 import 'package:flukefy/view/screens/login/phone_number_screen.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
-import 'package:flukefy/view_model/utils/helper.dart';
+import 'package:flukefy/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../model/result.dart';
 import '../model/user.dart';
-import '../services/auth_service.dart';
+import '../services/remote/authentication/auth_service.dart';
 
 enum AuthType { guest, manually, google, facebook }
 
@@ -18,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
       var result = await AuthService.signWithEmail(email, password);
       if (result.status == ResultStatus.success && result.data != null) {
         // The user docID is required to save the user in the shared preferences
-        var user = await FirebaseService.getUserWithUID(result.data!);
+        var user = await UserService.getUserWithUID(result.data!);
         if (user.status == ResultStatus.success && user.data != null) {
           // Save user in SharedPreferences
           LocalService.saveUser(user.data!.docId!);
@@ -37,7 +38,7 @@ class AuthProvider extends ChangeNotifier {
   Future<Result<bool>> createAccount(User user, String password) async {
     try {
       // Check Phone number is already exists
-      bool numberAlreadyExists = await FirebaseService.isPhoneNumberRegistered(user.phone!);
+      bool numberAlreadyExists = await UserService.isPhoneNumberRegistered(user.phone!);
       if (!numberAlreadyExists) {
         // Create account in firebase authentication
         var createAccountResult = await AuthService.createAccount(user, password);
@@ -47,7 +48,7 @@ class AuthProvider extends ChangeNotifier {
           createAccountResult.data!.createdTime = DateTime.now();
           createAccountResult.data!.lastLogged = DateTime.now();
           // Create document in firebase user collection
-          var uploadUserResult = await FirebaseService.uploadUser(createAccountResult.data!);
+          var uploadUserResult = await UserService.uploadUser(createAccountResult.data!);
           if (uploadUserResult.status == ResultStatus.success) {
             // Save user in SharedPreferences
             LocalService.saveUser(uploadUserResult.data!.docId!);
@@ -78,7 +79,7 @@ class AuthProvider extends ChangeNotifier {
         User user = userResult.data!;
         // When logging into Google, the user provides a UID
         // If the UID exists in the users collection documents
-        var userWithUidResult = await FirebaseService.getUserWithUID(user.uid!);
+        var userWithUidResult = await UserService.getUserWithUID(user.uid!);
         // Null is returned if the document is not available
         // That means phone number not registered
         // Then go to Add phone number screen
@@ -93,21 +94,21 @@ class AuthProvider extends ChangeNotifier {
         }
       } else {
         // Login Failed
-        Helper.showToast(userResult.message!, Colors.red);
+        Utils.showToast(userResult.message!, Colors.red);
       }
     } catch (e) {
-      Helper.showToast(e.toString(), Colors.red);
+      Utils.showToast(e.toString(), Colors.red);
     }
   }
 
   void signInWithFacebook(BuildContext context) async {
     // user = await AuthService.signInWithFacebook();
-    Helper.showToast('Facebook service currently unavailable', Colors.red);
+    Utils.showToast('Facebook service currently unavailable', Colors.red);
   }
 
   void signInWitGuest(BuildContext context) async {
     // user = await AuthService.signInWithFacebook();
-    Helper.showToast('Guest account unavailable', Colors.red);
+    Utils.showToast('Guest account unavailable', Colors.red);
   }
 
   // Upload to Firebase after checking the phone number
@@ -115,28 +116,28 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> addPhoneNumberToGoogle(BuildContext context, User user) async {
     try {
       // Check Phone number is already registered
-      bool isNumberAlreadyExists = await FirebaseService.isPhoneNumberRegistered(user.phone!);
+      bool isNumberAlreadyExists = await UserService.isPhoneNumberRegistered(user.phone!);
       if (!isNumberAlreadyExists) {
         // Set account created time and last logged time
         user.createdTime = DateTime.now();
         user.lastLogged = DateTime.now();
         // Upload user to firebase
-        var result = await FirebaseService.uploadUser(user);
+        var result = await UserService.uploadUser(user);
         if (result.status == ResultStatus.success) {
           // Save SharedPreferences
           LocalService.saveUser(result.data!.docId!);
           return true;
         } else {
           // Show error
-          Helper.showToast(result.message!, Colors.red);
+          Utils.showToast(result.message!, Colors.red);
           return false;
         }
       } else {
-        Helper.showToast('Phone number already registered', Colors.red);
+        Utils.showToast('Phone number already registered', Colors.red);
         return false;
       }
     } catch (e) {
-      Helper.showToast(e.toString(), Colors.red);
+      Utils.showToast(e.toString(), Colors.red);
       return false;
     }
   }

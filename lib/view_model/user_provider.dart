@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/user.dart';
-import '../services/local_service.dart';
+import '../services/local/local_service.dart';
 
 class UserProvider extends ChangeNotifier {
   late User _user;
