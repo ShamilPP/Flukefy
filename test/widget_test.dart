@@ -1,10 +1,50 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flukefy/utils/colors.dart';
+import 'package:flukefy/utils/firebase/firebase_default_options.dart';
+import 'package:flukefy/view/screens/splash/splash_screen.dart';
+import 'package:flukefy/view_model/auth_provider.dart';
+import 'package:flukefy/view_model/brands_provider.dart';
+import 'package:flukefy/view_model/buy_provider.dart';
+import 'package:flukefy/view_model/cart_provider.dart';
+import 'package:flukefy/view_model/products_provider.dart';
+import 'package:flukefy/view_model/splash_provider.dart';
+import 'package:flukefy/view_model/user_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'test_splash_screen.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const App());
+}
 
-void main() {}
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SplashProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ProductsProvider()),
+        ChangeNotifierProvider(create: (_) => BrandsProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => BuyProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Flukefy',
+        theme: ThemeData(
+          primaryColor: AppColors.primaryColor,
+          colorScheme: ColorScheme.light(primary: AppColors.primaryColor, secondary: AppColors.secondaryColor, surface: AppColors.backgroundColor),
+          fontFamily: 'Averta',
+        ),
+        home: const TestSplashScreen(),
+      ),
+    );
+  }
+}
+
