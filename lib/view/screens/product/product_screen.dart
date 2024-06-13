@@ -4,7 +4,7 @@ import 'package:flukefy/view/screens/product/widgets/image_slider.dart';
 import 'package:flukefy/view/screens/product/widgets/product_details.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/general/curved_appbar.dart';
+import '../../widgets/appbar/curved_appbar.dart';
 
 class ProductScreen extends StatelessWidget {
   final Product product;

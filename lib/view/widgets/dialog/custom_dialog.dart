@@ -4,7 +4,7 @@ import '../../../utils/colors.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;
-  final String content;
+  final Widget content;
   final String buttonText;
   final VoidCallback onButtonPressed;
 
@@ -16,7 +16,7 @@ class CustomDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
       title: Text(title),
-      content: Text(content),
+      content: content,
       actions: [
         TextButton(
           style: TextButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
@@ -31,7 +31,7 @@ class CustomDialog extends StatelessWidget {
             Navigator.pop(context);
             onButtonPressed();
           },
-          child: const Text('Retry'),
+          child: Text(buttonText),
         ),
       ],
     );

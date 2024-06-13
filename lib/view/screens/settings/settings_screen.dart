@@ -1,6 +1,6 @@
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/profile/profile_screen.dart';
-import 'package:flukefy/view/widgets/general/curved_appbar.dart';
+import 'package:flukefy/view/widgets/appbar/curved_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

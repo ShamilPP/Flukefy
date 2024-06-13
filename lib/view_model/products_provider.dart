@@ -1,6 +1,5 @@
 import 'package:flukefy/model/product.dart';
 import 'package:flukefy/services/remote/firebase/product_service.dart';
-import 'package:flukefy/services/remote/firebase/update_service.dart';
 import 'package:flukefy/utils/app_default.dart';
 import 'package:flukefy/utils/utils.dart';
 import 'package:flutter/material.dart';

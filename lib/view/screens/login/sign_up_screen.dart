@@ -1,9 +1,10 @@
 import 'package:flukefy/model/user.dart';
 import 'package:flukefy/utils/colors.dart';
+import 'package:flukefy/utils/extension/string_extension.dart';
 import 'package:flukefy/view/animations/fade_animation.dart';
 import 'package:flukefy/view/screens/login/widgets/login_text_field.dart';
 import 'package:flukefy/view/screens/login/widgets/more_platforms.dart';
-import 'package:flukefy/view/widgets/general/curved_appbar.dart';
+import 'package:flukefy/view/widgets/appbar/curved_appbar.dart';
 import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -224,7 +225,7 @@ class _LoginSectionState extends State<LoginSection> {
     setState(() {
       isNameValid = nameController.text.isNotEmpty;
       isPhoneValid = ((int.tryParse(phoneController.text) != null) && phoneController.text.length == 10);
-      isEmailValid = emailController.text.isValidEmail();
+      isEmailValid = emailController.text.isValidEmail;
       isPasswordValid = passwordController.text.isNotEmpty;
       isConfirmPasswordValid = (passwordController.text == confirmPasswordController.text) && confirmPasswordController.text.isNotEmpty;
     });

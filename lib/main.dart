@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flukefy/utils/firebase_default_options.dart';
 import 'package:flukefy/utils/colors.dart';
+import 'package:flukefy/utils/firebase/firebase_default_options.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
 import 'package:flukefy/view_model/auth_provider.dart';
 import 'package:flukefy/view_model/brands_provider.dart';

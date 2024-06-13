@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../utils/colors.dart';
 import '../../../view_model/cart_provider.dart';
-import '../../widgets/general/curved_appbar.dart';
+import '../../widgets/appbar/curved_appbar.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);

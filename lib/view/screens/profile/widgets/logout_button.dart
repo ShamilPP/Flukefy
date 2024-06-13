@@ -21,36 +21,20 @@ class LogoutButton extends StatelessWidget {
         ),
         onPressed: () {
           showDialog(
-              context: context,
-              builder: (_) => CustomDialog(
-                    title: 'Logout',
-                    content: 'Are you sure ?',
-                    buttonText: 'Logout',
-                    onButtonPressed: () async {
-                      // remove user from shared preferences
-                      await Provider.of<AuthProvider>(context, listen: false).logout().then((value) {
-                        // then, go to login screen
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
-                      });
-                    },
-                  )
-              // builder: (_) => AlertDialog(
-              //   title: const Text('Logout'),
-              //   content: const Text('Are you sure ?'),
-              //   actions: [
-              //     BlackButton(
-              //       title: 'Logout',
-              //       onPressed: () async {
-              //         // remove user from shared preferences
-              //         await Provider.of<AuthProvider>(context, listen: false).logout().then((value) {
-              //           // then, go to login screen
-              //           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
-              //         });
-              //       },
-              //     ),
-              //   ],
-              // ),
-              );
+            context: context,
+            builder: (_) => CustomDialog(
+              title: 'Logout',
+              content: Text('Are you sure ?'),
+              buttonText: 'Logout',
+              onButtonPressed: () async {
+                // remove user from shared preferences
+                await Provider.of<AuthProvider>(context, listen: false).logout().then((value) {
+                  // then, go to login screen
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const SplashScreen()), (Route<dynamic> route) => false);
+                });
+              },
+            ),
+          );
         },
       ),
     );

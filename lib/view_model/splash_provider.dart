@@ -2,9 +2,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flukefy/services/remote/firebase/user_service.dart';
 import 'package:flukefy/utils/app_default.dart';
 import 'package:flukefy/utils/app_details.dart';
+import 'package:flukefy/view/widgets/dialog/custom_dialog.dart';
 import 'package:flukefy/view_model/cart_provider.dart';
 import 'package:flukefy/view_model/user_provider.dart';
-import 'package:flukefy/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,29 +47,60 @@ class SplashProvider extends ChangeNotifier {
         } else {
           if (serverUpdateCode.status == ResultStatus.success) {
             // If update code is not matching, show update dialog
-            Utils.showErrorDialog(context, title: 'Update is available', message: 'Please update to latest version', onRetryPressed: () {
-              // Reload functions
-              init(context);
-            });
+            showDialog(
+                context: context,
+                builder: (_) => CustomDialog(
+                  title: 'Update is available',
+                  content: Text('Please update to latest version'),
+                  buttonText: 'Retry',
+                  onButtonPressed: () {
+                    // Reload functions
+                    init(context);
+                  },
+                ));
           } else {
             // If update code fetching problem, show error in dialog
-            Utils.showErrorDialog(context, title: 'Error', message: 'Message : ${serverUpdateCode.message!}', onRetryPressed: () {
-              // Reload functions
-              init(context);
-            });
+            showDialog(
+                context: context,
+                builder: (_) => CustomDialog(
+                  title: 'Operation Failed',
+                  content: Text('An error occurred : ${serverUpdateCode.message!}'),
+                  buttonText: 'Retry',
+                  onButtonPressed: () {
+                    // Reload functions
+                    init(context);
+                  },
+                ));
           }
         }
       } else {
         // If not connected network
         // Avoid sudden dialog
         await Future.delayed(const Duration(seconds: 2));
-        Utils.showErrorDialog(context, title: 'Connection problem', message: 'Please check your internet connection', onRetryPressed: () {
-          // Reload functions
-          init(context);
-        });
+        showDialog(
+            context: context,
+            builder: (_) => CustomDialog(
+                  title: 'Connection problem',
+                  content: Text('Please check your internet connection'),
+                  buttonText: 'Retry',
+                  onButtonPressed: () {
+                    // Reload functions
+                    init(context);
+                  },
+                ));
       }
     } catch (e) {
-      Utils.showErrorDialog(context, title: 'Error', message: e.toString());
+      showDialog(
+          context: context,
+          builder: (_) => CustomDialog(
+            title: 'Operation Failed',
+            content: Text('An error occurred : $e'),
+            buttonText: 'Retry',
+            onButtonPressed: () {
+              // Reload functions
+              init(context);
+            },
+          ));
     }
   }
 

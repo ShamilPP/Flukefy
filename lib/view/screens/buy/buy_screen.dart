@@ -2,7 +2,7 @@ import 'package:flukefy/model/product.dart';
 import 'package:flukefy/utils/colors.dart';
 import 'package:flukefy/view/screens/buy/widgets/address_page.dart';
 import 'package:flukefy/view/screens/buy/widgets/payment_page.dart';
-import 'package:flukefy/view/widgets/general/curved_appbar.dart';
+import 'package:flukefy/view/widgets/appbar/curved_appbar.dart';
 import 'package:flukefy/view_model/buy_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 import 'package:flukefy/view/animations/slide_animation.dart';
 import 'package:flukefy/view/screens/profile/widgets/logout_button.dart';
 import 'package:flukefy/view/screens/profile/widgets/profile_list_tile.dart';
-import 'package:flukefy/view/widgets/general/curved_appbar.dart';
+import 'package:flukefy/view/widgets/appbar/curved_appbar.dart';
 import 'package:flukefy/view/widgets/general/fill_remaining_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

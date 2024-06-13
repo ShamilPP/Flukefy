@@ -1,9 +1,8 @@
-import 'package:flukefy/services/remote/firebase/update_service.dart';
 import 'package:flukefy/services/local/local_service.dart';
 import 'package:flukefy/services/remote/firebase/user_service.dart';
+import 'package:flukefy/utils/utils.dart';
 import 'package:flukefy/view/screens/login/phone_number_screen.dart';
 import 'package:flukefy/view/screens/splash/splash_screen.dart';
-import 'package:flukefy/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../model/result.dart';

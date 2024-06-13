@@ -14,8 +14,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Provider.of<SplashProvider>(context, listen: false).init(context);
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Call the init method in the SplashProvider after the widget is built
+      Provider.of<SplashProvider>(context, listen: false).init(context);
+    });    super.initState();
   }
 
   @override
