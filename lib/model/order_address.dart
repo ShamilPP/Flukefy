@@ -1,19 +1,19 @@
-class Address {
+class OrderAddress {
   final String? name;
   final int? phone;
   final int? pinCode;
+  final String? address1;
+  final String? address2;
   final String? state;
   final String? city;
-  final String? homeAddress;
-  final String? roadAddress;
 
-  Address({
+  OrderAddress({
     this.name,
     this.phone,
     this.pinCode,
+    this.address1,
+    this.address2,
     this.state,
     this.city,
-    this.homeAddress,
-    this.roadAddress,
   });
 }

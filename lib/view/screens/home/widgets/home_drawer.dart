@@ -39,7 +39,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           decoration: BoxDecoration(color: Colors.blue.shade900, borderRadius: BorderRadius.circular(50)),
                           child: Center(
                               child: Text(
-                            user.name[0],
+                            user!.name[0],
                             style: const TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'roboto'),
                           )),
                         ),

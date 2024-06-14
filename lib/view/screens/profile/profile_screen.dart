@@ -13,7 +13,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<UserProvider>(context, listen: false).user;
     return Scaffold(
       appBar: const CurvedAppBar(title: 'Profile'),
       body: FillRemainingScrollView(
@@ -23,29 +22,32 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                children: [
-                  // User profile photo
-                  SlideAnimation(
-                    delay: 200,
-                    child: Container(
-                      height: 90,
-                      width: 90,
-                      decoration: BoxDecoration(color: Colors.blue.shade900, borderRadius: BorderRadius.circular(50)),
-                      child: Center(
-                          child: Text(
-                        user.name[0],
-                        style: const TextStyle(color: Colors.white, fontSize: 40, fontFamily: 'roboto'),
-                      )),
+              Consumer<UserProvider>(builder: (ctx, provider, child) {
+                var user = provider.user;
+                return Column(
+                  children: [
+                    // User profile photo
+                    SlideAnimation(
+                      delay: 200,
+                      child: Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(color: Colors.blue.shade900, borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                            child: Text(
+                          user?.name[0] ?? '',
+                          style: const TextStyle(color: Colors.white, fontSize: 40, fontFamily: 'roboto'),
+                        )),
+                      ),
                     ),
-                  ),
 
-                  // User details
-                  ProfileListTile(text: user.name, subText: 'Name'),
-                  ProfileListTile(text: '+91 ${user.phone}', subText: 'Phone number'),
-                  ProfileListTile(text: user.email, subText: 'Email'),
-                ],
-              ),
+                    // User details
+                    ProfileListTile(text: user?.name ?? '', subText: 'Name'),
+                    ProfileListTile(text: '+91 ${user?.phone ?? ''}', subText: 'Phone number'),
+                    ProfileListTile(text: user?.email ?? '', subText: 'Email'),
+                  ],
+                );
+              }),
 
               // Logout button
               const Center(child: SlideAnimation(delay: 800, child: LogoutButton())),

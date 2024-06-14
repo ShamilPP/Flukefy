@@ -57,7 +57,7 @@ class _CartBoxState extends State<CartBox> {
   }
 
   void addToCart() async {
-    var userId = Provider.of<UserProvider>(context, listen: false).user.docId!;
+    var userId = Provider.of<UserProvider>(context, listen: false).user!.docId!;
     Cart cart = Cart(userId: userId, productId: widget.product.docId!, time: DateTime.now());
     showDialog(context: context, builder: (ctx) => const Center(child: CircularProgressIndicator()));
     await Provider.of<CartProvider>(context, listen: false).addToCart(cart);
