@@ -1,6 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flukefy/view/screens/image_viewer/image_viewer_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../widgets/general/loading_network_image.dart';
 
@@ -16,7 +16,7 @@ class ImageSlider extends StatefulWidget {
 
 class _ImageSliderState extends State<ImageSlider> {
   int currentIndex = 0;
-  CarouselController controller = CarouselController();
+  CarouselSliderController controller = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ class IntroductionScreen extends StatefulWidget {
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
   int currentIndex = 0;
-  CarouselController controller = CarouselController();
+  CarouselSliderController controller = CarouselSliderController();
   List<Widget> sliders = const [
     IntroCard(
       image: 'assets/images/introduction/discover.png',
