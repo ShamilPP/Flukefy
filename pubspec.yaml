@@ -39,7 +39,7 @@ dependencies:
   cloud_firestore: ^5.4.5
   firebase_auth: ^5.3.2
   google_sign_in: ^6.2.2
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.3.4
   carousel_slider: ^5.0.0
 #  rounded_loading_button: ^2.1.0
   flutter_rating_bar: ^4.0.1
@@ -76,7 +76,7 @@ flutter_launcher_icons:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
+  # package. See the file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
 
@@ -87,8 +87,7 @@ flutter_launcher_icons:
 flutter:
 
   # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+  # included with your application, so that you can use the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -98,21 +97,16 @@ flutter:
     - assets/images/platforms/
     - assets/images/general/
 
-  # An image asset can refer to one or more resolution-specific "variants", see
+  # An image asset can refer to one or more resolution-specific "variants," see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-
+  # in this "flutter" section. For details, see
+  # https://flutter.dev/custom-fonts/#from-packages
   fonts:
     - family: Averta
       fonts:
         - asset: assets/fonts/Averta.ttf
-
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
